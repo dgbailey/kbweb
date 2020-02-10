@@ -1,0 +1,132 @@
+import React, {useState,useEffect,useReducer} from 'react';
+import styled from 'styled-components';
+import uuid4 from 'uuid4';
+import {Column} from './Column';
+import {useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
+
+
+
+export const Board  = () => {
+    let state = useSelector(state => state.board);
+    console.log(state)
+    let dispatch  = useDispatch();
+    
+   function addColumn(){
+       let uuid = uuid4();
+       let newColumn = {id:uuid,items:[]}
+       dispatch({type:'APPENDCOL',payload:newColumn})
+   }
+
+   const saveBoard = state => {
+
+      
+        Object.keys(state.cols).forEach( k => {
+
+            let content = state.cols[k];
+            if(content.next){
+                content.next = null;
+            }
+            if(content.previous){
+                content.previous = null;
+            }
+
+        })
+      
+        let data = {boardId:state.boardId, cols:JSON.stringify(state.cols),userId:1}
+        console.log(Object.keys(JSON.parse(data.cols)))
+        console.log(data.cols)
+        fetch('http://localhost:8080/boards/newBoard',{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify(data)
+        })
+        .then(res => (res.json()))
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+        
+
+   }
+    
+    let head = null;
+
+   
+    return (
+
+        <StyledBoard>
+            <section class='board-head'>
+                <button onClick={addColumn}>Add Col</button>
+                <button onClick={()=> saveBoard(state)}>Save Board</button>
+            </section>
+            <section class='board-columns'>
+            {Object.keys(state.cols).map(bc => {
+                
+                let item = state.cols[bc];
+
+                item['prev'] = head;
+
+                if(head){
+                   
+                    head['next'] = item;
+                    head['next_id'] = item.id;
+                  
+                    
+                    
+                }
+                else{
+                    item['next'] = null;
+                }
+                
+                head = item;
+
+              
+                //on the first pass, item.next is passed to React.createElement as the undefined primitive
+                //In contrast, item is passed as a mutable object.  This is why item.next value is never updated,
+                //while the item object is updated.
+
+                return <Column dispatch={dispatch} col={item} title={item.text} id={bc} key={bc} ></Column>
+            })}
+            </section>
+           
+                
+                
+            
+
+
+        </StyledBoard>
+
+    )
+
+    
+
+
+
+
+
+}
+
+
+const StyledBoard = styled.div `
+    border: 1px solid black;
+    margin: 100px auto;
+    display:flex;
+    justify-content:space-evenly;
+    height:800px;
+    width:1000px;
+  
+    flex-direction:column;
+    .board-head{
+
+    }
+    .board-columns{
+        width:100%;
+        display:flex;
+        height:100%;
+        overflow-x:scroll;
+    }
+    
+
+
+`
