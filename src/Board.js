@@ -52,6 +52,21 @@ export const Board  = () => {
     
     let head = null;
 
+    function setColumnOrdering(){
+        if(state.keys === undefined){
+            let keys =  Object.keys(state.cols);
+            dispatch({type:'SETCOLORDER',payload:keys});
+            return keys
+        }
+        else{
+            let keys = state.keys;
+            return keys
+        }
+
+    }
+
+   let keys = setColumnOrdering();
+
    
     return (
 
@@ -61,22 +76,24 @@ export const Board  = () => {
                 <button onClick={()=> saveBoard(state)}>Save Board</button>
             </section>
             <section class='board-columns'>
-            {Object.keys(state.cols).map(bc => {
+            {keys.map((bc,index) => {
                 
                 let item = state.cols[bc];
 
                 item['prev'] = head;
+              
 
                 if(head){
                    
                     head['next'] = item;
                     head['next_id'] = item.id;
-                  
-                    
-                    
+                    head['next_index'] = index;
+                    item['index'] = index;
+                   
                 }
                 else{
                     item['next'] = null;
+                    item['index'] = index;
                 }
                 
                 head = item;
@@ -86,7 +103,7 @@ export const Board  = () => {
                 //In contrast, item is passed as a mutable object.  This is why item.next value is never updated,
                 //while the item object is updated.
 
-                return <Column dispatch={dispatch} col={item} title={item.text} id={bc} key={bc} ></Column>
+                return <Column dispatch={dispatch} col={item} title={item.text} id={bc} index={index} key={bc} colOrderKeys={keys} ></Column>
             })}
             </section>
            

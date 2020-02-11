@@ -9,8 +9,8 @@ export const Column = (props) => {
 
    
 
-    const {title,dispatch,col,id} = props;
-    const {items,next,next_id,prev} = col;
+    const {title,dispatch,col,id,index,colOrderKeys} = props;
+    const {items,next,next_id,prev,next_index,prev_index} = col;
     
      
     const addCard = () => {
@@ -37,22 +37,31 @@ export const Column = (props) => {
     //track of their new previous and next positions
     //solution was to match pushed state to original schema in Board
     const moveColRight = () => {
-        let prevColRight= {};
-        let newColRight = {};
-        newColRight[next_id] = {id:next_id,items:[...col.items]};
-        prevColRight[id] = {id:id,items:[...next.items]};
-    
-        dispatch({type:'MOVECOL',payload:{...prevColRight,...newColRight}});
+        
+        let nextIndex = next.index;
+        let myIndex = index;
+        let temp = colOrderKeys[nextIndex];
+        let colOrderCopy = [...colOrderKeys];
+        colOrderCopy[nextIndex] = colOrderCopy[myIndex];
+        colOrderCopy[myIndex] = temp;
+
+        console.log('colOrderCopy',colOrderCopy)
+
+        dispatch({type:'SETCOLORDER',payload:colOrderCopy});
      
 
     }
     const moveColLeft = () => {
-        let prevColLeft= {};
-        let newColLeft = {};
-        newColLeft[prev.id] = {id:prev.id,items:[...col.items]};
-        prevColLeft[id] = {id:id,items:[...prev.items]};
-    
-        dispatch({type:'MOVECOL',payload:{...prevColLeft,...newColLeft}});
+        let prevIndex = prev.index;
+        console.log(prev_index);
+        let myIndex = index;
+        let temp = colOrderKeys[prevIndex];
+        let colOrderCopy = [...colOrderKeys];
+        colOrderCopy[prevIndex] = colOrderCopy[myIndex];
+        colOrderCopy[myIndex] = temp;
+        console.log('temp',temp)
+
+        dispatch({type:'SETCOLORDER',payload:colOrderCopy});
      
 
     }

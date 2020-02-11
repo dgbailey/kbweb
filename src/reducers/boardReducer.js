@@ -40,6 +40,12 @@ export const boardReducer = (state = initialState,action) => {
 
     switch(action.type){
        
+        case 'SETCOLORDER':
+        return {
+            ...state,
+            keys:[...action.payload]
+        }
+
         case 'APPENDCOL':
 
         return {
@@ -47,7 +53,11 @@ export const boardReducer = (state = initialState,action) => {
                 cols:{
                     ...state.cols,
                     [action.payload.id]:action.payload
-                }
+                },
+                keys:[
+                    ...state.keys,action.payload.id
+
+            ]
         }
        
         case 'APPEND':
