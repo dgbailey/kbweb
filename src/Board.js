@@ -9,7 +9,7 @@ import {useDispatch} from 'react-redux';
 
 export const Board  = () => {
     let state = useSelector(state => state.board);
-    console.log(state)
+   
     let dispatch  = useDispatch();
     
    function addColumn(){
@@ -34,8 +34,7 @@ export const Board  = () => {
         })
       
         let data = {boardId:state.boardId, cols:JSON.stringify(state.cols),userId:1}
-        console.log(Object.keys(JSON.parse(data.cols)))
-        console.log(data.cols)
+        
         fetch('http://localhost:8080/boards/newBoard',{
             method:'POST',
             headers:{

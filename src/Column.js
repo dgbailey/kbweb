@@ -45,7 +45,7 @@ export const Column = (props) => {
         colOrderCopy[nextIndex] = colOrderCopy[myIndex];
         colOrderCopy[myIndex] = temp;
 
-        console.log('colOrderCopy',colOrderCopy)
+       
 
         dispatch({type:'SETCOLORDER',payload:colOrderCopy});
      
@@ -53,23 +53,49 @@ export const Column = (props) => {
     }
     const moveColLeft = () => {
         let prevIndex = prev.index;
-        console.log(prev_index);
+ 
         let myIndex = index;
         let temp = colOrderKeys[prevIndex];
         let colOrderCopy = [...colOrderKeys];
         colOrderCopy[prevIndex] = colOrderCopy[myIndex];
         colOrderCopy[myIndex] = temp;
-        console.log('temp',temp)
+       
 
         dispatch({type:'SETCOLORDER',payload:colOrderCopy});
      
 
     }
 
+    function dragoverHandler(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+        e.target.classList.add('dropZoneIdentifier');
+        
+       
+    }
+
+    function dropHandler(e) {
+        e.preventDefault();
+        let data = {}
+        // Get the id of the target and add the moved element to the target's DOM
+        data['id'] = e.dataTransfer.getData('id');
+        data['text'] = e.dataTransfer.getData('text');
+       //dispatch event to column with card data , append to end no considering order
+       e.target.classList.remove('dropZoneIdentifier');    
+       dispatch({type:'APPEND',destination:id,payload:{'id':data.id,'text':data.text}})
+    }
+
+    function handleDragExit(e){
+        e.preventDefault();
+        e.target.classList.remove('dropZoneIdentifier');
+    }
+    
+    
+
 
     return(
 
-        <StyledColumn>
+        <StyledColumn onDragOver={dragoverHandler} onDrop={dropHandler} onDragLeave={handleDragExit}>
             <div className= {`header ${title}`}>
                 <h1>{title}</h1>
                 <button onClick={moveColLeft}>Move Left</button>
@@ -77,7 +103,7 @@ export const Column = (props) => {
             </div>
             <div>
                  
-                {items.map(ci => <Item dispatch={dispatch} colid ={id} text={ci.text} prev={prev} next={next} next_id={next_id} key={ci.id} id={ci.id}></Item>)}
+                {items.map(ci => <Item  dispatch={dispatch} colid ={id} text={ci.text} prev={prev} next={next} next_id={next_id} key={ci.id} id={ci.id}></Item>)}
                
             </div>
             <button onClick={addCard}>Add Card</button>
@@ -119,6 +145,10 @@ const StyledColumn = styled.div `
        &.title4{
            background:#E8741E;
        }
+    }
+
+    &.dropZoneIdentifier{
+        background:lightgray;
     }
 
 

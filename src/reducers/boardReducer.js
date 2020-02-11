@@ -37,6 +37,7 @@ const initialState = {
 
 
 export const boardReducer = (state = initialState,action) => {
+  
 
     switch(action.type){
        
@@ -69,15 +70,29 @@ export const boardReducer = (state = initialState,action) => {
                 cols:{
                     ...state.cols,
                     [action.destination]:{
-                        ...column,
+                        ...state.cols[action.destination],
                         items:[
-                            ...items,{...action.payload}
+                            ...state.cols[action.destination].items,{...action.payload}
                         ]
                     }
                    
                     }
                 }
         
+        case 'DELETEITEM':
+        
+                return{
+                    ...state,
+                        cols:{
+                            ...state.cols,
+                            [action.origin]:{
+                                items:[
+                                ...state.cols[action.origin].items.filter(i => i.id !== action.itemId)
+                                ]
+                            }
+
+                        }
+                }
         case 'DELETE':
                 let newArr = state.cols[action.colId].items.filter(i => i.id !== action.itemId);
                 let newDeleteState = {};
