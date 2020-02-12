@@ -7,7 +7,7 @@ import uuid4 from 'uuid4';
 
 export const Item = (props) => {
 
-    const {text,dispatch,item,colid,id,next_id,prev} = props;
+    const {text,dispatch,item,colid,id,next_id,prev,index} = props;
 
     //click triggers deletion and copy of item content to prev or next
     //changes to column state
@@ -34,6 +34,53 @@ export const Item = (props) => {
 
     function handleGrab(){
         setIsGrabbing(!isGrabbing);
+    }
+
+
+    function dragoverHandler(e) {
+        //this should not be touching the dom directly
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+
+        //need initial condition for within column movement same column gt id, same column lt id
+
+        let target = e.target;
+        let family = []
+        while(target){
+            family.push(target);
+            target = target.nextElementSibling;
+        }
+        //usecase: pull first item down.  How do we know to translate up?
+        //usecase: how do we shift siblings together.
+
+        family.forEach(element => {
+            
+            if(element.classList.contains('slide-trigger-up')){
+                element.classList.remove('slide-trigger-up');
+                
+            
+            }
+           else{
+                element.classList.add('slide-trigger-up');
+            
+           }
+           
+           
+
+
+        })
+       
+       
+       
+       
+        
+       
+    }
+
+    function handleDragExit(e){
+        e.preventDefault();
+       
+        // e.target.style.transform = `translate3d(0px,0px,0px)`;
     }
 
    
@@ -68,7 +115,7 @@ export const Item = (props) => {
 
     return (
 
-        <StyledItem class={isGrabbing ?'grabbing':''} draggable={true} onDragStart={onDragStart} onDragEnd={handleDragEnd}>
+        <StyledItem class={isGrabbing ?'grabbing':''} data-index={index} onDragEnter={dragoverHandler} onDragLeave={handleDragExit} draggable={true} onDragStart={onDragStart} onDragEnd={handleDragEnd}>
             <button className='prev' onClick={changeColumnsLeft}></button>
             <p>{text}</p>
             <button className='next' onClick={changeColumnsRight}></button>
@@ -88,6 +135,7 @@ const StyledItem = styled.div `
     height:100px;
     border:1px solid black;
     display:flex;
+    transition:.5s ease;
 
     &:hover{
         cursor:pointer;
@@ -97,5 +145,15 @@ const StyledItem = styled.div `
         background:red;
         cursor: -webkit-grabbing; cursor:-moz-grabbing;
     }
+    &.slide-trigger-up{
+        transform:translate3d(0px,100px,0px);
+    }
+
+    &.slide-trigger-down{
+        transform:translate3d(0px,-100px,0px);
+    }
+
+
+   
 
 `

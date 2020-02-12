@@ -95,15 +95,15 @@ export const Column = (props) => {
 
     return(
 
-        <StyledColumn onDragOver={dragoverHandler} onDrop={dropHandler} onDragLeave={handleDragExit}>
+        <StyledColumn >
             <div className= {`header ${title}`}>
                 <h1>{title}</h1>
                 <button onClick={moveColLeft}>Move Left</button>
                 <button onClick={moveColRight}>Move Right</button>
             </div>
-            <div>
+            <div className='dropzone' onDragOver={dragoverHandler} onDrop={dropHandler} onDragLeave={handleDragExit}>
                  
-                {items.map(ci => <Item  dispatch={dispatch} colid ={id} text={ci.text} prev={prev} next={next} next_id={next_id} key={ci.id} id={ci.id}></Item>)}
+                {items.map((ci,index) => <Item  dispatch={dispatch} colid ={id} text={ci.text} prev={prev} next={next} next_id={next_id} key={ci.id} id={ci.id} index={index}></Item>)}
                
             </div>
             <button onClick={addCard}>Add Card</button>
@@ -147,9 +147,18 @@ const StyledColumn = styled.div `
        }
     }
 
-    &.dropZoneIdentifier{
+    .dropzone{
+        height:100%;
+        display:flex;
+        flex-direction:column;
+        justify-content:flex-start;
+
+        &.dropZoneIdentifier{
         background:lightgray;
     }
+    }
+
+    
 
 
 `
