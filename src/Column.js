@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import uuid4 from 'uuid4';
 import {Item} from './Item';
+import { element } from 'prop-types';
 
 
 export const Column = (props) => {
@@ -11,7 +12,7 @@ export const Column = (props) => {
 
     const {title,dispatch,col,id,index,colOrderKeys} = props;
     const {items,next,next_id,prev,next_index,prev_index} = col;
-    
+  
      
     const addCard = () => {
         //this now needs to dispatch an action
@@ -66,12 +67,32 @@ export const Column = (props) => {
 
     }
 
+    function onDrag(e){
+
+    }
+
     function dragoverHandler(e) {
         e.preventDefault();
         e.dataTransfer.dropEffect = "move";
-        e.target.classList.add('dropZoneIdentifier');
         
-       
+        
+        
+        //need initial condition for within column movement same column gt id, same column lt id
+
+        let target = e.target.parentElement;
+        let family = document.querySelectorAll('.dropzone');
+        
+        console.log(family)
+        family.forEach(fm => {
+            console.log(fm.dataset.index,index)
+            fm.classList.remove('dropZoneIdentifier');
+           
+            if(fm.dataset.index == index){
+               
+                fm.classList.add('dropZoneIdentifier');
+            }
+
+        })
     }
 
     function dropHandler(e) {
@@ -86,11 +107,23 @@ export const Column = (props) => {
     }
 
     function handleDragExit(e){
+        console.log('leaving')
         e.preventDefault();
         e.target.classList.remove('dropZoneIdentifier');
+        // if(e.target.dataset.index === index){
+
+        // }
+        // else{
+        //     e.target.classList.remove('dropZoneIdentifier');    
+        // }
+      
+            
     }
+
+           
     
     
+    //switching to ondragexit was the big change that helped UI. Before ondrag leave was messing up styles for both col and item
 
 
     return(
@@ -101,7 +134,8 @@ export const Column = (props) => {
                 <button onClick={moveColLeft}>Move Left</button>
                 <button onClick={moveColRight}>Move Right</button>
             </div>
-            <div className='dropzone' onDragOver={dragoverHandler} onDrop={dropHandler} onDragLeave={handleDragExit}>
+
+            <div className='dropzone' data-index={index} onDragEnter={dragoverHandler} onDrop={dropHandler}>
                  
                 {items.map((ci,index) => <Item  dispatch={dispatch} colid ={id} text={ci.text} prev={prev} next={next} next_id={next_id} key={ci.id} id={ci.id} index={index}></Item>)}
                

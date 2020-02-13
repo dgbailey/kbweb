@@ -102,7 +102,7 @@ export const Board  = () => {
                 //In contrast, item is passed as a mutable object.  This is why item.next value is never updated,
                 //while the item object is updated.
 
-                return <Column dispatch={dispatch} col={item} title={item.text} id={bc} index={index} key={bc} colOrderKeys={keys} ></Column>
+                return <Column dispatch={dispatch} col={item} title={item.text}  id={bc} index={index} key={bc} colOrderKeys={keys} ></Column>
             })}
             </section>
            
