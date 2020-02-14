@@ -16,6 +16,9 @@ export const Item = (props) => {
     const [isGrabbing,setIsGrabbing] = useState(false);
 
     function onDragStart(e){
+
+        //set up conditional data transfer operations
+       
         handleGrab();
         e.dataTransfer.setData('id',id);
         e.dataTransfer.setData('text',text)
@@ -26,9 +29,12 @@ export const Item = (props) => {
        
     }
 
+    
+
     function handleDragEnd(e){
+        
         handleGrab();
-      
+        console.log('drag ended')
         dispatch({type:"DELETEITEM",origin:colid,itemId:id});
     }
 
@@ -41,9 +47,6 @@ export const Item = (props) => {
         //this should not be touching the dom directly
         e.preventDefault();
         e.dataTransfer.dropEffect = "move";
-       
-        
-        //need initial condition for within column movement same column gt id, same column lt id
 
         let target = e.target;
         let family = []
@@ -51,6 +54,12 @@ export const Item = (props) => {
             family.push(target);
             target = target.nextElementSibling;
         }
+       
+        
+       
+        //need initial condition for within column movement same column gt id, same column lt id
+
+        
         //sliding logic
 
         family.forEach(element => {
@@ -67,9 +76,10 @@ export const Item = (props) => {
             
            }
 
-
-
         })
+       
+         //conditional dragenter data transfer
+       
        
        
        
@@ -116,7 +126,7 @@ export const Item = (props) => {
 
     return (
 
-        <StyledItem className={colid} data-index={index} onDragEnter={dragoverHandler}  onDragExit={handleDragExit} draggable={true} onDragStart={onDragStart} onDragEnd={handleDragEnd}>
+        <StyledItem className={colid} data-index={index} onDragEnter={dragoverHandler} onDragExit={handleDragExit} draggable={true} onDragStart={onDragStart} onDragEnd={handleDragEnd}>
             <button className='prev' onClick={changeColumnsLeft}></button>
             <p>{text}</p>
             <button className='next' onClick={changeColumnsRight}></button>
@@ -137,9 +147,7 @@ const StyledItem = styled.div `
     border:1px solid black;
     display:flex;
     transition:.2s ease;
-    
-
-   z-index:1;
+   
 
     &:hover{
         cursor:pointer;
@@ -150,7 +158,7 @@ const StyledItem = styled.div `
         cursor: -webkit-grabbing; cursor:-moz-grabbing;
     }
     &.slide-trigger-up{
-        transform:translate3d(0px,100px,0px);
+        transform:translate3d(0px,108px,0px);
     }
 
     &.slide-trigger-down{

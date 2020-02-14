@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
+import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 import uuid4 from 'uuid4';
 import {Item} from './Item';
-import { element } from 'prop-types';
+
 
 
 export const Column = (props) => {
@@ -12,7 +13,7 @@ export const Column = (props) => {
 
     const {title,dispatch,col,id,index,colOrderKeys} = props;
     const {items,next,next_id,prev,next_index,prev_index} = col;
-  
+    let state = useSelector(state => state.board);
      
     const addCard = () => {
         //this now needs to dispatch an action
@@ -76,15 +77,13 @@ export const Column = (props) => {
         e.dataTransfer.dropEffect = "move";
         
         
-        
         //need initial condition for within column movement same column gt id, same column lt id
 
         let target = e.target.parentElement;
         let family = document.querySelectorAll('.dropzone');
-        
-        console.log(family)
+    
         family.forEach(fm => {
-            console.log(fm.dataset.index,index)
+
             fm.classList.remove('dropZoneIdentifier');
            
             if(fm.dataset.index == index){
@@ -93,49 +92,182 @@ export const Column = (props) => {
             }
 
         })
+
     }
+
+    function clearSlideEffect(e){
+
+        let family;
+
+        if(e.dataTransfer.getData('colId') === ''){
+            console.log('firing')
+            console.log('see',e.target.classList)
+             if(e.target.classList.contains('dropzone')){
+                 console.log('firing if')
+                 e.dataTransfer.setData('colId',e.target.parentElement.dataset.colid);
+                 console.log('colid',e.dataTransfer.getData('colId'))
+             }
+          
+            
+         }
+         else {
+             if(e.target.classList.contains('dropzone')){
+                 console.log('firing e.se')
+                if( e.dataTransfer.getData('colId') !== e.target.parentElement.dataset.colid){
+                     
+                     family.forEach( element =>   element.classList.remove('slide-trigger-up'));
+                 }
+             }
+                 
+             
+ 
+         }
+    }
+
+
+    //give me last item that was displaced
+    //if null place at end
+    //otherwise
+        //give me index of last displaced node
+        //create linked list of current items: might be good to just use linked list from the start, will impace saving in DB
+        //insert node 
+        //serializing linked list might be necessary
+
+    function getFirstInsertionIndex(e){
+        let children = e.target.children;
+      
+        let child = null; 
+        //relies on children being in order
+        //give me the first child that has the class of interest
+        for(let i = 0; i < children.length; i ++){
+            console.log(children[i].classList)
+            if(children[i].classList.contains('slide-trigger-up')){child = children[i].dataset.index; break;}
+            
+        }
+        return child
+       
+    }
+
+    class LinkedListNode{
+        constructor(value){
+            this.next = null;
+            this.value = value;
+        }
+    }
+
+    function createLinkedList(colId){
+        let node = new LinkedListNode()
+        let items = state.cols[colId].items;
+        let head = null;
+        let current = null;
+        items.forEach(i => {
+
+            let newNode = new LinkedListNode(i);
+            if(head === null && current === null){
+                head = newNode;
+                current = head
+            }
+            else{
+                current.next = newNode;
+                current = current.next;
+            }
+            
+        })
+        return head
+    }
+
+    function createNewOrderLinkedList(colId,insertionIndex,newItemData){
+        //returns linkedlist for now
+        let linkedList = createLinkedList(colId);
+        let head = linkedList;
+        let current = head;
+        if(insertionIndex === null){
+            //back of list
+            while(current.next !== null){
+                current = current.next;
+            }
+            current.next = new LinkedListNode(newItemData);
+
+        }
+        else if(insertionIndex === '0'){
+            //before head
+            let newNode = new LinkedListNode(newItemData);
+            newNode.next = current;
+            return newNode
+        }
+        else if( insertionIndex === '1'){
+            //use head
+            let temp = current.next;
+            current.next = new LinkedListNode(newItemData);
+            current.next.next = temp;
+        }
+        else{
+            let count = 0;
+            while(count < insertionIndex){
+                current = current.next;
+                count++;
+            }
+            let temp = current.next.next;
+            current.next = new LinkedListNode(newItemData);
+        }
+        return head;
+
+
+    }
+
+    function mapLinkedListToArray(linkedList){
+        //return array
+        //dispatch this array to appropriate col
+        let returnArray = [];
+        let current = linkedList;
+        while(current){
+            returnArray.push(current.value);
+            current = current.next;
+        }
+        return returnArray
+    }
+
 
     function dropHandler(e) {
         e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
         let data = {}
-        // Get the id of the target and add the moved element to the target's DOM
         data['id'] = e.dataTransfer.getData('id');
         data['text'] = e.dataTransfer.getData('text');
+
+        let firstInsertionIndex = getFirstInsertionIndex(e);
+        let newOrderLinkedList = createNewOrderLinkedList(id,firstInsertionIndex,data);
+   
+        let newOrderArray = mapLinkedListToArray(newOrderLinkedList);
+        console.log(newOrderArray);
+
+       
+        // Get the id of the target and add the moved element to the target's DOM
+        
        //dispatch event to column with card data , append to end no considering order
        e.target.classList.remove('dropZoneIdentifier');    
-       dispatch({type:'APPEND',destination:id,payload:{'id':data.id,'text':data.text}})
+       
+       dispatch({type:'APPEND',destination:id,payload:newOrderArray})
     }
 
-    function handleDragExit(e){
-        console.log('leaving')
-        e.preventDefault();
-        e.target.classList.remove('dropZoneIdentifier');
-        // if(e.target.dataset.index === index){
-
-        // }
-        // else{
-        //     e.target.classList.remove('dropZoneIdentifier');    
-        // }
-      
-            
-    }
-
+   
+   
            
     
     
-    //switching to ondragexit was the big change that helped UI. Before ondrag leave was messing up styles for both col and item
+    //ondrag over vs on drag enter: on drag enter seems to block drop events on the same drop zone
 
 
     return(
 
         <StyledColumn >
-            <div className= {`header ${title}`}>
+            <div className= {`header ${title}`} data-colid={id}>
                 <h1>{title}</h1>
                 <button onClick={moveColLeft}>Move Left</button>
                 <button onClick={moveColRight}>Move Right</button>
             </div>
 
-            <div className='dropzone' data-index={index} onDragEnter={dragoverHandler} onDrop={dropHandler}>
+            <div className='dropzone' data-index={index} onDragOver={dragoverHandler} onDrop={dropHandler}>
                  
                 {items.map((ci,index) => <Item  dispatch={dispatch} colid ={id} text={ci.text} prev={prev} next={next} next_id={next_id} key={ci.id} id={ci.id} index={index}></Item>)}
                
@@ -188,7 +320,7 @@ const StyledColumn = styled.div `
         justify-content:flex-start;
 
         &.dropZoneIdentifier{
-        background:lightgray;
+        background:#d3d3d363;
     }
     }
 

@@ -62,8 +62,8 @@ export const boardReducer = (state = initialState,action) => {
         }
        
         case 'APPEND':
-        let column = state.cols[action.destination];
-        let {items} = column;
+  
+       
 
            return {
             ...state,
@@ -72,7 +72,7 @@ export const boardReducer = (state = initialState,action) => {
                     [action.destination]:{
                         ...state.cols[action.destination],
                         items:[
-                            ...state.cols[action.destination].items,{...action.payload}
+                             ...action.payload
                         ]
                     }
                    

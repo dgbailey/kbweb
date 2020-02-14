@@ -48,6 +48,7 @@ export const Board  = () => {
         
 
    }
+  
     
     let head = null;
 
