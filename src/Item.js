@@ -16,16 +16,18 @@ export const Item = (props) => {
     const [isGrabbing,setIsGrabbing] = useState(false);
 
     function onDragStart(e){
-
+        
         //set up conditional data transfer operations
        
         handleGrab();
         e.dataTransfer.setData('id',id);
-        e.dataTransfer.setData('text',text)
-        
-        e.dataTransfer.dropEffect = 'copyMove';
+        e.dataTransfer.setData('text',text);
     
-        // dispatch({type:"DELETEITEM",origin:colid,itemId:id});
+        
+        
+        e.dataTransfer.dropEffect = 'move';
+    
+        dispatch({type:"UPDATE_CURRENT_COL",payload:colid});
        
     }
 

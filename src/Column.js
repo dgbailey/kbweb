@@ -68,7 +68,26 @@ export const Column = (props) => {
 
     }
 
-    function onDrag(e){
+    //drag data is only available on drop. Good to KNOW
+
+    function checkCurrentColumnId(e){
+        let cId = state.currentColumn;
+        
+        if(cId === id){
+
+        }
+        else{
+            let qString = `[data-colid='${cId}']`;
+            
+            let previousColItems = document.querySelector(qString).children;
+           
+            for(let i = 0; i < previousColItems.length; i ++){
+                previousColItems[i].classList.remove('slide-trigger-up');
+            }
+            
+            dispatch({type:"UPDATE_CURRENT_COL",payload:id});
+            //remove all slide up classes
+        }
 
     }
 
@@ -93,35 +112,13 @@ export const Column = (props) => {
 
         })
 
+        checkCurrentColumnId(e);
+
     }
 
     function clearSlideEffect(e){
 
-        let family;
-
-        if(e.dataTransfer.getData('colId') === ''){
-            console.log('firing')
-            console.log('see',e.target.classList)
-             if(e.target.classList.contains('dropzone')){
-                 console.log('firing if')
-                 e.dataTransfer.setData('colId',e.target.parentElement.dataset.colid);
-                 console.log('colid',e.dataTransfer.getData('colId'))
-             }
-          
-            
-         }
-         else {
-             if(e.target.classList.contains('dropzone')){
-                 console.log('firing e.se')
-                if( e.dataTransfer.getData('colId') !== e.target.parentElement.dataset.colid){
-                     
-                     family.forEach( element =>   element.classList.remove('slide-trigger-up'));
-                 }
-             }
-                 
-             
- 
-         }
+        
     }
 
 
@@ -140,7 +137,7 @@ export const Column = (props) => {
         //relies on children being in order
         //give me the first child that has the class of interest
         for(let i = 0; i < children.length; i ++){
-            console.log(children[i].classList)
+         
             if(children[i].classList.contains('slide-trigger-up')){child = children[i].dataset.index; break;}
             
         }
@@ -239,7 +236,7 @@ export const Column = (props) => {
         let newOrderLinkedList = createNewOrderLinkedList(id,firstInsertionIndex,data);
    
         let newOrderArray = mapLinkedListToArray(newOrderLinkedList);
-        console.log(newOrderArray);
+    
 
        
         // Get the id of the target and add the moved element to the target's DOM
@@ -261,13 +258,13 @@ export const Column = (props) => {
     return(
 
         <StyledColumn >
-            <div className= {`header ${title}`} data-colid={id}>
+            <div className= {`header ${title}`}>
                 <h1>{title}</h1>
                 <button onClick={moveColLeft}>Move Left</button>
                 <button onClick={moveColRight}>Move Right</button>
             </div>
 
-            <div className='dropzone' data-index={index} onDragOver={dragoverHandler} onDrop={dropHandler}>
+            <div className='dropzone' data-index={index}  data-colid={id} onDragOver={dragoverHandler} onDrop={dropHandler}>
                  
                 {items.map((ci,index) => <Item  dispatch={dispatch} colid ={id} text={ci.text} prev={prev} next={next} next_id={next_id} key={ci.id} id={ci.id} index={index}></Item>)}
                

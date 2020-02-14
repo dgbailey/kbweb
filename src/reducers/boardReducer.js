@@ -10,7 +10,7 @@ const boardId = uuid4();
 
 
 const initialState = {
-   
+    currentColumn:null,
     boardId:boardId,
     cols:{
 
@@ -40,6 +40,13 @@ export const boardReducer = (state = initialState,action) => {
   
 
     switch(action.type){
+
+        case 'UPDATE_CURRENT_COL':
+        return{
+            ...state,
+            currentColumn: action.payload
+        }
+           
        
         case 'SETCOLORDER':
         return {
