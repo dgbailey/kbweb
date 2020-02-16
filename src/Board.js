@@ -1,4 +1,4 @@
-import React, {useState,useEffect,useReducer} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import uuid4 from 'uuid4';
 import {Column} from './Column';
@@ -71,9 +71,10 @@ export const Board  = () => {
     return (
 
         <StyledBoard>
-            <section class='board-head'>
+            <section className='board-head'>
                 <button onClick={addColumn}>Add Col</button>
                 <button onClick={()=> saveBoard(state)}>Save Board</button>
+                <span className='drag-image'></span>
             </section>
             <section class='board-columns'>
             {keys.map((bc,index) => {
@@ -144,6 +145,15 @@ const StyledBoard = styled.div `
         overflow-x:scroll;
     }
     
+    .drag-image{
+        visibility:hidden;
+        display: block; 
+        top: 0; 
+        left: 0; 
+        width: 0; 
+        height: 0;
+        z-index:-1;
+    }
 
 
 `

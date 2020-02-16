@@ -1,43 +1,79 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import uuid4 from 'uuid4';
+
 
 
 
 
 export const Item = (props) => {
 
-    const {text,dispatch,item,colid,id,next_id,prev,index} = props;
+    const {text,dispatch,colid,id,next_id,prev,index} = props;
 
     //click triggers deletion and copy of item content to prev or next
     //changes to column state
 
     //onDragStart
     const [isGrabbing,setIsGrabbing] = useState(false);
+    const [originDragCoords,setOriginDragCoords] = useState(null);
+
+    function grabDragImage(){
+        return document.querySelector('.drag-image')
+    }
+
 
     function onDragStart(e){
         
+        setOriginDragCoords([e.clientX,e.clientY]);
         //set up conditional data transfer operations
-       
+        // applyHidden(e);
         handleGrab();
+        let dragImage = grabDragImage();
+       
         e.dataTransfer.setData('id',id);
         e.dataTransfer.setData('text',text);
-    
+        e.target.appendChild(dragImage)
+        e.dataTransfer.setDragImage(e.target,100,50);
+        // e.target.style.visibility = 'hidden';
         
         
         e.dataTransfer.dropEffect = 'move';
-    
+     
         dispatch({type:"UPDATE_CURRENT_COL",payload:colid});
+        
        
     }
 
+    function applyHidden(e){
+        let target = e.target;
+        setTimeout(() => target.classList.add('hidden'));
+    }
     
 
-    function handleDragEnd(e){
+    // function handleDragEnd(e){
         
-        handleGrab();
-        console.log('drag ended')
-        dispatch({type:"DELETEITEM",origin:colid,itemId:id});
+    //     handleGrab();
+    //     console.log('drag ended')
+    //     dispatch({type:"DELETEITEM",origin:colid,itemId:id});
+    // }
+    function setItemCoordinates(e){
+        e.preventDefault();
+        
+        e.target.style.top = originDragCoords[1];
+        e.target.style.left = originDragCoords[0];
+        e.target.style.position = 'fixed';
+        e.target.style.width = '0px';
+        e.target.style.height = '0px';
+        e.target.style.display = 'none';
+       
+        let currentY = e.clientY;
+        let currentX = e.clientX;
+
+        let mapX = currentX - originDragCoords[0];
+        let mapY = currentY - originDragCoords[1];
+        
+        e.target.style.transform = `translate3d(${mapX}px,${mapY}px,0px)`;
+    
+        
     }
 
     function handleGrab(){
@@ -49,6 +85,7 @@ export const Item = (props) => {
         //this should not be touching the dom directly
         e.preventDefault();
         e.dataTransfer.dropEffect = "move";
+        
 
         let target = e.target;
         let family = []
@@ -90,10 +127,11 @@ export const Item = (props) => {
        
     }
 
-    function handleDragExit(e){
+    function handleDragEnd(e){
         e.preventDefault();
      
-        // e.target.style.transform = `translate3d(0px,0px,0px)`;
+        
+       
     }
 
    
@@ -122,13 +160,16 @@ export const Item = (props) => {
        
 
 
-
     }
+
+    // function handleDrag(e){
+    //     setItemCoordinates(e);
+    // }
 
 
     return (
 
-        <StyledItem className={colid} data-index={index} onDragEnter={dragoverHandler} onDragExit={handleDragExit} draggable={true} onDragStart={onDragStart} onDragEnd={handleDragEnd}>
+        <StyledItem className={colid} data-index={index} onDragEnter={dragoverHandler} onDrag={setItemCoordinates}  onDragEnd={handleDragEnd} draggable={true} onDragStart={onDragStart}>
             <button className='prev' onClick={changeColumnsLeft}></button>
             <p>{text}</p>
             <button className='next' onClick={changeColumnsRight}></button>
@@ -167,7 +208,9 @@ const StyledItem = styled.div `
         transform:translate3d(0px,-100px,0px);
     }
 
-
+    &.hidden{
+        visibility:hidden;
+    }
    
 
 `

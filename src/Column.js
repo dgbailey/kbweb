@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 import uuid4 from 'uuid4';
@@ -12,7 +12,7 @@ export const Column = (props) => {
    
 
     const {title,dispatch,col,id,index,colOrderKeys} = props;
-    const {items,next,next_id,prev,next_index,prev_index} = col;
+    const {items,next,next_id,prev} = col;
     let state = useSelector(state => state.board);
      
     const addCard = () => {
@@ -98,14 +98,14 @@ export const Column = (props) => {
         
         //need initial condition for within column movement same column gt id, same column lt id
 
-        let target = e.target.parentElement;
+     
         let family = document.querySelectorAll('.dropzone');
     
         family.forEach(fm => {
 
             fm.classList.remove('dropZoneIdentifier');
            
-            if(fm.dataset.index == index){
+            if(fm.dataset.index === `${index}`){
                
                 fm.classList.add('dropZoneIdentifier');
             }
@@ -116,10 +116,7 @@ export const Column = (props) => {
 
     }
 
-    function clearSlideEffect(e){
-
-        
-    }
+    
 
 
     //give me last item that was displaced
@@ -152,8 +149,9 @@ export const Column = (props) => {
         }
     }
 
+  
     function createLinkedList(colId){
-        let node = new LinkedListNode()
+        
         let items = state.cols[colId].items;
         let head = null;
         let current = null;
@@ -204,7 +202,7 @@ export const Column = (props) => {
                 current = current.next;
                 count++;
             }
-            let temp = current.next.next;
+            
             current.next = new LinkedListNode(newItemData);
         }
         return head;
