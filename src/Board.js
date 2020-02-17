@@ -146,13 +146,13 @@ const StyledBoard = styled.div `
     }
     
     .drag-image{
-        visibility:hidden;
+        border:1px solid red;
         display: block; 
         top: 0; 
         left: 0; 
         width: 0; 
         height: 0;
-        z-index:-1;
+        
     }
 
 

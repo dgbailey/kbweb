@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import {rootReducer} from './reducers/index';
-
+import {BrowserRouter} from 'react-router-dom';
 
 //create root reducer
 //remove reducer from board
@@ -19,8 +19,12 @@ console.log(store)
 console.log(store.getState())
 
 ReactDOM.render(
+
     <Provider store={store}>
-        <App />
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+       
     </Provider>
     
     

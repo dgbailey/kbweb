@@ -31,7 +31,7 @@ export const Item = (props) => {
        
         e.dataTransfer.setData('id',id);
         e.dataTransfer.setData('text',text);
-        e.target.appendChild(dragImage)
+        // e.target.appendChild(dragImage)
         e.dataTransfer.setDragImage(e.target,100,50);
         // e.target.style.visibility = 'hidden';
         
@@ -61,8 +61,8 @@ export const Item = (props) => {
         e.target.style.top = originDragCoords[1];
         e.target.style.left = originDragCoords[0];
         e.target.style.position = 'fixed';
-        e.target.style.width = '0px';
-        e.target.style.height = '0px';
+        // e.target.style.width = '100px';
+        // e.target.style.height = '100px';
         e.target.style.display = 'none';
        
         let currentY = e.clientY;
@@ -86,36 +86,59 @@ export const Item = (props) => {
         e.preventDefault();
         e.dataTransfer.dropEffect = "move";
         
-
         let target = e.target;
-        let family = []
-        while(target){
-            family.push(target);
-            target = target.nextElementSibling;
-        }
+        let cId = colid;
+        let qString = `[data-colid='${cId}']`;
+            
+        let family = document.querySelector(qString).children;
+        console.log(family)
+
+        // while(target){
+        //     family.push(target);
+        //     target = target.nextElementSibling;
+        // }
        
         
        
         //need initial condition for within column movement same column gt id, same column lt id
 
-        
-        //sliding logic
-
-        family.forEach(element => {
+        for(let i = 0; i < family.length; i ++){
             
-            if(element.classList.contains('slide-trigger-up')){
-                if(element.dataset.index === e.target.dataset.index){
-                    element.classList.remove('slide-trigger-up');
-                }
-              
+                
+            
+            family[i].classList.remove('slide-trigger-up');
+               //slide over
+            
+            
+          
+           
+        }
+        
+        for(let i = 0; i < family.length; i ++){
+            if( family[i].dataset.index === target.dataset.index){
+            
+                family[i].classList.add('slide-trigger-up');
             
             }
-           else{
-                element.classList.add('slide-trigger-up');
-            
-           }
+            else if(family[i].dataset.index > target.dataset.index){
 
-        })
+                family[i].classList.add('slide-trigger-up');
+            }
+            else if(family[i].dataset.index < target.dataset.index){
+
+                family[i].classList.remove('slide-trigger-up');
+            }
+
+        }
+          
+           
+        
+    
+            
+           
+           
+
+    
        
          //conditional dragenter data transfer
        
@@ -172,7 +195,7 @@ export const Item = (props) => {
         <StyledItem className={colid} data-index={index} onDragEnter={dragoverHandler} onDrag={setItemCoordinates}  onDragEnd={handleDragEnd} draggable={true} onDragStart={onDragStart}>
             <button className='prev' onClick={changeColumnsLeft}></button>
             <p>{text}</p>
-            <button className='next' onClick={changeColumnsRight}></button>
+            <button  className='next' onClick={changeColumnsRight}></button>
         </StyledItem>
     )
 
@@ -190,6 +213,7 @@ const StyledItem = styled.div `
     border:1px solid black;
     display:flex;
     transition:.2s ease;
+    margin:5px 4px;
    
 
     &:hover{
