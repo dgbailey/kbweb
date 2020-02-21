@@ -1,7 +1,7 @@
 
 
-const registrationURI = '';
-export const registerCredentialsAction =  async creds => async dispatch => {
+const registrationURI = 'http://localhost:8080/flow/signup';
+export const registerCredentialsAction =  async (creds,dispatch) => {
 
     try{
         dispatch({type:'START_REGISTRATION'})
@@ -12,13 +12,13 @@ export const registerCredentialsAction =  async creds => async dispatch => {
         }
         
         let response = await fetch(registrationURI,settings);
-        dispatch({type:'REGISTRATION_COMPLETE'});
         let token =  await response.json();
-    
-        window.localStorage('kbt',token);
+        console.log('token',token)
+        dispatch({type:'REGISTRATION_COMPLETE'});
+        window.localStorage.setItem('kbt',token);
     }
     catch(err){
-        dispatch({type:'REGISTRATION_ERROR'});
+        dispatch({type:'REGISTRATION_ERROR',payload:err});
         console.log(err)
     }
   

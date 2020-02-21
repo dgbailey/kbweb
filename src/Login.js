@@ -3,6 +3,8 @@ import {useDispatch} from 'react-redux';
 import styled from 'styled-components';
 import {Link,Redirect} from 'react-router-dom';
 import {registerCredentialsAction} from './actions/sendCredentials';
+import { useHistory } from "react-router-dom";
+const uuid4 = require('uuid4');
 
 
 export const Login = () => {
@@ -12,6 +14,7 @@ export const Login = () => {
     const [authenticated,setAuthenticated] = useState(false);
     const [homeLink, setHomeLink] = useState(null);
     const [credentials,setCredentials] = useState({});
+    const history = useHistory();
     const dispatch = useDispatch();
    
 
@@ -37,10 +40,17 @@ export const Login = () => {
         checkAuthStatus();
     },[])
 
-    function registerCredentials(){
+    async function registerCredentials(){
       
-        registerCredentialsAction(credentials)(dispatch);
+        await registerCredentialsAction(credentials,dispatch);
+        generateNewHomeBoard();
+        
 
+    }
+
+    function generateNewHomeBoard(){
+        let newBoardId = uuid4();
+        history.push(`/home/board/${newBoardId}`)
     }
  
     //a reducer for state of login
@@ -61,7 +71,7 @@ export const Login = () => {
       
             <input  onChange={handleChange} name = "password" className="input password" type='password'></input>
             <Link>
-                <button className="login-btn">Register</button>
+                <button onClick={registerCredentials} className="login-btn">Register</button>
             </Link>
             
             </StyledLogin>

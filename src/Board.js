@@ -76,7 +76,7 @@ export const Board  = () => {
                 <button onClick={()=> saveBoard(state)}>Save Board</button>
                 <span className='drag-image'></span>
             </section>
-            <section class='board-columns'>
+            <section className='board-columns'>
             {keys.map((bc,index) => {
                 
                 let item = state.cols[bc];
