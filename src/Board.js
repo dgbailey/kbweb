@@ -33,7 +33,7 @@ export const Board  = () => {
 
         })
       
-        let data = {boardId:state.boardId, cols:JSON.stringify(state.cols),userId:1}
+        let data = {boardId:state.boardId, cols:JSON.stringify(state.cols),userId:'6c3e5812-f1d3-4150-9a47-5c1d202f0d7f'}
         
         fetch('http://localhost:8080/boards/newBoard',{
             method:'POST',
@@ -72,6 +72,7 @@ export const Board  = () => {
 
         <StyledBoard>
             <section className='board-head'>
+                <h1>{state.boardName}</h1>
                 <button onClick={addColumn}>Add Col</button>
                 <button onClick={()=> saveBoard(state)}>Save Board</button>
                 <span className='drag-image'></span>

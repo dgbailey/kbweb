@@ -10,6 +10,7 @@ const boardId = uuid4();
 
 
 const initialState = {
+    boardName:'Default Board',
     currentColumn:null,
     boardId:boardId,
     cols:{

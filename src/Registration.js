@@ -2,21 +2,19 @@ import React, {useEffect,useState} from 'react';
 import {useDispatch,useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {Link,Redirect} from 'react-router-dom';
-import {loginCredentialsAction} from './actions/sendLoginCredentials';
-import {useHistory} from "react-router-dom";
-import {preFlightAuthStatus} from './actions/preflightAuthStatus';
-
-
-
+import {registerCredentialsAction} from './actions/registerCredentials';
+import { useHistory } from "react-router-dom";
 const uuid4 = require('uuid4');
 
 
-export const Login = () => {
+export const Registration = () => {
     
     //on component mount check local storage, if token render redirect to board + board id
     //otherwise complete full call to server for recent boards, push to board id from json token
-    const loginStatus = useSelector(state => state.loginStatus);
-    const{loginSuccess,loginStart,loginError} = loginStatus;
+    const registrationStatus = useSelector(state => state.registrationStatus);
+    const{registrationSuccess,registrationError,registrationStart} = registrationStatus;
+    const [authenticated,setAuthenticated] = useState(false);
+    const [homeLink, setHomeLink] = useState(null);
     const [credentials,setCredentials] = useState({});
     const history = useHistory();
     const dispatch = useDispatch();
@@ -25,19 +23,23 @@ export const Login = () => {
     useEffect(() => {
         let homeLinkPrefix = '/home/';
 
-        
-        preFlightAuthStatus(dispatch,history);
-        
-        
-        
-            //when first mounts check cookie status send get request to preflight url and return status
-                //if return with board info set in state
-                //push to board home that will fetch board info and set state
-    },[])
+        function checkAuthStatus(){
+            if(registrationStatus.registrationSuccess){
+                generateNewHomeBoard();
+           }
+            else if(registrationStatus.registrationError.length > 0){
+               console.log('alert',registrationStatus.registrationError)
+               alert(registrationStatus.registrationError);    
+           }
+            
+            
+        }
+        checkAuthStatus();
+    },[registrationStatus])
 
-    async function sendLoginCredentials(){
+    async function registerCredentials(){
         
-        await loginCredentialsAction(credentials,dispatch);
+        await registerCredentialsAction(credentials,dispatch);
       
         // based on redux store push to new home board or display message 
        
@@ -49,7 +51,8 @@ export const Login = () => {
 
     function generateNewHomeBoard(){
         let newBoardId = uuid4();
-        history.push(`/home/board/${newBoardId}`)
+        let newBoardIdFormatted = newBoardId.replace(/-/g,"");
+        history.push(`/home/board/${newBoardIdFormatted}`);
     }
  
     //a reducer for state of login
@@ -61,29 +64,31 @@ export const Login = () => {
         setCredentials({...credentials,...capturedCredentials});
     }
     
-    if(loginStart){
-
-        return (<div>... Preflight Authenticating</div>)
-
-    }
-    else if(!loginSuccess){
+    if(!authenticated){
         return (
-           
+
             <StyledLogin>
-             {loginError && <div>{loginError}</div>}
+            
             <input onChange={handleChange} name="username" type='text' className="input username"></input>
       
             <input  onChange={handleChange} name = "password" className="input password" type='password'></input>
             <Link>
-                <button onClick={sendLoginCredentials} className="login-btn">Login</button>
-                <Link to='/signup'>Sign Up</Link>
+                <button onClick={registerCredentials} className="login-btn">Sign Up</button>
+                <Link to='/'>Login</Link>
             </Link>
             
             </StyledLogin>
 
         )
     }
-   
+    else{
+
+        return (
+            <Redirect to={homeLink}></Redirect>
+
+        )
+    }
+
  
 
 

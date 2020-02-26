@@ -14,9 +14,8 @@ import {BrowserRouter} from 'react-router-dom';
 //use thunk middleware
 //create store
 
-const store = createStore(rootReducer);
-console.log(store)
-console.log(store.getState())
+const store = createStore(rootReducer,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+
 
 ReactDOM.render(
 
