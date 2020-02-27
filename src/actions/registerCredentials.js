@@ -16,14 +16,18 @@ export const registerCredentialsAction =  async (creds,dispatch) => {
         }
         
         let response = await fetch(registrationURI,settings);
-        let tokenResolved =  await response.json();
+        let responseResolved =  await response.json();
+        let {jwt,userName,userId} = responseResolved;
+
         if(response.status === 200){
            
             dispatch({type:'REGISTRATION_COMPLETE'});
-            window.localStorage.setItem('kbt',tokenResolved);
+            window.localStorage.setItem('kbt',responseResolved);
+            //needthis in local storage for now in order to push
+            dispatch({type:'FETCHING_SUCCESS_METADATA',payload:{userId,userName}});
         }
         else{
-            throw new Error(tokenResolved)          
+            throw new Error(responseResolved)          
         }
        
     }

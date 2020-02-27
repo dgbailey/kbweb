@@ -4,13 +4,17 @@ import './App.css';
 import {Home} from './Home';
 import {Login} from './Login';
 import {Registration} from './Registration';
+import {Board} from './Board';
 
 function App() {
   return (
     <div className="App">
       <Switch>
-        <Route path='/home/'>
+        <Route path='/home'>
           <Home></Home>
+        </Route>
+        <Route path='/board'>
+          <Board></Board>
         </Route>
         <Route path='/signup'>
           <Registration></Registration>

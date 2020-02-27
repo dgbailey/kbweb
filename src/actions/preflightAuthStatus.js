@@ -1,12 +1,12 @@
 const PREFLIGHT_AUTH_URL = 'http://localhost:8080/flow/login/preflight';
-const PREFLIGHT_START = 'PREFLIGHT_START';
-const PREFLIGHT_SUCCESS = 'PREFLIGHT_SUCCESS';
-const PREFLIGHT_FAILURE = 'PREFLIGHT_FAILURE';
+const FETCHING_START_METADATA = 'FETCHING_USER_METADATA';
+const FETCHING_SUCCESS_METADATA = 'FETCHING_SUCCESS_METADATA';
+const FETCHING_FAILURE_METADATA = 'FETCHING_USER_METADATA';
 
 export const preFlightAuthStatus = async (dispatch,history) => {
 
     try{
-        dispatch({type:PREFLIGHT_START})
+        dispatch({type:FETCHING_START_METADATA})
         let settings = {
             method:'GET',
             headers:{'Content-Type':'application/json'},
@@ -20,8 +20,8 @@ export const preFlightAuthStatus = async (dispatch,history) => {
         if(response.status === 200){
             //designed to only handle one board name
             let {board_id:boardId, name} = jsonResolved;
-            dispatch({type:PREFLIGHT_SUCCESS,payload:jsonResolved});
-            history.push(`/home/board/${name}-${boardId}`);
+            dispatch({type:FETCHING_SUCCESS_METADATA,payload:jsonResolved});
+            history.push(`/home`);
             
         }
         else{
@@ -30,7 +30,7 @@ export const preFlightAuthStatus = async (dispatch,history) => {
         }
     }
     catch(err){
-        dispatch({type:PREFLIGHT_FAILURE,payload:err.message});
+        dispatch({type:FETCHING_FAILURE_METADATA,payload:err.message});
     }
     
 
