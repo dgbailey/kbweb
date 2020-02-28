@@ -1,11 +1,15 @@
 
 import uuid4 from 'uuid4';
 
-
+const uuid0 = uuid4();
 const uuid1 = uuid4();
 const uuid2 = uuid4();
 const uuid3 = uuid4();
 const uuid5 = uuid4();
+const uuid6 = uuid4();
+const uuid7 = uuid4();
+const uuid8 = uuid4();
+const uuid9 = uuid4();
 const boardId = uuid4();
 
 
@@ -33,6 +37,86 @@ const initialState = {
     }
 
 
+
+}
+
+const experimentalBoardState = {
+
+   
+
+        boards:{
+            byId:{
+                [uuid0]:{
+                    boardName:'Default-Board',
+                    id:uuid0
+                }
+
+            },
+            allIds:[uuid1]
+        },
+        columns:{
+            byId:{
+                [uuid1]:{
+                    id:uuid1,
+                    boardId:uuid0,
+                    columnName:'Default Name A',
+                    colOrder:0,
+                },
+                [uuid2]:{
+                    id:uuid2,
+                    boardId:uuid0,
+                    columnName:'Default Name B',
+                    colOrder:1,
+                },
+                [uuid3]:{
+                    id:uuid3,
+                    boardId:uuid0,
+                    columnName:'Default Name C',
+                    colOrder:2,
+                },
+                [uuid4]:{
+                    id:uuid4,
+                    boardId:uuid0,
+                    columnName:'Default Name D',
+                    colOrder:3,
+                },
+
+            },
+            allIds:[uuid1,uuid2,uuid3,uuid4]
+        },
+
+        items:{
+            byId:{
+                [uuid6]:{
+                    id:uuid6,
+                    colId:uuid1,
+                    itemContent:'Default Item A',
+                    itemOrder:0
+                },
+                [uuid7]:{
+                    id:uuid7,
+                    colId:uuid2,
+                    itemContent:'Default Item B',
+                    itemOrder:0
+                },
+                [uuid8]:{
+                    id:uuid8,
+                    colId:uuid3,
+                    itemContent:'Default Item C',
+                    itemOrder:0
+                },
+                [uuid9]:{
+                    id:uuid9,
+                    colId:uuid4,
+                    itemContent:'Default Item D',
+                    itemOrder:0
+                },
+            },
+
+            allId:[uuid6,uuid7,uuid8,uuid9]
+        },
+
+    
 
 }
 
