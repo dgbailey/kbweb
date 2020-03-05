@@ -41,7 +41,7 @@ const initialState = {
 }
 
 const experimentalBoardState = {
-
+//https://stackoverflow.com/questions/34401098/remove-a-property-in-an-object-immutably
    
 
         boards:{
@@ -60,25 +60,25 @@ const experimentalBoardState = {
                     id:uuid1,
                     boardId:uuid0,
                     columnName:'Default Name A',
-                    colOrder:0,
+                    pos:0,
                 },
                 [uuid2]:{
                     id:uuid2,
                     boardId:uuid0,
                     columnName:'Default Name B',
-                    colOrder:1,
+                    pos:1,
                 },
                 [uuid3]:{
                     id:uuid3,
                     boardId:uuid0,
                     columnName:'Default Name C',
-                    colOrder:2,
+                    pos:2,
                 },
                 [uuid4]:{
                     id:uuid4,
                     boardId:uuid0,
                     columnName:'Default Name D',
-                    colOrder:3,
+                    pos:3,
                 },
 
             },
@@ -91,25 +91,25 @@ const experimentalBoardState = {
                     id:uuid6,
                     colId:uuid1,
                     itemContent:'Default Item A',
-                    itemOrder:0
+                    pos:0
                 },
                 [uuid7]:{
                     id:uuid7,
                     colId:uuid2,
                     itemContent:'Default Item B',
-                    itemOrder:0
+                    pos:0
                 },
                 [uuid8]:{
                     id:uuid8,
                     colId:uuid3,
                     itemContent:'Default Item C',
-                    itemOrder:0
+                    pos:0
                 },
                 [uuid9]:{
                     id:uuid9,
                     colId:uuid4,
                     itemContent:'Default Item D',
-                    itemOrder:0
+                    pos:0
                 },
             },
 
@@ -133,7 +133,7 @@ export const boardReducer = (state = initialState,action) => {
         }
            
        
-        case 'SETCOLORDER':
+        case 'SETpos':
         return {
             ...state,
             keys:[...action.payload]

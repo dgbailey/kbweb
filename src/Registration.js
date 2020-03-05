@@ -51,9 +51,9 @@ export const Registration = () => {
 
     function generateNewHomeBoard(){
         let newBoardId = uuid4();
-        let defaultBoardName = 'Default-Board';
+        let defaultBoardName = 'Get-Started';
         let newBoardIdFormatted = newBoardId.replace(/-/g,"");
-        history.push(`/board/${defaultBoardName}-${newBoardIdFormatted}`);
+        history.push(`/board/experimental/${defaultBoardName}-${newBoardIdFormatted}`);
     }
  
     //a reducer for state of login

@@ -5,6 +5,7 @@ import {Home} from './Home';
 import {Login} from './Login';
 import {Registration} from './Registration';
 import {Board} from './Board';
+import {NewBoard}  from './NewBoard';
 
 function App() {
   return (
@@ -13,9 +14,13 @@ function App() {
         <Route path='/home'>
           <Home></Home>
         </Route>
+        <Route path='/board/experimental'>
+          <NewBoard></NewBoard>
+        </Route>
         <Route path='/board'>
           <Board></Board>
         </Route>
+        
         <Route path='/signup'>
           <Registration></Registration>
         </Route>
