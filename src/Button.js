@@ -10,26 +10,36 @@ const propTypes = {
 const defaultProps = {
     description:'Create Column'
 }
-export const ActionButtonContext = React.createContext();
+
 //dear dustin you don't even need context here.  The onclick toggle will bubble up from children.  You just need to decide which children you want to exclude from this bubbling.
 export const ActionButton = props => {
   
     const {description,children} = props;
-    const [toggled,setToggleState] = useState(true);
+    const [toggled,setToggleState] = useState(false);
 
-    const savedRootToggleIdentity = useRef();
+    const savedToggleIdentityForListener = useRef();
+    const savedToggleStateForListener = useRef();
 
     const stopPropagation = (e) => {
         //https://stackoverflow.com/questions/24415631/reactjs-syntheticevent-stoppropagation-only-works-with-react-events
         e.nativeEvent.stopImmediatePropagation();
     }
 
-    const rootToggle = (e) => {
+    const componentToggle = () => {
+
         setToggleState(!toggled);
     }
 
+
+    const listenerToggle = () => {
+        if(savedToggleStateForListener.current){
+            savedToggleIdentityForListener.current();
+        }
+    }
+
     useEffect(() => {
-        savedRootToggleIdentity.current = rootToggle;
+        savedToggleIdentityForListener.current = componentToggle;
+        savedToggleStateForListener.current = toggled;
     })
 
     useEffect(() => {
@@ -37,8 +47,8 @@ export const ActionButton = props => {
         function documentToggleListener(){
             
             document.addEventListener('click',() => {
-                console.log('listener fire')
-                savedRootToggleIdentity.current();
+                
+                listenerToggle();
             })
         }
         documentToggleListener();
@@ -46,14 +56,14 @@ export const ActionButton = props => {
     },[])
 
     return (    
-        <ActionButtonContext.Provider value={savedRootToggleIdentity}>
-            <StyledButton   onClick={(e) => {stopPropagation(e);rootToggle()}}>
-                <h4 className={`${!toggled ? 'hidden':'btn-description'}`}>{description}</h4>
-                <StyledVisArea className={toggled ? "hidden":""}>
-                    {children}
-                </StyledVisArea>
-            </StyledButton>
-        </ActionButtonContext.Provider>
+       
+        <StyledButton   onClick={(e) => {stopPropagation(e);componentToggle()}}>
+            <h4 className={`${toggled ? 'hidden':'btn-description'}`}>{description}</h4>
+            <StyledVisArea className={toggled ? "":"hidden"}>
+                {children}
+            </StyledVisArea>
+        </StyledButton>
+      
     )
 
 

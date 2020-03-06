@@ -1,8 +1,8 @@
 import React,{useState,useContext} from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import {ActionButtonContext} from './Button';
-
+import {useDispatch} from 'react-redux';
+import {addColumn} from './actions/addColumn';
 
 const propTypes = {
     placeHolder:PropTypes.string,
@@ -25,14 +25,19 @@ const defaultProps = {
 
 
 export const ActionInput = props => {
-    const value = useContext(ActionButtonContext);
    
-    const rootToggle = (e) => {e.nativeEvent.stopImmediatePropagation()}
+    const dispatch = useDispatch();
     const {name,placeHolder,type,maxLength,toggleText,submitText} = props;
     const [inputState,setInputState] = useState({});
-    const stopPropagation = (e) => {
+
+    const stopClickPropagationToMyParents = (e) => {
+        //TODO explore why we need both here
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
+    }
+    const clickActionAggregator = e => {
+        stopClickPropagationToMyParents(e);
+        addColumn(inputState,dispatch);
     }
     const handleChange = e => {
         let newState = {};
@@ -42,9 +47,9 @@ export const ActionInput = props => {
 
     return (
         <>
-            <StyledInput onChange={handleChange} onClick={stopPropagation} name={name} placeHolder={placeHolder} type={type} maxLength={maxLength}></StyledInput>
-            <StyledButton type='button'>{submitText}</StyledButton>
-            <StyledButton type='button' onClick={rootToggle}>{toggleText}</StyledButton>
+            <StyledInput onChange={handleChange} onClick={stopClickPropagationToMyParents} name={name} placeHolder={placeHolder} type={type} maxLength={maxLength}></StyledInput>
+            <StyledButton onClick={clickActionAggregator} type='button'>{submitText}</StyledButton>
+            <StyledButton type='button' >{toggleText}</StyledButton>
         </>
         
     )

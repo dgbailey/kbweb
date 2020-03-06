@@ -1,6 +1,6 @@
 
 import uuid4 from 'uuid4';
-
+import {ADD_COL_START,ADD_COL_SUCCESS,ADD_COL_FAILURE} from '../actions/addColumn';
 const uuid0 = uuid4();
 const uuid1 = uuid4();
 const uuid2 = uuid4();
@@ -42,7 +42,9 @@ const initialState = {
 
 const experimentalBoardState = {
 //https://stackoverflow.com/questions/34401098/remove-a-property-in-an-object-immutably
-   
+        addColumnStart:false,
+        addColumnSuccess:false,
+        addColumnFailure:'',
 
         boards:{
             byId:{
@@ -56,68 +58,103 @@ const experimentalBoardState = {
         },
         columns:{
             byId:{
-                [uuid1]:{
-                    id:uuid1,
-                    boardId:uuid0,
-                    columnName:'Default Name A',
-                    pos:0,
-                },
-                [uuid2]:{
-                    id:uuid2,
-                    boardId:uuid0,
-                    columnName:'Default Name B',
-                    pos:1,
-                },
-                [uuid3]:{
-                    id:uuid3,
-                    boardId:uuid0,
-                    columnName:'Default Name C',
-                    pos:2,
-                },
-                [uuid4]:{
-                    id:uuid4,
-                    boardId:uuid0,
-                    columnName:'Default Name D',
-                    pos:3,
-                },
+                // [uuid1]:{
+                //     id:uuid1,
+                //     boardId:uuid0,
+                //     columnName:'Default Name A',
+                //     pos:0,
+                // },
+                // [uuid2]:{
+                //     id:uuid2,
+                //     boardId:uuid0,
+                //     columnName:'Default Name B',
+                //     pos:1,
+                // },
+                // [uuid3]:{
+                //     id:uuid3,
+                //     boardId:uuid0,
+                //     columnName:'Default Name C',
+                //     pos:2,
+                // },
+                // [uuid4]:{
+                //     id:uuid4,
+                //     boardId:uuid0,
+                //     columnName:'Default Name D',
+                //     pos:3,
+                // },
 
             },
-            allIds:[uuid1,uuid2,uuid3,uuid4]
+            allIds:[]
         },
 
         items:{
             byId:{
-                [uuid6]:{
-                    id:uuid6,
-                    colId:uuid1,
-                    itemContent:'Default Item A',
-                    pos:0
-                },
-                [uuid7]:{
-                    id:uuid7,
-                    colId:uuid2,
-                    itemContent:'Default Item B',
-                    pos:0
-                },
-                [uuid8]:{
-                    id:uuid8,
-                    colId:uuid3,
-                    itemContent:'Default Item C',
-                    pos:0
-                },
-                [uuid9]:{
-                    id:uuid9,
-                    colId:uuid4,
-                    itemContent:'Default Item D',
-                    pos:0
-                },
+                // [uuid6]:{
+                //     id:uuid6,
+                //     colId:uuid1,
+                //     itemContent:'Default Item A',
+                //     pos:0
+                // },
+                // [uuid7]:{
+                //     id:uuid7,
+                //     colId:uuid2,
+                //     itemContent:'Default Item B',
+                //     pos:0
+                // },
+                // [uuid8]:{
+                //     id:uuid8,
+                //     colId:uuid3,
+                //     itemContent:'Default Item C',
+                //     pos:0
+                // },
+                // [uuid9]:{
+                //     id:uuid9,
+                //     colId:uuid4,
+                //     itemContent:'Default Item D',
+                //     pos:0
+                // },
             },
 
-            allId:[uuid6,uuid7,uuid8,uuid9]
+            allId:[]
         },
 
     
 
+}
+
+export const expBoardReducer = (state = experimentalBoardState,action) =>{
+
+    switch(action.type){
+
+        case ADD_COL_START:
+        return {
+            ...state,
+            addColumnStart:true,
+            addColumnSuccess:false,
+            addColumnFailure:""
+        }
+        case ADD_COL_SUCCESS:
+        return {
+            ...state,
+            addColumnStart:false,
+            addColumnSuccess:true,
+            columns:{
+                ...state.columns,
+                [action.payload.column_id]:action.payload
+            },
+            allIds:[...state.allIds,action.payload.column_id]
+        }
+        case ADD_COL_FAILURE:
+        return {
+            ...state,
+            addColumnStart:false,
+            addColumnSuccess:false,
+            addColumnFailure:action.payload
+        }
+
+        default:
+            return state
+    }
 }
 
 

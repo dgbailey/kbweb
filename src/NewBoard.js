@@ -3,11 +3,16 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {ActionButton} from './Button';
 import {ActionInput} from './ActionInput';
+import {useSelector} from 'react-redux';
 
+const propTypes = {
+    name:PropTypes.string
+}
 
 
 export function NewBoard({name = "Get Started"}){
 
+    const boardState = useSelector(state => state.expBoard);
 
 
     return (
@@ -17,6 +22,16 @@ export function NewBoard({name = "Get Started"}){
             <ActionButton description={"Custom Name"}>
                 <ActionInput></ActionInput>
             </ActionButton>
+            <section className="columns">
+            {Object.keys(boardState.columns.byId).map( k => {
+                const column = boardState.columns.byId[k];
+                return(
+                    <dl>
+                        <dt>{column.name}</dt>
+                    </dl>
+                )
+            })}
+            </section>
         </StyledBoard>
 
     )
@@ -24,10 +39,7 @@ export function NewBoard({name = "Get Started"}){
 
 }
 
-NewBoard.propTypes = {
-    name:PropTypes.string
-}
-
+NewBoard.propTypes = propTypes;
 
 
 const StyledBoard = styled.section `
