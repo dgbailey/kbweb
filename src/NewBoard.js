@@ -1,16 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import {ActionButton} from './ActionButton';
+import {ActionButton} from './Button';
 import {ActionInput} from './ActionInput';
 
 
 
 export function NewBoard({name = "Get Started"}){
 
-    const stopPropagation = (e) => {
-        e.stopPropagation();
-    }
+
 
     return (
 

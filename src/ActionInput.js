@@ -1,7 +1,7 @@
-import React,{useState} from 'react';
+import React,{useState,useContext} from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-
+import {ActionButtonContext} from './Button';
 
 
 const propTypes = {
@@ -25,22 +25,26 @@ const defaultProps = {
 
 
 export const ActionInput = props => {
-
+    const value = useContext(ActionButtonContext);
+   
+    const rootToggle = (e) => {e.nativeEvent.stopImmediatePropagation()}
     const {name,placeHolder,type,maxLength,toggleText,submitText} = props;
     const [inputState,setInputState] = useState({});
     const stopPropagation = (e) => {
         e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
     }
     const handleChange = e => {
         let newState = {};
         newState[e.target.name] = e.target.value;
         setInputState({...inputState,...newState});
     }
+
     return (
         <>
             <StyledInput onChange={handleChange} onClick={stopPropagation} name={name} placeHolder={placeHolder} type={type} maxLength={maxLength}></StyledInput>
-            <StyledButton>{submitText}</StyledButton>
-            <StyledButton>{toggleText}</StyledButton>
+            <StyledButton type='button'>{submitText}</StyledButton>
+            <StyledButton type='button' onClick={rootToggle}>{toggleText}</StyledButton>
         </>
         
     )
