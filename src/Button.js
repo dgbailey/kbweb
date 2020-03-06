@@ -21,12 +21,13 @@ export const ActionButton = props => {
     const savedToggleStateForListener = useRef();
 
     const stopPropagation = (e) => {
+        e.stopPropagation();
         //https://stackoverflow.com/questions/24415631/reactjs-syntheticevent-stoppropagation-only-works-with-react-events
         e.nativeEvent.stopImmediatePropagation();
     }
 
-    const componentToggle = () => {
-
+    const componentToggle = (e) => {
+       
         setToggleState(!toggled);
     }
 
@@ -46,7 +47,7 @@ export const ActionButton = props => {
 
         function documentToggleListener(){
             
-            document.addEventListener('click',() => {
+            document.addEventListener('click',(e) => {
                 
                 listenerToggle();
             })
@@ -57,7 +58,7 @@ export const ActionButton = props => {
 
     return (    
        
-        <StyledButton   onClick={(e) => {stopPropagation(e);componentToggle()}}>
+        <StyledButton   onClick={(e) => {stopPropagation(e);componentToggle(e)}}>
             <h4 className={`${toggled ? 'hidden':'btn-description'}`}>{description}</h4>
             <StyledVisArea className={toggled ? "":"hidden"}>
                 {children}
@@ -73,7 +74,7 @@ export const ActionButton = props => {
 ActionButton.propTypes = propTypes;
 ActionButton.defaultProps = defaultProps;
 
-const StyledButton = styled.button `
+const StyledButton = styled.div `
     display:flex;
     flex-direction:column;
     background:gray;

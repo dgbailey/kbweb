@@ -32,6 +32,9 @@ export const ActionInput = props => {
 
     const stopClickPropagationToMyParents = (e) => {
         //TODO explore why we need both here
+        if(e.keyCode === 32){
+            e.preventDefault();
+        }
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
     }
