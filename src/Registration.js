@@ -50,10 +50,8 @@ export const Registration = () => {
    //will not display new redux state if you are depending on it to show some change with async
 
     function generateNewHomeBoard(){
-        let newBoardId = uuid4();
-        let defaultBoardName = 'Get-Started';
-        let newBoardIdFormatted = newBoardId.replace(/-/g,"");
-        history.push(`/board/experimental/${defaultBoardName}-${newBoardIdFormatted}`);
+        
+        history.push(`/board/experimental/`);
     }
  
     //a reducer for state of login

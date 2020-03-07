@@ -1,4 +1,4 @@
-import React,{useState,useContext} from 'react';
+import React,{useState} from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux';
@@ -15,7 +15,7 @@ const propTypes = {
 
 const defaultProps = {
     placeHolder:"Type column name",
-    name:"name",
+    name:"colName",
     type:"text",
     maxLength:1200,
     submitText:"Add",
@@ -25,16 +25,13 @@ const defaultProps = {
 
 
 export const ActionInput = props => {
-   
     const dispatch = useDispatch();
     const {name,placeHolder,type,maxLength,toggleText,submitText} = props;
     const [inputState,setInputState] = useState({});
 
     const stopClickPropagationToMyParents = (e) => {
         //TODO explore why we need both here
-        if(e.keyCode === 32){
-            e.preventDefault();
-        }
+    
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
     }

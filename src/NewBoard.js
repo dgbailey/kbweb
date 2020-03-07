@@ -1,58 +1,64 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import {ActionButton} from './Button';
-import {ActionInput} from './ActionInput';
-import {useSelector} from 'react-redux';
+import { ActionButton } from './Button';
+import { ActionInput } from './ActionInput';
+import { useSelector, useDispatch } from 'react-redux';
+import { addBoard } from './actions/addBoard';
 
 const propTypes = {
-    name:PropTypes.string
-}
+	name: PropTypes.string
+};
 
+export function NewBoard({ name = 'Get Started' }) {
+	const boardState = useSelector((state) => state.expBoard);
+	const dispatch = useDispatch();
 
-export function NewBoard({name = "Get Started"}){
+	useEffect(() => {
+		addBoard({ name }, dispatch);
+	}, []);
 
-    const boardState = useSelector(state => state.expBoard);
-
-
-    return (
-
-        <StyledBoard>
-            <h1>{name}</h1>
-            <ActionButton description={"Custom Name"}>
-                <ActionInput></ActionInput>
-            </ActionButton>
-            <section className="columns">
-            {Object.keys(boardState.columns.byId).map( k => {
-                const column = boardState.columns.byId[k];
-                return(
-                    <dl>
-                        <dt>{column.name}</dt>
-                    </dl>
-                )
-            })}
-            </section>
-        </StyledBoard>
-
-    )
-
-
+	return (
+		<StyledBoard>
+			{/* <h1>{name}</h1> */}
+			{boardState.addBoardStart ? (
+				<section>...Loading</section>
+			) : (
+				
+					Object.keys(boardState.columns.byId).map((k) => {
+						const column = boardState.columns.byId[k];
+						return (
+							<section className="columns">
+							<dl>
+								<dt>{column.column_name}</dt>
+							</dl>
+							</section>
+						);
+					})
+				
+			)}
+			<ActionButton description={'Custom Name'}>
+				<ActionInput />
+			</ActionButton>
+		</StyledBoard>
+	);
 }
 
 NewBoard.propTypes = propTypes;
 
+const StyledBoard = styled.section`
+	height: 800px;
+	width: 1000px;
+	margin: 100px auto;
+	border: 1px solid black;
+	display:flex;
+	flex-wrap:wrap;
+	
+	justify-content:flex-start;
 
-const StyledBoard = styled.section `
+	h1 {
+		font-size: 20px;
+		font-weight: 800;
+	}
 
-    height:800px;
-    width:1000px;
-    margin:100px auto;
-    border:1px solid black;
-
-    h1{
-        font-size:20px;
-        font-weight:800;
-    }
-
-
-`
+`;
