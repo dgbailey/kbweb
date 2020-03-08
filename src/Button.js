@@ -14,7 +14,7 @@ const defaultProps = {
 
 //dear dustin you don't even need context here.  The onclick toggle will bubble up from children.  You just need to decide which children you want to exclude from this bubbling.
 export const ActionButton = (props) => {
-	const { description, children, style = {} } = props;
+	const { description, children, style } = props;
 	const [ toggled, setToggleState ] = useState(false);
 
 	const savedToggleIdentityForListener = useRef();
@@ -73,16 +73,17 @@ ActionButton.defaultProps = defaultProps;
 const StyledButton = styled.div`
 	display: flex;
 	flex-direction: column;
-	background: gray;
-	opacity: .3;
-	position: relative;
-	width: 200px;
+	background: lightgray;
 	height: 50px;
-	border-radius: 3px;
 	justify-content: center;
-
 	padding: 0px;
-	border: 0px;
+	transition: .1s ease;
+	margin: 3px;
+	border-radius: 3px;
+	&:hover {
+		cursor: pointer;
+		background: gray;
+	}
 	.hidden {
 		display: none;
 		opacity: 1;
@@ -91,14 +92,16 @@ const StyledButton = styled.div`
 
 const StyledVisArea = styled.form`
 	height: 60px;
-	transition: 2s ease;
-	background: lightgray;
+
 	opacity: 1;
 	display: flex;
 	flex-wrap: wrap;
 	padding: 2px;
 
 	justify-content: space-between;
+	&:hover {
+		background: gray;
+	}
 	&.hidden {
 		height: 0px;
 		opacity: .2;

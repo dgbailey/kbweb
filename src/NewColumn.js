@@ -20,9 +20,11 @@ export const NewColumn = (props) => {
 const StyledNewColumn = styled.div`
 	width: 250px;
 	max-height: 600px;
-	border: 1px solid green;
+	margin: 0px 5px;
+
 	.column-content {
 		background: lightgray;
+		border-radius: 5px;
 	}
 `;
 

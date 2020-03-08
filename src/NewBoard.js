@@ -26,6 +26,12 @@ export function NewBoard({ name = 'Get Started' }) {
 		addBoard({ name }, dispatch);
 	}, []);
 
+	const grabItemsByColumnId = (colId) => {
+		let ids = Object.keys(items.byId).filter((itemKey) => items.byId[itemKey].column_id === colId);
+		let itemObjects = ids.map((id) => items.byId[id]);
+		return itemObjects;
+	};
+
 	return (
 		<StyledBoard>
 			{/* <h1>{name}</h1> */}
@@ -34,12 +40,15 @@ export function NewBoard({ name = 'Get Started' }) {
 			) : (
 				Object.keys(columns.byId).map((k) => {
 					const { column_name: name, column_id: colId } = columns.byId[k];
+					const itemsByColumnId = grabItemsByColumnId(colId);
+					{
+						/* not sure what is more performant:grabbing items here or in body component */
+					}
 					return (
 						<NewColumn columnId={colId}>
 							<NewColumnHeader name={name} />
-							<NewColumnBody items={items} />
-							{/* we need to filter body items by col id */}
-							<ActionButton style={abStyles} description={'Add Card'}>
+							<NewColumnBody items={itemsByColumnId} />
+							<ActionButton description={'Add Card'}>
 								<ActionInput
 									name={'itemContent'}
 									relationId={{ colId, boardId }}
@@ -50,7 +59,7 @@ export function NewBoard({ name = 'Get Started' }) {
 					);
 				})
 			)}
-			<ActionButton description={'Add Column'}>
+			<ActionButton style={abStyles} description={'Add Column'}>
 				<ActionInput name={'colName'} relationId={{ boardId }} submitAction={addColumn} />
 			</ActionButton>
 		</StyledBoard>
@@ -59,16 +68,19 @@ export function NewBoard({ name = 'Get Started' }) {
 
 NewBoard.propTypes = propTypes;
 
-const abStyles = { opacity: '1', 'justify-content': 'center', width: '100%', 'border-radius': '0px' };
-const aiStyles = {};
+const abStyles = {
+	opacity: 0.7,
+	'justify-content': 'center',
+	'border-radius': '3px',
+	width: '200px'
+};
+
 const StyledBoard = styled.section`
 	height: 800px;
 	width: 1000px;
 	margin: 100px auto;
-	border: 1px solid black;
 	display: flex;
 	flex-wrap: wrap;
-
 	justify-content: flex-start;
 
 	h1 {

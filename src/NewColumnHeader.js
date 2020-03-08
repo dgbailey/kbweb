@@ -19,7 +19,6 @@ export const NewColumnHeader = (props) => {
 };
 
 const StyledColumnHEader = styled.div`
-	border: 1px solid orange;
 	width: 100%;
 	height: 50px;
 	display: flex;
