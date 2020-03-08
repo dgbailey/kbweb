@@ -7,6 +7,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addBoard } from './actions/addBoard';
 import { NewColumn } from './NewColumn';
 import { NewColumnHeader } from './NewColumnHeader';
+import { NewColumnBody } from './NewColumnBody';
+import { addColumn } from './actions/addColumn';
+import { addItem } from './actions/addItem';
 
 const propTypes = {
 	name: PropTypes.string
@@ -14,6 +17,9 @@ const propTypes = {
 
 export function NewBoard({ name = 'Get Started' }) {
 	const boardState = useSelector((state) => state.expBoard);
+	const { activeBoard: boardId, columns, addBoardStart, items } = boardState;
+	console.log('boardactive', boardId);
+
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -23,22 +29,29 @@ export function NewBoard({ name = 'Get Started' }) {
 	return (
 		<StyledBoard>
 			{/* <h1>{name}</h1> */}
-			{boardState.addBoardStart ? (
+			{addBoardStart ? (
 				<section>...Loading</section>
 			) : (
-				Object.keys(boardState.columns.byId).map((k) => {
-					const { column_name: name } = boardState.columns.byId[k];
+				Object.keys(columns.byId).map((k) => {
+					const { column_name: name, column_id: colId } = columns.byId[k];
 					return (
-						<NewColumn>
+						<NewColumn columnId={colId}>
 							<NewColumnHeader name={name} />
-							{/* colbody ul/ */}
-							{/* col body contains colitems li */}
+							<NewColumnBody items={items} />
+							{/* we need to filter body items by col id */}
+							<ActionButton style={abStyles} description={'Add Card'}>
+								<ActionInput
+									name={'itemContent'}
+									relationId={{ colId, boardId }}
+									submitAction={addItem}
+								/>
+							</ActionButton>
 						</NewColumn>
 					);
 				})
 			)}
-			<ActionButton description={'Custom Name'}>
-				<ActionInput />
+			<ActionButton description={'Add Column'}>
+				<ActionInput name={'colName'} relationId={{ boardId }} submitAction={addColumn} />
 			</ActionButton>
 		</StyledBoard>
 	);
@@ -46,6 +59,8 @@ export function NewBoard({ name = 'Get Started' }) {
 
 NewBoard.propTypes = propTypes;
 
+const abStyles = { opacity: '1', 'justify-content': 'center', width: '100%', 'border-radius': '0px' };
+const aiStyles = {};
 const StyledBoard = styled.section`
 	height: 800px;
 	width: 1000px;

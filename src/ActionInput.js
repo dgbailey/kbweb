@@ -2,7 +2,6 @@ import React,{useState} from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux';
-import {addColumn} from './actions/addColumn';
 
 const propTypes = {
     placeHolder:PropTypes.string,
@@ -10,23 +9,29 @@ const propTypes = {
     type:PropTypes.string,
     maxLength:PropTypes.number,
     submitText:PropTypes.string,
-    toggleText:PropTypes.string
+    toggleText:PropTypes.string,
+    style:PropTypes.object,
+    submitAction:PropTypes.func,
+    relationId:PropTypes.string,
 }
 
 const defaultProps = {
-    placeHolder:"Type column name",
-    name:"colName",
+    placeHolder:"Enter text default",
+    name:"name default",
     type:"text",
     maxLength:1200,
     submitText:"Add",
-    toggleText:"Exit"
+    toggleText:"Exit",
+    style:{},
+    submitAction:(object,dispatch) => alert('component needs submit action')
 
 }
 
 
 export const ActionInput = props => {
     const dispatch = useDispatch();
-    const {name,placeHolder,type,maxLength,toggleText,submitText} = props;
+    const {relationId, submitAction,name,placeHolder,type,maxLength,toggleText,submitText} = props;
+    console.log('relationid actioninput',relationId)
     const [inputState,setInputState] = useState({});
 
     const stopClickPropagationToMyParents = (e) => {
@@ -36,8 +41,9 @@ export const ActionInput = props => {
         e.nativeEvent.stopImmediatePropagation();
     }
     const clickActionAggregator = e => {
+        
         stopClickPropagationToMyParents(e);
-        addColumn(inputState,dispatch);
+        submitAction({...inputState,relationId},dispatch);
     }
     const handleChange = e => {
         let newState = {};
@@ -58,8 +64,9 @@ export const ActionInput = props => {
 const StyledInput = styled.input `
 
     width:100%;
-    height:100%;
     margin:0px;
+    background:white;
+    border-radius:inherit;
 
 
 `

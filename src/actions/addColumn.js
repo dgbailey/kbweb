@@ -6,8 +6,10 @@ export const ADD_COL_FAILURE = 'ADD_COL_FAILURE';
 const addColUri = process.env.REACT_APP_DEV_BASE_URI + '/columns';
 
 export const addColumn = async (colObject, dispatch) => {
-	let boardId = window.localStorage.getItem('ab');
-	const fetchUri = queryStringGenerator(addColUri, { ...colObject, boardId });
+	console.log('colobject', colObject);
+	const { relationId, colName } = colObject;
+	console.log('actionRel', relationId);
+	const fetchUri = queryStringGenerator(addColUri, { colName, ...relationId });
 	let metaData = {
 		method: 'POST',
 		headers: {
@@ -21,7 +23,7 @@ export const addColumn = async (colObject, dispatch) => {
 		let json = await column.json();
 		dispatch({ type: ADD_COL_SUCCESS, payload: json });
 	} catch (error) {
-        console.log('err',error)
+		console.log('err', error);
 		dispatch({ type: ADD_COL_FAILURE, payload: error });
 	}
 };

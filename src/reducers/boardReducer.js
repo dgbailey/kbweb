@@ -1,6 +1,8 @@
 import uuid4 from 'uuid4';
 import { ADD_COL_START, ADD_COL_SUCCESS, ADD_COL_FAILURE } from '../actions/addColumn';
 import { ADD_BOARD_START, ADD_BOARD_SUCCESS, ADD_BOARD_FAILURE } from '../actions/addBoard';
+import { ADD_ITEM_START, ADD_ITEM_SUCCESS, ADD_ITEM_FAILURE } from '../actions/addItem';
+
 const uuid0 = uuid4();
 const uuid1 = uuid4();
 const uuid2 = uuid4();
@@ -44,6 +46,10 @@ const experimentalBoardState = {
 	addBoardStart: false,
 	addBoardSuccess: false,
 	addBoardFailure: '',
+	addItemStart: false,
+	addItemSuccess: false,
+	addItemFailure: '',
+	activeBoard: null,
 
 	boards: {
 		byId: {
@@ -129,15 +135,16 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 			return {
 				...state,
 				addBoardStart: false,
-                addBoardSuccess: true,
-                boards:{
+				addBoardSuccess: true,
+				activeBoard: action.payload.board_id,
+				boards: {
 					...state.boards,
-					byId:{
+					byId: {
 						...state.boards.byId,
-						[action.payload.board_id]:action.payload
+						[action.payload.board_id]: action.payload
 					},
-					allIds:[...state.boards.allIds,action.payload.board_id]
-                }
+					allIds: [ ...state.boards.allIds, action.payload.board_id ]
+				}
 			};
 		case ADD_BOARD_FAILURE:
 			return {
@@ -161,11 +168,10 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 				addColumnSuccess: true,
 				columns: {
 					...state.columns,
-					byId:{
+					byId: {
 						...state.columns.byId,
 						[action.payload.column_id]: action.payload
 					}
-					
 				},
 				allIds: [ ...state.columns.allIds, action.payload.column_id ]
 			};
@@ -175,6 +181,34 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 				addColumnStart: false,
 				addColumnSuccess: false,
 				addColumnFailure: action.payload
+			};
+		case ADD_ITEM_START:
+			return {
+				...state,
+				addItemStart: true,
+				addItemSuccess: false,
+				addItemFailure: ''
+			};
+		case ADD_ITEM_SUCCESS:
+			return {
+				...state,
+				addItemStart: false,
+				addItemSuccess: true,
+				items: {
+					...state.items,
+					byId: {
+						...state.items.byId,
+						[action.payload.item_id]: action.payload
+					}
+				},
+				allIds: [ ...state.items.allIds, action.payload.item_id ]
+			};
+		case ADD_ITEM_FAILURE:
+			return {
+				...state,
+				addItemStart: false,
+				addItemSuccess: false,
+				addItemFailure: action.payload
 			};
 
 		default:
