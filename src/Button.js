@@ -91,7 +91,7 @@ const StyledButton = styled.div`
 `;
 
 const StyledVisArea = styled.form`
-	height: 60px;
+	height: 90px;
 
 	opacity: 1;
 	display: flex;
