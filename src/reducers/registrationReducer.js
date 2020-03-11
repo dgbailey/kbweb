@@ -1,41 +1,35 @@
-
 const initialState = {
-    registrationStart:false,
-    registrationSuccess:false,
-    registrationError:''
-}
+	registrationStart: false,
+	registrationSuccess: false,
+	registrationError: ''
+};
 
-export const registrationReducer = (state=initialState,action) =>{
+export const registrationReducer = (state = initialState, action) => {
+	switch (action.type) {
+		case 'START_REGISTRATION':
+			return {
+				...state,
+				registrationStart: true,
+				registrationStart: false,
+				registrationError: ''
+			};
 
-    switch(action.type){
+		case 'REGISTRATION_COMPLETE':
+			return {
+				...state,
+				registrationStart: false,
+				registrationSuccess: true
+			};
 
-        case 'START_REGISTRATION':
-            return {
-                ...state,
-                registrationStart:true,
-                registrationStart:false,
-                registrationError:''
-            }
+		case 'REGISTRATION_ERROR':
+			return {
+				...state,
+				registrationStart: false,
+				registrationSuccess: false,
+				registrationError: action.payload
+			};
 
-        case 'REGISTRATION_COMPLETE':
-            return {
-                ...state,
-                registrationStart:false,
-                registrationSuccess:true
-            }
-        
-        case 'REGISTRATION_ERROR':
-            return {
-                ...state,
-                registrationStart:false,
-                registrationSuccess:false,
-                registrationError:action.payload
-            }
-        
-        default:
-            return state
-    }
-
-
-
-}
+		default:
+			return state;
+	}
+};

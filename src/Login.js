@@ -8,17 +8,17 @@ import { preFlightAuthStatus } from './actions/preflightAuthStatus';
 
 export const Login = () => {
 	const loginStatus = useSelector((state) => state.loginStatus);
-	const [ credentials, setCredentials ] = useState({});
+	const [ credentials, setCredentials ] = useState({ username: '', password: '' });
 	const history = useHistory();
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		preFlightAuthStatus(dispatch, history);
-		//when first mounts check cookie status send get request to preflight url and return status
-		//push to board home that will fetch board info and set state
+		//when first mounts check cookie status. Sends GET request to preflight url and return status
 	}, []);
 
 	function handleChange(e) {
+		//TODO:Look into debouncing this
 		let capturedCredentials = {};
 		capturedCredentials[e.target.name] = e.target.value;
 		setCredentials({ ...credentials, ...capturedCredentials });
@@ -31,9 +31,21 @@ export const Login = () => {
 		return (
 			<StyledLogin>
 				{loginStatus.loginError && <div>{loginStatus.loginError}</div>}
-				<input onChange={handleChange} name="username" type="text" className="input username" />
+				<input
+					onChange={handleChange}
+					name="username"
+					value={credentials.name}
+					type="text"
+					className="input username"
+				/>
 
-				<input onChange={handleChange} name="password" className="input password" type="password" />
+				<input
+					onChange={handleChange}
+					name="password"
+					value={credentials.password}
+					className="input password"
+					type="password"
+				/>
 				<Link>
 					<button onClick={sendCredentials} className="login-btn">
 						Login
@@ -43,16 +55,17 @@ export const Login = () => {
 			</StyledLogin>
 		);
 	}
+	function renderRedirect() {
+		return <Redirect to={`/home`} />;
+	}
 
 	function renderLoginConditionally() {
-		switch (loginStatus) {
-			case loginStatus.loginStart:
-				return renderLogin();
-			case loginStatus.loginSuccess:
-				history.push(`/board/experimental/`);
-			case loginStatus.loginFailure:
-				return renderLogin();
+		switch (loginStatus.loginSuccess) {
+			case true:
+				console.log('success');
+				return renderRedirect();
 			default:
+				console.log('default', loginStatus);
 				return renderLogin();
 		}
 	}

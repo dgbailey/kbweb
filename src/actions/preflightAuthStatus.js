@@ -1,7 +1,7 @@
-const PREFLIGHT_AUTH_URL = 'http://localhost:8080/flow/login/preflight';
-const FETCHING_START_METADATA = 'FETCHING_USER_METADATA';
-const FETCHING_SUCCESS_METADATA = 'FETCHING_SUCCESS_METADATA';
-const FETCHING_FAILURE_METADATA = 'FETCHING_USER_METADATA';
+export const PREFLIGHT_AUTH_URL = 'http://localhost:8080/flow/login/preflight';
+export const FETCHING_START_METADATA = 'FETCHING_USER_METADATA';
+export const FETCHING_SUCCESS_METADATA = 'FETCHING_SUCCESS_METADATA';
+export const FETCHING_FAILURE_METADATA = 'FETCHING_USER_METADATA';
 
 export const preFlightAuthStatus = async (dispatch, history) => {
 	try {

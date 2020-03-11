@@ -16,7 +16,7 @@ export const registerCredentialsAction = async (creds, dispatch) => {
 
 		if (response.status === 200) {
 			dispatch({ type: 'REGISTRATION_COMPLETE' });
-			window.localStorage.setItem('kbt', responseResolved);
+
 			//needthis in local storage for now in order to push
 			dispatch({ type: 'FETCHING_SUCCESS_METADATA', payload: { userId, userName } });
 		} else {

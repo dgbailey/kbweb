@@ -17,13 +17,15 @@ const propTypes = {
 
 export function NewBoard({ name = 'Get Started' }) {
 	const boardState = useSelector((state) => state.expBoard);
+	const userMetaData = useSelector((state) => state.userMetaData);
 	const { activeBoard: boardId, columns, addBoardStart, items } = boardState;
+	const { id: userId } = userMetaData;
 	console.log('boardactive', boardId);
 
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		addBoard({ name }, dispatch);
+		addBoard({ name, userId }, dispatch);
 	}, []);
 
 	const grabItemsByColumnId = (colId) => {

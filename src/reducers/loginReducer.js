@@ -43,8 +43,7 @@ export const loginReducer = (state = initialState, action) => {
 			return {
 				...state,
 				loginStart: false,
-				loginSuccess: true,
-				loginPayload: action.payload
+				loginSuccess: true
 			};
 
 		case FETCH_LOGIN_FAILURE:

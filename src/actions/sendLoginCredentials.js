@@ -1,7 +1,9 @@
+import { FETCHING_SUCCESS_METADATA } from '../actions/preflightAuthStatus';
 export const loginUri = 'http://localhost:8080/flow/login';
 export const FETCH_LOGIN_START = 'FETCH_LOGIN_START';
 export const FETCH_LOGIN_SUCCESS = 'FETCH_LOGIN_SUCCESS';
 export const FETCH_LOGIN_FAILURE = 'FETCH_LOGIN_FAILURE';
+
 export const loginCredentialsAction = async (creds, dispatch) => {
 	try {
 		//remember 400/500 are responses not network errors.  You still need to check if the response is good
@@ -17,7 +19,9 @@ export const loginCredentialsAction = async (creds, dispatch) => {
 		let jsonResolved = await response.json();
 
 		if (response.status === 200) {
-			dispatch({ type: FETCH_LOGIN_SUCCESS, payoad: jsonResolved });
+			dispatch({ type: FETCH_LOGIN_SUCCESS });
+			console.log('js', jsonResolved);
+			dispatch({ type: FETCHING_SUCCESS_METADATA, payload: jsonResolved });
 		} else {
 			throw new Error(jsonResolved);
 		}
