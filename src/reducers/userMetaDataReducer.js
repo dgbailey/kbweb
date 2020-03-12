@@ -24,16 +24,17 @@ export const userMetaDataReducer = (state = initialState, action) => {
 				fetchStart: false,
 				fetchSuccess: true,
 				id: action.payload.userId,
-				userName: action.payload.username,
-				boardIds: action.payload.metaData
+				userName: action.payload.userName,
+				boardIds: action.payload.metaData || []
 			};
 		case FETCHING_FAILURE_METADATA:
 			return {
 				...state,
 				fetchStart: false,
 				fetchSuccess: true,
-				id: action.payload.userId,
-				boardIds: action.payload.metaData[1]
+				id: null,
+				boardIds: [],
+				fetchFailure: action.payload
 			};
 		default:
 			return state;

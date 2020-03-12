@@ -6,28 +6,51 @@ import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Preview } from './Preview';
 import { formatBoardUuid } from './utilities/formatBoardUuid';
+import {addBoard} from './actions/addBoard';
+import {useHistory} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
 
 export const Home = () => {
-	const pathPrefix = '/home/';
-	const boardMetaData = useSelector((state) => state.userMetaData.boardIds);
 
-	const boardURIprefix = '/board/';
+	const boardMetaData = useSelector((state) => state.userMetaData.boardIds);
+	const dispatch = useDispatch();
+	const history = useHistory();
+	const boardURIprefix = '/board/existing';
+	const userMetaData = useSelector((state) => state.userMetaData);
+	const { id: userId } = userMetaData;
+	const name = 'Get-Started'
+
+	async function addNewBoard(){
+	
+		let board = await addBoard({userId,name},dispatch);
+		console.log(board)
+		history.push(boardURIprefix + "/" + name + "-" + formatBoardUuid(board.board_id))
+
+	}
+	function renderPreviews(){
+		
+			return (
+				<>
+			
+				{boardMetaData.map((b) => (
+					<Preview
+						to={boardURIprefix + b.name + '-' + formatBoardUuid(b.board_id)}
+						key={b.board_id}
+						id={b.board_id}
+						name={b.name}
+					/>
+				))}
+				</>
+			)
+		}
+	
 
 	return (
-		// home catalogue
-		// displays links to user boards
-
 		<StyledHome>
-			{boardMetaData.map((b) => (
-				<Preview
-					to={boardURIprefix + b.name + '-' + formatBoardUuid(b.board_id)}
-					key={b.board_id}
-					id={b.board_id}
-					name={b.name}
-				/>
-			))}
+			<button onClick={addNewBoard}>Create New Board</button>
+			{boardMetaData.length > 0 && renderPreviews()}
 		</StyledHome>
-	);
+	)
 };
 
 const StyledHome = styled.section`
