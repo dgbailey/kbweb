@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { ActionButton } from './Button';
 import { ActionInput } from './ActionInput';
 import { useSelector, useDispatch } from 'react-redux';
-import { addBoard } from './actions/addBoard';
 import { NewColumn } from './NewColumn';
 import { NewColumnHeader } from './NewColumnHeader';
 import { NewColumnBody } from './NewColumnBody';
@@ -30,11 +29,12 @@ export function NewBoard({ name = 'Get Started', onMountNewUser }) {
 
 	useEffect(() => {
 		//https://reactjs.org/docs/hooks-rules.html
-		if (onMountNewUser) {
-			addBoard({ name, userId }, dispatch);
-		} else {
-			//fetch all board data
-		}
+		// if (onMountNewUser) {
+		// 	addBoard({ name, userId }, dispatch);
+		// } else {
+		// 	//fetch all board data
+		// }
+		//TODO:Onmount parse board url according to /{board-Name}-{boardUuid}
 	}, []);
 
 	const grabItemsByColumnId = (colId) => {
