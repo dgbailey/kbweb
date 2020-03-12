@@ -12,20 +12,29 @@ import { addColumn } from './actions/addColumn';
 import { addItem } from './actions/addItem';
 
 const propTypes = {
-	name: PropTypes.string
+	name: PropTypes.string,
+	onMountNewUser: PropTypes.bool
 };
 
-export function NewBoard({ name = 'Get Started' }) {
+const defaultProps = {
+	onMountNewUser: true
+};
+
+export function NewBoard({ name = 'Get Started', onMountNewUser }) {
 	const boardState = useSelector((state) => state.expBoard);
 	const userMetaData = useSelector((state) => state.userMetaData);
 	const { activeBoard: boardId, columns, addBoardStart, items } = boardState;
 	const { id: userId } = userMetaData;
-	console.log('boardactive', boardId);
 
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		addBoard({ name, userId }, dispatch);
+		//https://reactjs.org/docs/hooks-rules.html
+		if (onMountNewUser) {
+			addBoard({ name, userId }, dispatch);
+		} else {
+			//fetch all board data
+		}
 	}, []);
 
 	const grabItemsByColumnId = (colId) => {
@@ -69,7 +78,7 @@ export function NewBoard({ name = 'Get Started' }) {
 }
 
 NewBoard.propTypes = propTypes;
-
+NewBoard.defaultProps = defaultProps;
 const abStyles = {
 	opacity: 0.7,
 	'justify-content': 'center',
