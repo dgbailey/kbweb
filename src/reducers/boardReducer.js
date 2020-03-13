@@ -212,6 +212,35 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 				addColumnSuccess: false,
 				addColumnFailure: action.payload
 			};
+		case FETCH_COL_START:
+			return {
+				...state,
+				fetchColumnStart: true,
+				fetchColumnSuccess: false,
+				fetchColumnFailure: ''
+			};
+		case FETCH_COL_SUCCESS:
+			return {
+				...state,
+				fetchColumnStart: false,
+				fetchColumnSuccess: true,
+				columns: {
+					...state.columns,
+					byId: {
+						...state.columns.byId,
+						[action.payload.column_id]: action.payload
+					}
+				},
+				allIds: [ ...state.columns.allIds, action.payload.column_id ]
+			};
+		case FETCH_COL_FAILURE:
+			return {
+				...state,
+				fetchColumnStart: false,
+				fetchColumnSuccess: false,
+				fetchColumnFailure: action.payload
+			};
+
 		case ADD_ITEM_START:
 			return {
 				...state,
@@ -239,6 +268,34 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 				addItemStart: false,
 				addItemSuccess: false,
 				addItemFailure: action.payload
+			};
+		case FETCH_ITEM_START:
+			return {
+				...state,
+				fetchItemStart: true,
+				fetchItemSuccess: false,
+				fetchItemFailure: ''
+			};
+		case FETCH_ITEM_SUCCESS:
+			return {
+				...state,
+				fetchItemStart: false,
+				fetchItemSuccess: true,
+				items: {
+					...state.items,
+					byId: {
+						...state.items.byId,
+						[action.payload.item_id]: action.payload
+					}
+				},
+				allIds: [ ...state.items.allIds, action.payload.item_id ]
+			};
+		case FETCH_ITEM_FAILURE:
+			return {
+				...state,
+				fetchItemStart: false,
+				fetchItemSuccess: false,
+				fetchItemFailure: action.payload
 			};
 
 		default:
