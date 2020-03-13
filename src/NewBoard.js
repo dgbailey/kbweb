@@ -11,7 +11,10 @@ import { addColumn } from './actions/addColumn';
 import { addItem } from './actions/addItem';
 import { parseUriIntoFormattedUuid } from './utilities/parseUriIntoFormattedUuid';
 import { useHistory } from 'react-router-dom';
-
+import { parallelRequests } from './utilities/http/parallelRequests';
+import { fetchBoardByBoardId } from './actions/fetchBoardByBoardId';
+import { fetchColumnsByBoardId } from './actions/fetchColumnsByBoardId';
+import { fetchItemsByBoardId } from './actions/fetchItemsByBoardId';
 const propTypes = {
 	name: PropTypes.string,
 	onMountNewUser: PropTypes.bool
@@ -26,9 +29,12 @@ export function NewBoard({ name = 'Get Started' }) {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		//TODO:Onmount parse board url according to /{board-Name}-{boardUuid}
 		let formattedUuid = parseUriIntoFormattedUuid(history.location);
-		//pass this to fetchBoard
+		parallelRequests(
+			fetchBoardByBoardId(formattedUuid, dispatch),
+			fetchColumnsByBoardId(formattedUuid, dispatch),
+			fetchItemsByBoardId(formattedUuid, dispatch)
+		);
 	}, []);
 
 	const grabItemsByColumnId = (colId) => {
