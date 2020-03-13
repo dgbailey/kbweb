@@ -3,6 +3,7 @@ import { formatUuid } from './formatUuid';
 import { format } from 'url';
 
 export const parseUriIntoFormattedUuid = (uriString) => {
+	console.log('uRIstring', uriString);
 	let indexOfLastHyphen = uriString.lastIndexOf('-');
 	let unformattedBoardUuid = uriString.slice(indexOfLastHyphen + 1);
 	return formatUuid(unformattedBoardUuid);

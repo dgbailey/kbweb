@@ -18,13 +18,14 @@ export const Home = () => {
 	const boardURIprefix = '/board/existing';
 	const userMetaData = useSelector((state) => state.userMetaData);
 	const { id: userId } = userMetaData;
-	const name = 'Get-Started'
+	const name = 'Get-Started';
 
 	async function addNewBoard(){
 	
 		let board = await addBoard({userId,name},dispatch);
 		console.log(board)
-		history.push(boardURIprefix + "/" + name + "-" + formatBoardUuid(board.board_id))
+		let newUri = boardURIprefix + "/" + name + "-" + formatBoardUuid(board.board_id)
+		history.push(newUri)
 
 	}
 	function renderPreviews(){
@@ -34,7 +35,7 @@ export const Home = () => {
 			
 				{boardMetaData.map((b) => (
 					<Preview
-						to={boardURIprefix + b.name + '-' + formatBoardUuid(b.board_id)}
+						to={boardURIprefix +'/' + b.name + '-' + formatBoardUuid(b.board_id)}
 						key={b.board_id}
 						id={b.board_id}
 						name={b.name}

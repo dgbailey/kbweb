@@ -29,7 +29,8 @@ export function NewBoard({ name = 'Get Started' }) {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		let formattedUuid = parseUriIntoFormattedUuid(history.location);
+		let formattedUuid = parseUriIntoFormattedUuid(history.location.pathname);
+
 		parallelRequests(
 			fetchBoardByBoardId(formattedUuid, dispatch),
 			fetchColumnsByBoardId(formattedUuid, dispatch),
@@ -78,7 +79,7 @@ export function NewBoard({ name = 'Get Started' }) {
 }
 
 NewBoard.propTypes = propTypes;
-NewBoard.defaultProps = defaultProps;
+
 const abStyles = {
 	opacity: 0.7,
 	'justify-content': 'center',

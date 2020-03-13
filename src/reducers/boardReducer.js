@@ -2,6 +2,16 @@ import uuid4 from 'uuid4';
 import { ADD_COL_START, ADD_COL_SUCCESS, ADD_COL_FAILURE } from '../actions/addColumn';
 import { ADD_BOARD_START, ADD_BOARD_SUCCESS, ADD_BOARD_FAILURE } from '../actions/addBoard';
 import { FETCH_BOARD_START, FETCH_BOARD_SUCCESS, FETCH_BOARD_FAILURE } from '../actions/fetchBoardByBoardId';
+import {
+	FETCH_BOARDCOLS_START,
+	FETCH_BOARDCOLS_SUCCESS,
+	FETCH_BOARDCOLS_FAILURE
+} from '../actions/fetchColumnsByBoardId';
+import {
+	FETCH_BOARDITEMS_START,
+	FETCH_BOARDITEMS_SUCCESS,
+	FETCH_BOARDITEMS_FAILURE
+} from '../actions/fetchItemsByBoardId';
 import { ADD_ITEM_START, ADD_ITEM_SUCCESS, ADD_ITEM_FAILURE } from '../actions/addItem';
 
 const uuid0 = uuid4();
@@ -212,14 +222,14 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 				addColumnSuccess: false,
 				addColumnFailure: action.payload
 			};
-		case FETCH_COL_START:
+		case FETCH_BOARDCOLS_START:
 			return {
 				...state,
 				fetchColumnStart: true,
 				fetchColumnSuccess: false,
 				fetchColumnFailure: ''
 			};
-		case FETCH_COL_SUCCESS:
+		case FETCH_BOARDCOLS_SUCCESS:
 			return {
 				...state,
 				fetchColumnStart: false,
@@ -228,12 +238,15 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 					...state.columns,
 					byId: {
 						...state.columns.byId,
-						[action.payload.column_id]: action.payload
+						...action.payload.reduce((obj, v) => {
+							obj[v.column_id] = v;
+							return obj;
+						}, {})
 					}
 				},
 				allIds: [ ...state.columns.allIds, action.payload.column_id ]
 			};
-		case FETCH_COL_FAILURE:
+		case FETCH_BOARDCOLS_FAILURE:
 			return {
 				...state,
 				fetchColumnStart: false,
@@ -269,14 +282,14 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 				addItemSuccess: false,
 				addItemFailure: action.payload
 			};
-		case FETCH_ITEM_START:
+		case FETCH_BOARDITEMS_START:
 			return {
 				...state,
 				fetchItemStart: true,
 				fetchItemSuccess: false,
 				fetchItemFailure: ''
 			};
-		case FETCH_ITEM_SUCCESS:
+		case FETCH_BOARDITEMS_SUCCESS:
 			return {
 				...state,
 				fetchItemStart: false,
@@ -285,12 +298,15 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 					...state.items,
 					byId: {
 						...state.items.byId,
-						[action.payload.item_id]: action.payload
+						...action.payload.reduce((obj, v) => {
+							obj[v.item_id] = v;
+							return obj;
+						}, {})
 					}
 				},
 				allIds: [ ...state.items.allIds, action.payload.item_id ]
 			};
-		case FETCH_ITEM_FAILURE:
+		case FETCH_BOARDITEMS_FAILURE:
 			return {
 				...state,
 				fetchItemStart: false,
