@@ -9,32 +9,26 @@ import { NewColumnHeader } from './NewColumnHeader';
 import { NewColumnBody } from './NewColumnBody';
 import { addColumn } from './actions/addColumn';
 import { addItem } from './actions/addItem';
+import { parseUriIntoFormattedUuid } from './utilities/parseUriIntoFormattedUuid';
+import { useHistory } from 'react-router-dom';
 
 const propTypes = {
 	name: PropTypes.string,
 	onMountNewUser: PropTypes.bool
 };
 
-const defaultProps = {
-	onMountNewUser: true
-};
-
-export function NewBoard({ name = 'Get Started', onMountNewUser }) {
+export function NewBoard({ name = 'Get Started' }) {
 	const boardState = useSelector((state) => state.expBoard);
-	const userMetaData = useSelector((state) => state.userMetaData);
 	const { activeBoard: boardId, columns, addBoardStart, items } = boardState;
+	const userMetaData = useSelector((state) => state.userMetaData);
 	const { id: userId } = userMetaData;
-
+	const history = useHistory();
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		//https://reactjs.org/docs/hooks-rules.html
-		// if (onMountNewUser) {
-		// 	addBoard({ name, userId }, dispatch);
-		// } else {
-		// 	//fetch all board data
-		// }
 		//TODO:Onmount parse board url according to /{board-Name}-{boardUuid}
+		let formattedUuid = parseUriIntoFormattedUuid(history.location);
+		//pass this to fetchBoard
 	}, []);
 
 	const grabItemsByColumnId = (colId) => {

@@ -1,6 +1,7 @@
 import uuid4 from 'uuid4';
 import { ADD_COL_START, ADD_COL_SUCCESS, ADD_COL_FAILURE } from '../actions/addColumn';
 import { ADD_BOARD_START, ADD_BOARD_SUCCESS, ADD_BOARD_FAILURE } from '../actions/addBoard';
+import { FETCH_BOARD_START, FETCH_BOARD_SUCCESS, FETCH_BOARD_FAILURE } from '../actions/fetchBoardByBoardId';
 import { ADD_ITEM_START, ADD_ITEM_SUCCESS, ADD_ITEM_FAILURE } from '../actions/addItem';
 
 const uuid0 = uuid4();
@@ -152,6 +153,35 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 				addBoardStart: false,
 				addBoardSuccess: false,
 				addBoardFailure: action.payload
+			};
+		case FETCH_BOARD_START:
+			return {
+				...state,
+				fetchBoardStart: true,
+				fetchBoardSuccess: false,
+				fetchBoardFailure: false
+			};
+		case FETCH_BOARD_SUCCESS:
+			return {
+				...state,
+				fetchBoardStart: false,
+				fetchBoardSuccess: true,
+				activeBoard: action.payload.board_id,
+				boards: {
+					...state.boards,
+					byId: {
+						...state.boards.byId,
+						[action.payload.board_id]: action.payload
+					},
+					allIds: [ ...state.boards.allIds, action.payload.board_id ]
+				}
+			};
+		case FETCH_BOARD_FAILURE:
+			return {
+				...state,
+				fetchBoardStart: false,
+				fetchBoardSuccess: false,
+				fetchBoardFailure: action.payload
 			};
 
 		case ADD_COL_START:
