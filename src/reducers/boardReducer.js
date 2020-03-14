@@ -62,78 +62,90 @@ const experimentalBoardState = {
 	addItemFailure: '',
 	activeBoard: null,
 
-	boards: {
-		byId: {
-			// [uuid0]: {
-			// 	boardName: 'Default-Board',
-			// 	id: uuid0
-			// }
+	entities: {
+		boards: {
+			byId: {
+				// [uuid0]: {
+				// 	boardName: 'Default-Board',
+				// 	id: uuid0
+				// }
+			},
+			allIds: []
 		},
-		allIds: []
-	},
-	columns: {
-		byId: {
-			// [uuid1]:{
-			//     id:uuid1,
-			//     boardId:uuid0,
-			//     columnName:'Default Name A',
-			//     pos:0,
-			// },
-			// [uuid2]:{
-			//     id:uuid2,
-			//     boardId:uuid0,
-			//     columnName:'Default Name B',
-			//     pos:1,
-			// },
-			// [uuid3]:{
-			//     id:uuid3,
-			//     boardId:uuid0,
-			//     columnName:'Default Name C',
-			//     pos:2,
-			// },
-			// [uuid4]:{
-			//     id:uuid4,
-			//     boardId:uuid0,
-			//     columnName:'Default Name D',
-			//     pos:3,
-			// },
-		},
-		allIds: []
-	},
-
-	items: {
-		byId: {
-			// [uuid6]:{
-			//     id:uuid6,
-			//     colId:uuid1,
-			//     itemContent:'Default Item A',
-			//     pos:0
-			// },
-			// [uuid7]:{
-			//     id:uuid7,
-			//     colId:uuid2,
-			//     itemContent:'Default Item B',
-			//     pos:0
-			// },
-			// [uuid8]:{
-			//     id:uuid8,
-			//     colId:uuid3,
-			//     itemContent:'Default Item C',
-			//     pos:0
-			// },
-			// [uuid9]:{
-			//     id:uuid9,
-			//     colId:uuid4,
-			//     itemContent:'Default Item D',
-			//     pos:0
-			// },
+		columns: {
+			byId: {
+				// [uuid1]:{
+				//     id:uuid1,
+				//     boardId:uuid0,
+				//     columnName:'Default Name A',
+				//     pos:0,
+				// },
+				// [uuid2]:{
+				//     id:uuid2,
+				//     boardId:uuid0,
+				//     columnName:'Default Name B',
+				//     pos:1,
+				// },
+				// [uuid3]:{
+				//     id:uuid3,
+				//     boardId:uuid0,
+				//     columnName:'Default Name C',
+				//     pos:2,
+				// },
+				// [uuid4]:{
+				//     id:uuid4,
+				//     boardId:uuid0,
+				//     columnName:'Default Name D',
+				//     pos:3,
+				// },
+			},
+			allIds: []
 		},
 
-		allIds: []
+		items: {
+			byId: {
+				// [uuid6]:{
+				//     id:uuid6,
+				//     colId:uuid1,
+				//     itemContent:'Default Item A',
+				//     pos:0
+				// },
+				// [uuid7]:{
+				//     id:uuid7,
+				//     colId:uuid2,
+				//     itemContent:'Default Item B',
+				//     pos:0
+				// },
+				// [uuid8]:{
+				//     id:uuid8,
+				//     colId:uuid3,
+				//     itemContent:'Default Item C',
+				//     pos:0
+				// },
+				// [uuid9]:{
+				//     id:uuid9,
+				//     colId:uuid4,
+				//     itemContent:'Default Item D',
+				//     pos:0
+				// },
+			},
+
+			allIds: []
+		},
+		columnBoard: {
+			byId: {},
+			allIds: []
+		},
+		itemColumn: {
+			byId: {},
+			allIds: []
+		}
 	}
 };
 
 export const expBoardReducer = (state = experimentalBoardState, action) => {
+	const { entities } = state;
+	const { boards, columns, items, columnBoard, itemColumn } = entities;
 	switch (action.type) {
 		case ADD_BOARD_START:
 			return {
@@ -148,13 +160,16 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 				addBoardStart: false,
 				addBoardSuccess: true,
 				activeBoard: action.payload.board_id,
-				boards: {
-					...state.boards,
-					byId: {
-						...state.boards.byId,
-						[action.payload.board_id]: action.payload
-					},
-					allIds: [ ...state.boards.allIds, action.payload.board_id ]
+				entities: {
+					...entities,
+					boards: {
+						...boards,
+						byId: {
+							...boards.byId,
+							[action.payload.board_id]: action.payload
+						},
+						allIds: [ ...boards.allIds, action.payload.board_id ]
+					}
 				}
 			};
 		case ADD_BOARD_FAILURE:
@@ -178,12 +193,12 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 				fetchBoardSuccess: true,
 				activeBoard: action.payload.board_id,
 				boards: {
-					...state.boards,
+					...boards,
 					byId: {
-						...state.boards.byId,
+						...boards.byId,
 						[action.payload.board_id]: action.payload
 					},
-					allIds: [ ...state.boards.allIds, action.payload.board_id ]
+					allIds: [ ...boards.allIds, action.payload.board_id ]
 				}
 			};
 		case FETCH_BOARD_FAILURE:
@@ -207,13 +222,20 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 				addColumnStart: false,
 				addColumnSuccess: true,
 				columns: {
-					...state.columns,
+					...columns,
 					byId: {
-						...state.columns.byId,
+						...columns.byId,
 						[action.payload.column_id]: action.payload
-					}
+					},
+					allIds: [ ...columns.allIds, action.payload.column_id ]
 				},
-				allIds: [ ...state.columns.allIds, action.payload.column_id ]
+				columnBoard: {
+					...columnBoard,
+					byId: {
+						...columnBoard.byId,
+						[uuid4()]: { column_id: action.payload.column_id, board_id: action.payload.board_id }
+					}
+				}
 			};
 		case ADD_COL_FAILURE:
 			return {
@@ -235,16 +257,16 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 				fetchColumnStart: false,
 				fetchColumnSuccess: true,
 				columns: {
-					...state.columns,
+					...columns,
 					byId: {
-						...state.columns.byId,
+						...columns.byId,
 						...action.payload.reduce((obj, v) => {
 							obj[v.column_id] = v;
 							return obj;
 						}, {})
 					}
 				},
-				allIds: [ ...state.columns.allIds, action.payload.column_id ]
+				allIds: [ ...columns.allIds, action.payload.column_id ]
 			};
 		case FETCH_BOARDCOLS_FAILURE:
 			return {
@@ -267,13 +289,20 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 				addItemStart: false,
 				addItemSuccess: true,
 				items: {
-					...state.items,
+					...items,
 					byId: {
-						...state.items.byId,
+						...items.byId,
 						[action.payload.item_id]: action.payload
-					}
+					},
+					allIds: [ ...items.allIds, action.payload.item_id ]
 				},
-				allIds: [ ...state.items.allIds, action.payload.item_id ]
+				itemColumn: {
+					...itemColumn,
+					byId: {
+						...itemColumn.byId,
+						[uuid4()]: { column_id: action.payload.column_id, item_id: action.payload.item_id }
+					}
+				}
 			};
 		case ADD_ITEM_FAILURE:
 			return {
@@ -295,16 +324,16 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 				fetchItemStart: false,
 				fetchItemSuccess: true,
 				items: {
-					...state.items,
+					...items,
 					byId: {
-						...state.items.byId,
+						...items.byId,
 						...action.payload.reduce((obj, v) => {
 							obj[v.item_id] = v;
 							return obj;
 						}, {})
 					}
 				},
-				allIds: [ ...state.items.allIds, action.payload.item_id ]
+				allIds: [ ...items.allIds, action.payload.item_id ]
 			};
 		case FETCH_BOARDITEMS_FAILURE:
 			return {
@@ -319,75 +348,75 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 	}
 };
 
-export const boardReducer = (state = initialState, action) => {
-	switch (action.type) {
-		case 'UPDATE_CURRENT_COL':
-			return {
-				...state,
-				currentColumn: action.payload
-			};
+// export const boardReducer = (state = initialState, action) => {
+// 	switch (action.type) {
+// 		case 'UPDATE_CURRENT_COL':
+// 			return {
+// 				...state,
+// 				currentColumn: action.payload
+// 			};
 
-		case 'SETpos':
-			return {
-				...state,
-				keys: [ ...action.payload ]
-			};
+// 		case 'SETpos':
+// 			return {
+// 				...state,
+// 				keys: [ ...action.payload ]
+// 			};
 
-		case 'APPENDCOL':
-			return {
-				...state,
-				cols: {
-					...state.cols,
-					[action.payload.id]: action.payload
-				},
-				keys: [ ...state.keys, action.payload.id ]
-			};
+// 		case 'APPENDCOL':
+// 			return {
+// 				...state,
+// 				cols: {
+// 					...state.cols,
+// 					[action.payload.id]: action.payload
+// 				},
+// 				keys: [ ...state.keys, action.payload.id ]
+// 			};
 
-		case 'APPEND':
-			return {
-				...state,
-				cols: {
-					...state.cols,
-					[action.destination]: {
-						...state.cols[action.destination],
-						items: [ ...action.payload ]
-					}
-				}
-			};
+// 		case 'APPEND':
+// 			return {
+// 				...state,
+// 				cols: {
+// 					...state.cols,
+// 					[action.destination]: {
+// 						...state.cols[action.destination],
+// 						items: [ ...action.payload ]
+// 					}
+// 				}
+// 			};
 
-		case 'DELETEITEM':
-			return {
-				...state,
-				cols: {
-					...state.cols,
-					[action.origin]: {
-						items: [ ...state.cols[action.origin].items.filter((i) => i.id !== action.itemId) ]
-					}
-				}
-			};
-		case 'DELETE':
-			let newArr = state.cols[action.colId].items.filter((i) => i.id !== action.itemId);
-			let newDeleteState = {};
-			newDeleteState[action.colId] = { id: action.colId, items: newArr };
+// 		case 'DELETEITEM':
+// 			return {
+// 				...state,
+// 				cols: {
+// 					...state.cols,
+// 					[action.origin]: {
+// 						items: [ ...state.cols[action.origin].items.filter((i) => i.id !== action.itemId) ]
+// 					}
+// 				}
+// 			};
+// 		case 'DELETE':
+// 			let newArr = state.cols[action.colId].items.filter((i) => i.id !== action.itemId);
+// 			let newDeleteState = {};
+// 			newDeleteState[action.colId] = { id: action.colId, items: newArr };
 
-			return {
-				...state,
-				cols: {
-					...state.cols,
-					...newDeleteState
-				}
-			};
+// 			return {
+// 				...state,
+// 				cols: {
+// 					...state.cols,
+// 					...newDeleteState
+// 				}
+// 			};
 
-		case 'MOVECOL':
-			return {
-				...state,
-				cols: {
-					...state.cols,
-					...action.payload
-				}
-			};
+// 		case 'MOVECOL':
+// 			return {
+// 				...state,
+// 				cols: {
+// 					...state.cols,
+// 					...action.payload
+// 				}
+// 			};
 
-		default:
-			return state;
-	}
-};
+// 		default:
+// 			return state;
+// 	}
+// };

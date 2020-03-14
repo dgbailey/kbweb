@@ -15,14 +15,30 @@ import { parallelRequests } from './utilities/http/parallelRequests';
 import { fetchBoardByBoardId } from './actions/fetchBoardByBoardId';
 import { fetchColumnsByBoardId } from './actions/fetchColumnsByBoardId';
 import { fetchItemsByBoardId } from './actions/fetchItemsByBoardId';
+
 const propTypes = {
 	name: PropTypes.string,
 	onMountNewUser: PropTypes.bool
 };
 
 export function NewBoard({ name = 'Get Started' }) {
-	const boardState = useSelector((state) => state.expBoard);
-	const { activeBoard: boardId, columns, addBoardStart, items } = boardState;
+	const { boardState } = useSelector((state) => state.expBoard);
+	const {
+		activeBoard: boardId,
+		entities,
+		addBoardStart,
+
+		fetchBoardSuccess,
+		fetchColumnSuccess,
+		fetchItemSuccess
+	} = boardState;
+	const {
+		columns: columnsEntity,
+		items: itemsEntity,
+		columnBoard: columnBoardEntity,
+		itemColumn: itemColumnEntity
+	} = entities;
+
 	const userMetaData = useSelector((state) => state.userMetaData);
 	const { id: userId } = userMetaData;
 	const history = useHistory();
@@ -38,44 +54,52 @@ export function NewBoard({ name = 'Get Started' }) {
 		);
 	}, []);
 
-	const grabItemsByColumnId = (colId) => {
-		let ids = Object.keys(items.byId).filter((itemKey) => items.byId[itemKey].column_id === colId);
-		let itemObjects = ids.map((id) => items.byId[id]);
-		return itemObjects;
+	const grabItemIdsByColId = (colId) => {
+		let itemIds = Object.keys(itemColumnEntity.byId).filter((relation) => relation.column_id === colId);
+		return itemIds.map((id) => itemsEntity.byId[id]);
+	};
+	const grabColumnIdsByBoardId = (boardId) => {
+		let columnIds = Object.keys(columnBoardEntity.byId).filter((relation) => relation.board_id === boardId);
+		return columnIds.map((id) => columnsEntity.byId[id]);
 	};
 
-	return (
-		<StyledBoard>
-			{/* <h1>{name}</h1> */}
-			{addBoardStart ? (
-				<section>...Loading</section>
-			) : (
-				Object.keys(columns.byId).map((k) => {
-					const { column_name: name, column_id: colId } = columns.byId[k];
-					const itemsByColumnId = grabItemsByColumnId(colId);
-					{
-						/* not sure what is more performant:grabbing items here or in body component */
-					}
-					return (
-						<NewColumn columnId={colId}>
-							<NewColumnHeader name={name} />
-							<NewColumnBody items={itemsByColumnId} />
-							<ActionButton description={'Add Card'}>
-								<ActionInput
-									name={'itemContent'}
-									relationId={{ colId, boardId }}
-									submitAction={addItem}
-								/>
-							</ActionButton>
-						</NewColumn>
-					);
-				})
-			)}
-			<ActionButton style={abStyles} description={'Add Column'}>
-				<ActionInput name={'colName'} relationId={{ boardId }} submitAction={addColumn} />
-			</ActionButton>
-		</StyledBoard>
-	);
+	const mapColumnsToBoard = () => {
+		return grabColumnIdsByBoardId(boardId).map((column) => {
+			let { colId, name } = column;
+			let itemsByColId = grabItemIdsByColId(colId);
+			return (
+				<NewColumn columnId={colId}>
+					<NewColumnHeader name={name} />
+					<NewColumnBody items={itemsByColId} />
+					<ActionButton description={'Add Card'}>
+						<ActionInput name={'itemContent'} relationId={{ colId, boardId }} submitAction={addItem} />
+					</ActionButton>
+				</NewColumn>
+			);
+		});
+	};
+
+	const renderBoard = () => {
+		return (
+			<StyledBoard>
+				{mapColumnsToBoard()}
+				<ActionButton style={abStyles} description={'Add Column'}>
+					<ActionInput name={'colName'} relationId={{ boardId }} submitAction={addColumn} />
+				</ActionButton>
+			</StyledBoard>
+		);
+	};
+	const conditionallyRenderBoard = () => {
+		const isFetchCompleteSuccess = fetchBoardSuccess && fetchItemSuccess && fetchColumnSuccess;
+		switch (isFetchCompleteSuccess) {
+			case true:
+				return renderBoard();
+
+			default:
+				return <div>...Loading</div>;
+		}
+	};
+	return conditionallyRenderBoard();
 }
 
 NewBoard.propTypes = propTypes;

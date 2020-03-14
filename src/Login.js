@@ -62,10 +62,8 @@ export const Login = () => {
 	function renderLoginConditionally() {
 		switch (loginStatus.loginSuccess) {
 			case true:
-				console.log('success');
 				return renderRedirect();
 			default:
-				console.log('default', loginStatus);
 				return renderLogin();
 		}
 	}
