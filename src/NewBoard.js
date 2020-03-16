@@ -27,7 +27,6 @@ export function NewBoard({ name = 'Get Started' }) {
 		activeBoard: boardId,
 		entities,
 		addBoardStart,
-
 		fetchBoardSuccess,
 		fetchColumnSuccess,
 		fetchItemSuccess
@@ -55,10 +54,12 @@ export function NewBoard({ name = 'Get Started' }) {
 	}, []);
 
 	const grabItemIdsByColId = (colId) => {
+		//you need to access the object in your filter
 		let itemIds = Object.keys(itemColumnEntity.byId).filter((relation) => relation.column_id === colId);
 		return itemIds.map((id) => itemsEntity.byId[id]);
 	};
 	const grabColumnIdsByBoardId = (boardId) => {
+		//you need to access the object in your filter
 		let columnIds = Object.keys(columnBoardEntity.byId).filter((relation) => relation.board_id === boardId);
 		return columnIds.map((id) => columnsEntity.byId[id]);
 	};
