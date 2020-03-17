@@ -192,13 +192,16 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 				fetchBoardStart: false,
 				fetchBoardSuccess: true,
 				activeBoard: action.payload.board_id,
-				boards: {
-					...boards,
-					byId: {
-						...boards.byId,
-						[action.payload.board_id]: action.payload
-					},
-					allIds: [ ...boards.allIds, action.payload.board_id ]
+				entities: {
+					...entities,
+					boards: {
+						...boards,
+						byId: {
+							...boards.byId,
+							[action.payload.board_id]: action.payload
+						},
+						allIds: [ ...boards.allIds, action.payload.board_id ]
+					}
 				}
 			};
 		case FETCH_BOARD_FAILURE:
@@ -221,19 +224,22 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 				...state,
 				addColumnStart: false,
 				addColumnSuccess: true,
-				columns: {
-					...columns,
-					byId: {
-						...columns.byId,
-						[action.payload.column_id]: action.payload
+				entities: {
+					...entities,
+					columns: {
+						...columns,
+						byId: {
+							...columns.byId,
+							[action.payload.column_id]: action.payload
+						},
+						allIds: [ ...columns.allIds, action.payload.column_id ]
 					},
-					allIds: [ ...columns.allIds, action.payload.column_id ]
-				},
-				columnBoard: {
-					...columnBoard,
-					byId: {
-						...columnBoard.byId,
-						[uuid4()]: { column_id: action.payload.column_id, board_id: action.payload.board_id }
+					columnBoard: {
+						...columnBoard,
+						byId: {
+							...columnBoard.byId,
+							[uuid4()]: action.payload
+						}
 					}
 				}
 			};
@@ -256,17 +262,30 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 				...state,
 				fetchColumnStart: false,
 				fetchColumnSuccess: true,
-				columns: {
-					...columns,
-					byId: {
-						...columns.byId,
-						...action.payload.reduce((obj, v) => {
-							obj[v.column_id] = v;
-							return obj;
-						}, {})
-					}
-				},
-				allIds: [ ...columns.allIds, action.payload.column_id ]
+				entities: {
+					...entities,
+					columns: {
+						...columns,
+						byId: {
+							...columns.byId,
+							...action.payload.reduce((obj, v) => {
+								obj[v.column_id] = v;
+								return obj;
+							}, {})
+						}
+					},
+					columnBoard: {
+						...columnBoard,
+						byId: {
+							...columnBoard.byId,
+							...action.payload.reduce((obj, v) => {
+								obj[uuid4()] = v;
+								return obj;
+							}, {})
+						}
+					},
+					allIds: [ ...columns.allIds, action.payload.column_id ]
+				}
 			};
 		case FETCH_BOARDCOLS_FAILURE:
 			return {
@@ -288,19 +307,22 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 				...state,
 				addItemStart: false,
 				addItemSuccess: true,
-				items: {
-					...items,
-					byId: {
-						...items.byId,
-						[action.payload.item_id]: action.payload
+				entities: {
+					...entities,
+					items: {
+						...items,
+						byId: {
+							...items.byId,
+							[action.payload.item_id]: action.payload
+						},
+						allIds: [ ...items.allIds, action.payload.item_id ]
 					},
-					allIds: [ ...items.allIds, action.payload.item_id ]
-				},
-				itemColumn: {
-					...itemColumn,
-					byId: {
-						...itemColumn.byId,
-						[uuid4()]: { column_id: action.payload.column_id, item_id: action.payload.item_id }
+					itemColumn: {
+						...itemColumn,
+						byId: {
+							...itemColumn.byId,
+							[uuid4()]: action.payload
+						}
 					}
 				}
 			};
@@ -323,17 +345,30 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 				...state,
 				fetchItemStart: false,
 				fetchItemSuccess: true,
-				items: {
-					...items,
-					byId: {
-						...items.byId,
-						...action.payload.reduce((obj, v) => {
-							obj[v.item_id] = v;
-							return obj;
-						}, {})
-					}
-				},
-				allIds: [ ...items.allIds, action.payload.item_id ]
+				entities: {
+					...entities,
+					items: {
+						...items,
+						byId: {
+							...items.byId,
+							...action.payload.reduce((obj, v) => {
+								obj[v.item_id] = v;
+								return obj;
+							}, {})
+						}
+					},
+					itemColumn: {
+						...itemColumn,
+						byId: {
+							...itemColumn.byId,
+							...action.payload.reduce((obj, v) => {
+								obj[uuid4()] = v;
+								return obj;
+							}, {})
+						}
+					},
+					allIds: [ ...items.allIds, action.payload.item_id ]
+				}
 			};
 		case FETCH_BOARDITEMS_FAILURE:
 			return {

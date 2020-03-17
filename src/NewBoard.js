@@ -22,7 +22,7 @@ const propTypes = {
 };
 
 export function NewBoard({ name = 'Get Started' }) {
-	const { boardState } = useSelector((state) => state.expBoard);
+	const boardState = useSelector((state) => state.expBoard);
 	const {
 		activeBoard: boardId,
 		entities,
@@ -31,12 +31,7 @@ export function NewBoard({ name = 'Get Started' }) {
 		fetchColumnSuccess,
 		fetchItemSuccess
 	} = boardState;
-	const {
-		columns: columnsEntity,
-		items: itemsEntity,
-		columnBoard: columnBoardEntity,
-		itemColumn: itemColumnEntity
-	} = entities;
+	const { columnBoard: columnBoardEntity, itemColumn: itemColumnEntity } = entities;
 
 	const userMetaData = useSelector((state) => state.userMetaData);
 	const { id: userId } = userMetaData;
@@ -53,21 +48,22 @@ export function NewBoard({ name = 'Get Started' }) {
 		);
 	}, []);
 
-	const grabItemIdsByColId = (colId) => {
-		//you need to access the object in your filter
-		let itemIds = Object.keys(itemColumnEntity.byId).filter((relation) => relation.column_id === colId);
-		return itemIds.map((id) => itemsEntity.byId[id]);
+	const grabItemDataByColId = (colId) => {
+		let itemObjects = itemColumnEntity.byId;
+		let itemIds = Object.keys(itemObjects).filter((itemKey) => itemObjects[itemKey].column_id === colId);
+		return itemIds.map((id) => itemObjects[id]);
 	};
-	const grabColumnIdsByBoardId = (boardId) => {
-		//you need to access the object in your filter
-		let columnIds = Object.keys(columnBoardEntity.byId).filter((relation) => relation.board_id === boardId);
-		return columnIds.map((id) => columnsEntity.byId[id]);
+	const grabColumnDataByBoardId = (boardId) => {
+		let colObjects = columnBoardEntity.byId;
+		let columnIds = Object.keys(colObjects).filter((colKey) => colObjects[colKey].board_id === boardId);
+
+		return columnIds.map((id) => colObjects[id]);
 	};
 
-	const mapColumnsToBoard = () => {
-		return grabColumnIdsByBoardId(boardId).map((column) => {
-			let { colId, name } = column;
-			let itemsByColId = grabItemIdsByColId(colId);
+	const hydrateColumnsAndItemsFromStore = (boardId) => {
+		return grabColumnDataByBoardId(boardId).map((column) => {
+			let { column_id: colId, column_name: name } = column;
+			let itemsByColId = grabItemDataByColId(colId);
 			return (
 				<NewColumn columnId={colId}>
 					<NewColumnHeader name={name} />
@@ -80,35 +76,35 @@ export function NewBoard({ name = 'Get Started' }) {
 		});
 	};
 
-	const renderBoard = () => {
+	const hydrateBoard = (hydratedSubComponents) => {
 		return (
 			<StyledBoard>
-				{mapColumnsToBoard()}
+				{hydratedSubComponents}
 				<ActionButton style={abStyles} description={'Add Column'}>
 					<ActionInput name={'colName'} relationId={{ boardId }} submitAction={addColumn} />
 				</ActionButton>
 			</StyledBoard>
 		);
 	};
-	const conditionallyRenderBoard = () => {
+	const conditionallyRenderBoard = (renderResult) => {
 		const isFetchCompleteSuccess = fetchBoardSuccess && fetchItemSuccess && fetchColumnSuccess;
 		switch (isFetchCompleteSuccess) {
 			case true:
-				return renderBoard();
+				return renderResult;
 
 			default:
 				return <div>...Loading</div>;
 		}
 	};
-	return conditionallyRenderBoard();
+	return conditionallyRenderBoard(hydrateBoard(hydrateColumnsAndItemsFromStore(boardId)));
 }
 
 NewBoard.propTypes = propTypes;
 
 const abStyles = {
 	opacity: 0.7,
-	'justify-content': 'center',
-	'border-radius': '3px',
+	justifyContent: 'center',
+	bordeRadius: '3px',
 	width: '200px'
 };
 
