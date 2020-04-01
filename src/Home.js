@@ -1,8 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { Board } from './Board';
-import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Preview } from './Preview';
 import { formatBoardUuid } from './utilities/formatBoardUuid';

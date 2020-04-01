@@ -51,7 +51,7 @@ export function NewBoard({ name = 'Get Started' }) {
 	const grabItemDataByColId = (colId) => {
 		let itemObjects = itemColumnEntity.byId;
 		let itemIds = Object.keys(itemObjects).filter((itemKey) => itemObjects[itemKey].column_id === colId);
-		return itemIds.map((id) => itemObjects[id]);
+		return itemIds;
 	};
 	const grabColumnDataByBoardId = (boardId) => {
 		let colObjects = columnBoardEntity.byId;
@@ -63,11 +63,12 @@ export function NewBoard({ name = 'Get Started' }) {
 	const hydrateColumnsAndItemsFromStore = (boardId) => {
 		return grabColumnDataByBoardId(boardId).map((column) => {
 			let { column_id: colId, column_name: name } = column;
-			let itemsByColId = grabItemDataByColId(colId);
+			let itemIdsByColId = grabItemDataByColId(colId);
+
 			return (
 				<NewColumn columnId={colId}>
 					<NewColumnHeader name={name} />
-					<NewColumnBody items={itemsByColId} />
+					<NewColumnBody items={itemIdsByColId} />
 					<ActionButton description={'Add Card'}>
 						<ActionInput name={'itemContent'} relationId={{ colId, boardId }} submitAction={addItem} />
 					</ActionButton>

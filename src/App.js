@@ -4,9 +4,8 @@ import './App.css';
 import { Home } from './Home';
 import { Login } from './Login';
 import { Registration } from './Registration';
-import { Board } from './Board';
+
 import { NewBoard } from './NewBoard';
-import { addBoard } from './actions/addBoard';
 
 function App() {
 	return (
@@ -20,9 +19,6 @@ function App() {
 				</Route>
 				<Route path="/board/:id">
 					<NewBoard onMountNewUser={false} />
-				</Route>
-				<Route path="/board">
-					<Board />
 				</Route>
 
 				<Route path="/signup">

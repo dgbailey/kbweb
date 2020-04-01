@@ -231,7 +231,7 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 						...itemColumn,
 						byId: {
 							...itemColumn.byId,
-							[uuid4()]: action.payload
+							[action.payload.item_id]: action.payload
 						}
 					}
 				}
@@ -272,7 +272,7 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
 						byId: {
 							...itemColumn.byId,
 							...action.payload.reduce((obj, v) => {
-								obj[uuid4()] = v;
+								obj[v.item_id] = v;
 								return obj;
 							}, {})
 						}
