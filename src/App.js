@@ -4,7 +4,7 @@ import './App.css';
 import { Home } from './Home';
 import { Login } from './Login';
 import { Registration } from './Registration';
-
+import { BannerNav } from './BannerNav';
 import { NewBoard } from './NewBoard';
 
 function App() {
@@ -18,6 +18,10 @@ function App() {
 					<NewBoard />
 				</Route>
 				<Route path="/board/:id">
+					<BannerNav>
+						<div>Hello</div>
+						<div>Menu</div>
+					</BannerNav>
 					<NewBoard onMountNewUser={false} />
 				</Route>
 
