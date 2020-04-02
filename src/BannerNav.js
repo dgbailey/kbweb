@@ -15,6 +15,9 @@ export const BannerNav = (props) => {
 };
 
 const StyledBannerNav = styled.nav`
+	position: fixed;
+	top: 0px;
+	width: 100%;
 	height: 100px;
 	justify-content: space-between;
 	padding: 10px 10px;
