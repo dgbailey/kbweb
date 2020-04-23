@@ -31,7 +31,6 @@ const defaultProps = {
 export const ActionInput = props => {
     const dispatch = useDispatch();
     const {relationId, submitAction,name,placeHolder,type,maxLength,toggleText,submitText} = props;
-    console.log('relationid actioninput',relationId)
     const [inputState,setInputState] = useState({});
 
     const stopClickPropagationToMyParents = (e) => {

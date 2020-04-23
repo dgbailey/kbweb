@@ -15,7 +15,6 @@ import { socketMiddleware } from './middleware/socketMiddleware';
 //use thunk middleware
 //create store
 const socketURI = process.env.REACT_APP_DEV_BASE_SOCKET;
-
 const store = createStore(
 	rootReducer,
 	compose(
