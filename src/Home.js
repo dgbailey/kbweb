@@ -19,7 +19,7 @@ export const Home = () => {
 	const name = 'Get-Started';
 
 	async function addNewBoard(){
-	
+		console.log('b info',userId,name)
 		let board = await addBoard({userId,name},dispatch);
 		console.log(board)
 		let newUri = boardURIprefix + "/" + name + "-" + formatBoardUuid(board.board_id)

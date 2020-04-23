@@ -43,15 +43,18 @@ export function NewBoard({ name = 'Get Started' }) {
 	/*Perhaps they exist completely in the store. Mounting merely dispatches an event to create.
 		Other components can then dispatch websocket specific events
 		Middleware:
-		
+
 	*/
-	useEffect(() => {
-		let webSocket = new WebSocket('ws://localhost:8080/ws/' + boardId);
-		webSocket.onmessage = function(e) {
-			alert(e);
-		};
-		return () => webSocket.close();
-	}, []);
+	useEffect(
+		() => {
+			if (boardId !== null) {
+				dispatch({ type: 'SOCKET_CONN_MOUNT', payload: { entityId: boardId } });
+				return () => dispatch({ type: 'SOCKET_CONN_UNMOUNT' });
+			}
+			//could be more semantic to convey that we are establishing web socket connections here
+		},
+		[ boardId ]
+	);
 
 	useEffect(() => {
 		let formattedUuid = parseUriIntoFormattedUuid(history.location.pathname);
