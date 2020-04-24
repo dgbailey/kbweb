@@ -8,13 +8,12 @@ export const socketMiddleware = (socketURI) => {
 				socket = new WebSocket(socketURI);
 				socket.onmessage = (e) => storeApi.dispatch({ type: 'SOCKET_MESSAGE', payload: e.data });
 				socket.onopen = (e) => socket.send(entityId);
-				socket.onclose = storeApi.dispatch({ type: 'SOCKET_MESSAGE', payload: 'socket closed' });
+				socket.onclose = storeApi.dispatch({ type: 'SOCKET_CONN_UNMOUNT', payload: true });
 				break;
 			case 'SOCKET_CONN_UNMOUNT':
-				socket.send(action.payload);
 				socket.close();
 		}
-		console.log('logging next');
+
 		return next(action);
 	};
 };

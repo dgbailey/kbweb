@@ -8,6 +8,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { rootReducer } from './reducers/index';
 import { BrowserRouter } from 'react-router-dom';
 import { socketMiddleware } from './middleware/socketMiddleware';
+import { lastWriterWins } from './middleware/lastWriterWins';
 
 //create root reducer
 //remove reducer from board
