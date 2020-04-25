@@ -9,7 +9,7 @@ export const Modal = (props) => {
 };
 
 const StyledModal = styled.div`
-	display: flex;
+	display: none;
 	justify-content: center;
 	align-items: center;
 	border: 1px solid lightgray;

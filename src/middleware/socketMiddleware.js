@@ -15,7 +15,5 @@ export const socketMiddleware = (socketURI) => {
 			default:
 				next(action);
 		}
-
-		next(action);
 	};
 };
