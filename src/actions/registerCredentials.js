@@ -9,7 +9,6 @@ export const registerCredentialsAction = async (creds, dispatch) => {
 			body: JSON.stringify(creds),
 			credentials: 'include'
 		};
-
 		let response = await fetch(registrationURI, settings);
 		let responseResolved = await response.json();
 		let { jwt, userName, userId } = responseResolved;

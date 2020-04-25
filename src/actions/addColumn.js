@@ -6,9 +6,7 @@ export const ADD_COL_FAILURE = 'ADD_COL_FAILURE';
 const addColUri = process.env.REACT_APP_DEV_BASE_URI + '/columns';
 
 export const addColumn = async (colObject, dispatch) => {
-	console.log('colobject', colObject);
 	const { relationId, colName } = colObject;
-	console.log('actionRel', relationId);
 	const fetchUri = queryStringGenerator(addColUri, { colName, ...relationId });
 	let metaData = {
 		method: 'POST',

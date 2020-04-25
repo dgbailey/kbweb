@@ -20,7 +20,6 @@ export const loginCredentialsAction = async (creds, dispatch) => {
 
 		if (response.status === 200) {
 			dispatch({ type: FETCH_LOGIN_SUCCESS });
-			console.log('js', jsonResolved);
 			dispatch({ type: FETCHING_SUCCESS_METADATA, payload: jsonResolved });
 		} else {
 			throw new Error(jsonResolved);

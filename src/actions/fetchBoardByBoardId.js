@@ -5,7 +5,6 @@ const boardUri = 'http://localhost:8080/boards/';
 
 export const fetchBoardByBoardId = async (boardId, dispatch) => {
 	const fullUri = boardUri + boardId;
-	console.log(fullUri);
 	let settings = {
 		method: 'GET',
 		credentials: 'include'
@@ -14,7 +13,6 @@ export const fetchBoardByBoardId = async (boardId, dispatch) => {
 		dispatch({ type: FETCH_BOARD_START });
 		let board = await fetch(fullUri, settings);
 		let json = await board.json();
-		console.log('JSON', json);
 		dispatch({ type: FETCH_BOARD_SUCCESS, payload: json });
 	} catch (error) {
 		dispatch({ type: FETCH_BOARD_FAILURE, payload: error.message });
