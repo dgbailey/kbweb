@@ -45,16 +45,12 @@ export function NewBoard({ name = 'Get Started' }) {
 		Middleware:
 
 	*/
-	useEffect(
-		() => {
-			if (boardId !== null) {
-				dispatch({ type: 'SOCKET_CONN_MOUNT', payload: { entityId: boardId } });
-				return () => dispatch({ type: 'SOCKET_CONN_UNMOUNT' });
-			}
-			//could be more semantic to convey that we are establishing web socket connections here
-		},
-		[ boardId ]
-	);
+	useEffect(() => {
+		dispatch({ type: 'SOCKET_CONN_MOUNT', payload: { entityId: boardId } });
+		return () => dispatch({ type: 'SOCKET_CONN_UNMOUNT' });
+
+		//could be more semantic to convey that we are establishing web socket connections here
+	}, []);
 
 	useEffect(() => {
 		let formattedUuid = parseUriIntoFormattedUuid(history.location.pathname);

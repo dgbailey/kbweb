@@ -5,7 +5,9 @@ import { Home } from './Home';
 import { Login } from './Login';
 import { Registration } from './Registration';
 import { BannerNav } from './BannerNav';
+import { BannerButton } from './BannerButton';
 import { NewBoard } from './NewBoard';
+import { Modal } from './Modal';
 
 function App() {
 	return (
@@ -18,9 +20,12 @@ function App() {
 					<NewBoard />
 				</Route>
 				<Route path="/board/:id">
+					<Modal>
+						<input />
+					</Modal>
 					<BannerNav>
-						<div>Hello</div>
-						<div>Menu</div>
+						<BannerButton name={'Home'} />
+						<BannerButton name={'Share'} />
 					</BannerNav>
 					<NewBoard onMountNewUser={false} />
 				</Route>
