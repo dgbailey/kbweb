@@ -8,8 +8,7 @@ export const ModalBody = (props) => {
 
 const StyledModal = styled.div`
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	flex-direction: column;
 	border: 1px solid lightgray;
 	border-radius: 2px;
 	background: white;

@@ -21,7 +21,7 @@ const propTypes = {
 	onMountNewUser: PropTypes.bool
 };
 
-export function NewBoard({ name = 'Get Started' }) {
+export function NewBoard(props) {
 	const boardState = useSelector((state) => state.expBoard);
 	const {
 		activeBoard: boardId,
@@ -93,7 +93,7 @@ export function NewBoard({ name = 'Get Started' }) {
 
 	const hydrateBoard = (hydratedSubComponents) => {
 		return (
-			<StyledBoard>
+			<StyledBoard onClick={props.onClick}>
 				{hydratedSubComponents}
 				<ActionButton style={abStyles} description={'Add Column'}>
 					<ActionInput name={'colName'} relationId={{ boardId }} submitAction={addColumn} />

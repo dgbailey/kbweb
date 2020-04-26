@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 import './App.css';
 import { Home } from './Home';
@@ -11,6 +11,28 @@ import { ModalRoot } from './ModalRoot';
 import { ModalProvider } from './modalProvider';
 import { ModalBody } from './ModalBody';
 import { ModalConsumer } from './ModalRoot';
+import { ModalHeader } from './ModalHeader';
+
+const Modal = () => {
+	let [ userName, setUsername ] = useState(null);
+	const handleChange = (e) => {
+		let data = { [e.target.name]: e.target.value };
+		setUsername({ ...data });
+	};
+	return (
+		<ModalBody>
+			<ModalHeader>
+				<div>
+					<label>username</label>
+					<input onChange={handleChange} name="userName" />
+				</div>
+				<h2>
+					<button>Share</button>
+				</h2>
+			</ModalHeader>
+		</ModalBody>
+	);
+};
 
 function App() {
 	return (
@@ -29,11 +51,15 @@ function App() {
 							<BannerButton name={'Home'} />
 							<ModalConsumer>
 								{(value) => {
-									return <BannerButton onClick={() => value.toggleModal(ModalBody)} name={'Share'} />;
+									return <BannerButton onClick={() => value.toggleModal(Modal)} name={'Share'} />;
 								}}
 							</ModalConsumer>
 						</BannerNav>
-						<NewBoard onMountNewUser={false} />
+						<ModalConsumer>
+							{(value) => {
+								return <NewBoard onClick={() => value.toggleModal(ModalBody)} onMountNewUser={false} />;
+							}}
+						</ModalConsumer>
 					</Route>
 
 					<Route path="/signup">
