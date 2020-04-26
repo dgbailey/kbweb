@@ -7,37 +7,44 @@ import { Registration } from './Registration';
 import { BannerNav } from './BannerNav';
 import { BannerButton } from './BannerButton';
 import { NewBoard } from './NewBoard';
-import { Modal } from './Modal';
+import { ModalRoot } from './ModalRoot';
+import { ModalProvider } from './modalProvider';
+import { ModalBody } from './ModalBody';
+import { ModalConsumer } from './ModalRoot';
 
 function App() {
 	return (
-		<div className="App">
-			<Switch>
-				<Route path="/home">
-					<Home />
-				</Route>
-				<Route path="/board/experimental">
-					<NewBoard />
-				</Route>
-				<Route path="/board/:id">
-					<Modal>
-						<input />
-					</Modal>
-					<BannerNav>
-						<BannerButton name={'Home'} />
-						<BannerButton name={'Share'} />
-					</BannerNav>
-					<NewBoard onMountNewUser={false} />
-				</Route>
+		<ModalProvider>
+			<div className="App">
+				<Switch>
+					<Route path="/home">
+						<Home />
+					</Route>
+					<Route path="/board/experimental">
+						<NewBoard />
+					</Route>
+					<Route path="/board/:id">
+						<ModalRoot />
+						<BannerNav>
+							<BannerButton name={'Home'} />
+							<ModalConsumer>
+								{(value) => {
+									return <BannerButton onClick={() => value.toggleModal(ModalBody)} name={'Share'} />;
+								}}
+							</ModalConsumer>
+						</BannerNav>
+						<NewBoard onMountNewUser={false} />
+					</Route>
 
-				<Route path="/signup">
-					<Registration />
-				</Route>
-				<Route path="/">
-					<Login />
-				</Route>
-			</Switch>
-		</div>
+					<Route path="/signup">
+						<Registration />
+					</Route>
+					<Route path="/">
+						<Login />
+					</Route>
+				</Switch>
+			</div>
+		</ModalProvider>
 	);
 }
 

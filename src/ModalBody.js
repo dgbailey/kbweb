@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import React from 'react';
 
-export const Modal = (props) => {
+export const ModalBody = (props) => {
 	const { children } = props;
-
 	return <StyledModal>{children}</StyledModal>;
 };
 
 const StyledModal = styled.div`
-	display: none;
+	display: flex;
 	justify-content: center;
 	align-items: center;
 	border: 1px solid lightgray;
@@ -22,4 +20,5 @@ const StyledModal = styled.div`
 	margin-right: auto;
 	left: 0;
 	right: 0;
+	z-index: 1000;
 `;

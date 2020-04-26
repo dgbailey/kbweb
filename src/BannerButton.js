@@ -11,8 +11,12 @@ const defaultProps = {
 	name: 'default',
 	styles: {}
 };
-export const BannerButton = ({ name, styles }) => {
-	return <StyledButton style={styles}>{name}</StyledButton>;
+export const BannerButton = (props) => {
+	return (
+		<StyledButton onClick={props.onClick} style={props.styles}>
+			{props.name}
+		</StyledButton>
+	);
 };
 BannerButton.propTypes = propTypes;
 BannerButton.defaultProps = defaultProps;
@@ -25,5 +29,8 @@ const StyledButton = styled.button`
 	&:hover {
 		cursor: pointer;
 		background: lightgray;
+	}
+	&:focus {
+		outline: none;
 	}
 `;
