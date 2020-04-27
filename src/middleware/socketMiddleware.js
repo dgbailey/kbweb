@@ -10,11 +10,12 @@ export const socketMiddleware = (socketURI) => {
 					let data = JSON.parse(e.data);
 
 					let { socketPayload: socketAction } = data;
-					console.log('socketaction', data);
-
 					switch (socketAction) {
 						case 'ADD_ITEM':
 							storeApi.dispatch({ type: 'ADD_ITEM_SUCCESS', payload: data });
+							break;
+						case 'ADD_COLUMN':
+							storeApi.dispatch({ type: 'ADD_COL_SUCCESS', payload: data });
 							break;
 						default:
 							storeApi.dispatch({ type: 'SOCKET_MESSAGE', payload: e.data });

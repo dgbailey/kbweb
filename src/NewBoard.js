@@ -31,26 +31,17 @@ export function NewBoard(props) {
 		fetchColumnSuccess,
 		fetchItemSuccess
 	} = boardState;
-	const { columnBoard: columnBoardEntity, itemColumn: itemColumnEntity } = entities;
+	const { columns, itemColumn: itemColumnEntity } = entities;
 
 	const userMetaData = useSelector((state) => state.userMetaData);
 	const { id: userId } = userMetaData;
 	const history = useHistory();
 	const dispatch = useDispatch();
 
-	//TODO:Another effect here for subscribing to board specific web socket
-	//TODO:Think of best way to manage web sockets.
-	/*Perhaps they exist completely in the store. Mounting merely dispatches an event to create.
-		Other components can then dispatch websocket specific events
-		Middleware:
-
-	*/
 	useEffect(
 		() => {
 			dispatch({ type: 'SOCKET_CONN_MOUNT', payload: { entityId: boardId } });
 			return () => dispatch({ type: 'SOCKET_CONN_UNMOUNT' });
-
-			//could be more semantic to convey that we are establishing web socket connections here
 			//boardId initially renders null which is not convenient for establishing a websocket connection with active entity
 		},
 		[ boardId ]
@@ -72,7 +63,7 @@ export function NewBoard(props) {
 		return itemIds;
 	};
 	const grabColumnDataByBoardId = (boardId) => {
-		let colObjects = columnBoardEntity.byId;
+		let colObjects = columns.byId;
 		let columnIds = Object.keys(colObjects).filter((colKey) => colObjects[colKey].board_id === boardId);
 
 		return columnIds.map((id) => colObjects[id]);

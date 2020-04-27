@@ -2,12 +2,14 @@ import { queryStringGenerator } from '../utilities/queryStringGenerator';
 export const ADD_COL_START = 'ADD_COL_START';
 export const ADD_COL_SUCCESS = 'ADD_COL_SUCCESS';
 export const ADD_COL_FAILURE = 'ADD_COL_FAILURE';
+const actionPrefix = 'ADD_COLUMN';
 
 const addColUri = process.env.REACT_APP_DEV_BASE_URI + '/columns';
 
 export const addColumn = async (colObject, dispatch) => {
+	const socketAction = actionPrefix;
 	const { relationId, colName } = colObject;
-	const fetchUri = queryStringGenerator(addColUri, { colName, ...relationId });
+	const fetchUri = queryStringGenerator(addColUri, { colName, ...relationId, socketAction });
 	let metaData = {
 		method: 'POST',
 		headers: {

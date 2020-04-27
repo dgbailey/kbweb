@@ -7,44 +7,13 @@ import { Registration } from './Registration';
 import { BannerNav } from './BannerNav';
 import { BannerButton } from './BannerButton';
 import { NewBoard } from './NewBoard';
-import { ModalRoot } from './ModalRoot';
-import { ModalProvider } from './modalProvider';
-import { ModalBody } from './ModalBody';
-import { ModalConsumer } from './ModalRoot';
-import { ModalHeader } from './ModalHeader';
+import { ModalHeader } from './components/Modal/ModalHeader';
 import { addMemberToBoard } from './actions/addMemberToBoard';
 import { useSelector, useDispatch } from 'react-redux';
-
-const Modal = () => {
-	let dispatch = useDispatch();
-	let activeBoard = useSelector((state) => state.expBoard.activeBoard);
-	let isShareSuccess = useSelector((state) => state.addMemberStatus);
-	let [ inputData, setInputData ] = useState(null);
-	const handleChange = (e) => {
-		let data = { [e.target.name]: e.target.value };
-		setInputData({ ...data });
-	};
-	const dispatchShareAction = () => {
-		let { userName } = inputData;
-		addMemberToBoard(userName, activeBoard, dispatch);
-	};
-	return (
-		<ModalBody>
-			<ModalHeader>
-				<div>
-					<label>username</label>
-					<input onChange={handleChange} name="userName" />
-				</div>
-				<div>
-					<button onClick={dispatchShareAction}>Share</button>
-				</div>
-			</ModalHeader>
-			{console.log('k', isShareSuccess)}
-			{isShareSuccess.addMemberSuccess && <div>Success! Board member added.</div>}
-		</ModalBody>
-	);
-};
-
+import { Modal } from './components/Modal/Modal';
+import { ModalRoot } from './components/Modal/ModalRoot';
+import { ModalConsumer } from './components/Modal/ModalRoot';
+import { ModalProvider } from './components/Modal/modalProvider';
 function App() {
 	return (
 		<ModalProvider>
@@ -68,7 +37,7 @@ function App() {
 						</BannerNav>
 						<ModalConsumer>
 							{(value) => {
-								return <NewBoard onClick={() => value.toggleModal(ModalBody)} onMountNewUser={false} />;
+								return <NewBoard onClick={() => value.toggleModal(Modal)} onMountNewUser={false} />;
 							}}
 						</ModalConsumer>
 					</Route>
