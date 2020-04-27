@@ -1,14 +1,15 @@
+import { queryStringGenerator } from '../utilities/queryStringGenerator';
 const ADD_BOARD_MEMBER_START = 'ADD_BOARD_MEMBER_START';
 const ADD_BOARD_MEMBER_SUCCESS = 'ADD_BOARD_MEMBER_SUCCESS';
 const ADD_BOARD_MEMBER_FAILURE = 'ADD_BOARD_MEMBER_FAILURE';
-const boardUri = 'http://localhost:8080/boards/:boardId/members';
-const queryStringGenerator = require('../utilities/queryStringGenerator');
+const boardUri = 'http://localhost:8080/boards/boardId/members';
 
 export const addMemberToBoard = async (userName, boardId, dispatch) => {
-	let queryString = queryStringGenerator(boardUri, { userName });
-	let formattedURI = boardUri.replace(/:boardId/, boardId) + queryString;
+	let formattedURI = boardUri.replace(/boardId/, boardId);
+	let queryString = queryStringGenerator(formattedURI, { userName });
+
 	let metaData = {
-		method: 'POST',
+		method: 'PUT',
 		headers: {
 			'Content-Type': 'application-json'
 		},
@@ -16,7 +17,7 @@ export const addMemberToBoard = async (userName, boardId, dispatch) => {
 	};
 	try {
 		dispatch({ type: ADD_BOARD_MEMBER_START });
-		await fetch(formattedURI, metaData);
+		await fetch(queryString, metaData);
 		dispatch({ type: ADD_BOARD_MEMBER_SUCCESS });
 	} catch (error) {
 		dispatch({ type: ADD_BOARD_MEMBER_FAILURE, payload: error });

@@ -6,7 +6,21 @@ export const socketMiddleware = (socketURI) => {
 			case 'SOCKET_CONN_MOUNT':
 				let entityId = action.payload.entityId;
 				socket = new WebSocket(socketURI);
-				socket.onmessage = (e) => storeApi.dispatch({ type: 'SOCKET_MESSAGE', payload: e.data });
+				socket.onmessage = (e) => {
+					let data = JSON.parse(e.data);
+
+					let { socketPayload: socketAction } = data;
+					console.log('socketaction', data);
+
+					switch (socketAction) {
+						case 'ADD_ITEM':
+							storeApi.dispatch({ type: 'ADD_ITEM_SUCCESS', payload: data });
+							break;
+						default:
+							storeApi.dispatch({ type: 'SOCKET_MESSAGE', payload: e.data });
+					}
+				};
+
 				socket.onopen = (e) => socket.send(entityId);
 				// TODO: socket.onclose = something to note this action in our store
 				break;

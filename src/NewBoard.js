@@ -45,12 +45,16 @@ export function NewBoard(props) {
 		Middleware:
 
 	*/
-	useEffect(() => {
-		dispatch({ type: 'SOCKET_CONN_MOUNT', payload: { entityId: boardId } });
-		return () => dispatch({ type: 'SOCKET_CONN_UNMOUNT' });
+	useEffect(
+		() => {
+			dispatch({ type: 'SOCKET_CONN_MOUNT', payload: { entityId: boardId } });
+			return () => dispatch({ type: 'SOCKET_CONN_UNMOUNT' });
 
-		//could be more semantic to convey that we are establishing web socket connections here
-	}, []);
+			//could be more semantic to convey that we are establishing web socket connections here
+			//boardId initially renders null which is not convenient for establishing a websocket connection with active entity
+		},
+		[ boardId ]
+	);
 
 	useEffect(() => {
 		let formattedUuid = parseUriIntoFormattedUuid(history.location.pathname);
