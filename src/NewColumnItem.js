@@ -27,7 +27,11 @@ const StyledColumnItem = styled.li`
 	height: 50px;
 	border-radius: 4px;
 	width: 100%;
-	margin: 3px;
+	margin: 5px 0px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0px 2px 2px #c3c3c3;
 `;
 
 NewColumnItem.propTypes = propTypes;

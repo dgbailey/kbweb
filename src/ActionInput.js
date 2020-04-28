@@ -43,6 +43,8 @@ export const ActionInput = props => {
         
         stopClickPropagationToMyParents(e);
         submitAction({...inputState,relationId},dispatch);
+        clearInputState();
+
     }
     const handleChange = e => {
         let newState = {};
@@ -50,9 +52,11 @@ export const ActionInput = props => {
         setInputState({...inputState,...newState});
     }
 
+    const clearInputState = () => setInputState({'itemContent':''});
+
     return (
         <>
-            <StyledInput onChange={handleChange} onClick={stopClickPropagationToMyParents} name={name} placeHolder={placeHolder} type={type} maxLength={maxLength}></StyledInput>
+            <StyledInput onChange={handleChange}  value={inputState.itemContent} onClick={stopClickPropagationToMyParents} name={name} placeHolder={placeHolder} type={type} maxLength={maxLength}></StyledInput>
             <StyledButton onClick={clickActionAggregator} type='button'>{submitText}</StyledButton>
             <StyledButton type='button' >{toggleText}</StyledButton>
         </>

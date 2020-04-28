@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addMemberToBoard } from '../../actions/addMemberToBoard';
 import { ModalHeader } from './ModalHeader';
 import { ModalBody } from './ModalBody';
+import styled from 'styled-components';
 
 export const Modal = () => {
 	let dispatch = useDispatch();
@@ -21,14 +22,44 @@ export const Modal = () => {
 		<ModalBody>
 			<ModalHeader>
 				<div>
-					<label>username</label>
-					<input onChange={handleChange} name="userName" />
+					<StyledInput
+						placeholder="Type username here"
+						autofocus="autofocus"
+						onChange={handleChange}
+						name="userName"
+					/>
 				</div>
 				<div>
-					<button onClick={dispatchShareAction}>Share</button>
+					<StyledButton onClick={dispatchShareAction}>Share</StyledButton>
 				</div>
 			</ModalHeader>
 			{isShareSuccess.addMemberSuccess && <div>Success! Board member added.</div>}
 		</ModalBody>
 	);
 };
+
+const StyledInput = styled.input`
+	border: none;
+	margin: none;
+	madding: none;
+	background: transparent;
+	&:focus {
+		outline: none;
+	}
+`;
+
+const StyledButton = styled.button`
+	display: inline-flex;
+	justify-content: center;
+	width: 70px;
+	height: 30px;
+	border-radius: 3px;
+	background: lightblue;
+	border: none;
+	padding: none;
+	&:hover {
+		cursor: pointer;
+	}
+	color: white;
+	font-weight: bold;
+`;

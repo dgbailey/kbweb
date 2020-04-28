@@ -73,13 +73,14 @@ ActionButton.defaultProps = defaultProps;
 const StyledButton = styled.div`
 	display: flex;
 	flex-direction: column;
-	background: lightgray;
+	background: #e8e7e7;
 	height: 50px;
 	justify-content: center;
 	padding: 0px;
 	transition: .1s ease;
 	margin: 3px;
 	border-radius: 3px;
+	min-width: 260px;
 	&:hover {
 		cursor: pointer;
 		background: gray;

@@ -1,7 +1,7 @@
 export const FETCH_BOARDITEMS_START = 'FETCH_BOARDITEMS_START';
 export const FETCH_BOARDITEMS_SUCCESS = 'FETCH_BOARDITEMS_SUCCESS';
 export const FETCH_BOARDITEMS_FAILURE = 'FETCH_BOARDITEMS_FAILURE';
-const boardUri = 'http://localhost:8080/boards/';
+const boardUri = process.env.REACT_APP_DEV_BASE_URI + '/boards/';
 const items = '/items';
 
 export const fetchItemsByBoardId = async (boardId, dispatch) => {

@@ -120,10 +120,11 @@ const abStyles = {
 
 const StyledBoard = styled.section`
 	height: 800px;
-	width: 1000px;
+	max-width: 1200px;
 	margin: 100px auto;
 	display: flex;
-	flex-wrap: wrap;
+	flex-wrap: no-wrap;
+	overflow-x: scroll;
 	justify-content: flex-start;
 
 	h1 {

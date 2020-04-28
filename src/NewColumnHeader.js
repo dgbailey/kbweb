@@ -12,7 +12,7 @@ export const NewColumnHeader = (props) => {
 
 	return (
 		<StyledColumnHEader>
-			<h2>{name}</h2>
+			<h3>{name}</h3>
 			{children}
 		</StyledColumnHEader>
 	);
@@ -23,8 +23,8 @@ const StyledColumnHEader = styled.div`
 	height: 50px;
 	display: flex;
 	justify-content: space-between;
-	padding: 5px;
-	h2 {
+	padding: 10px 20px;
+	h3 {
 		font-weight: bold;
 	}
 `;

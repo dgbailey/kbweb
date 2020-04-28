@@ -17,7 +17,7 @@ export const addBoard = async (boardObject, dispatch) => {
 		dispatch({ type: ADD_BOARD_START });
 		let board = await fetch(fetchUri, metaData);
 		let json = await board.json();
-		console.log('json', json);
+
 		dispatch({ type: ADD_BOARD_SUCCESS, payload: json });
 		return json;
 	} catch (error) {

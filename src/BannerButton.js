@@ -26,6 +26,10 @@ const StyledButton = styled.button`
 	border-radius: 2px;
 	border: none;
 	padding: 5px;
+	font-family: 'Roboto', sans-serif;
+	font-size: 15px;
+	font-weight: 400;
+	background: transparent;
 	&:hover {
 		cursor: pointer;
 		background: lightgray;

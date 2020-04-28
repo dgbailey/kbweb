@@ -1,7 +1,7 @@
 export const FETCH_BOARDCOLS_START = 'FETCH_BOARDCOLS_START';
 export const FETCH_BOARDCOLS_SUCCESS = 'FETCH_BOARDCOLS_SUCCESS';
 export const FETCH_BOARDCOLS_FAILURE = 'FETCH_BOARDCOLS_FAILURE';
-const boardUri = 'http://localhost:8080/boards/';
+const boardUri = 'https://robodexer.herokuapp.com/boards/';
 const columns = '/columns';
 
 export const fetchColumnsByBoardId = async (boardId, dispatch) => {

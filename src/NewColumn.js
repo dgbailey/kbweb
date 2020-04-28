@@ -18,13 +18,14 @@ export const NewColumn = (props) => {
 };
 
 const StyledNewColumn = styled.div`
-	width: 250px;
+	min-width: 270px;
 	max-height: 600px;
 	margin: 0px 5px;
 
 	.column-content {
-		background: lightgray;
+		background: #e8e7e7;
 		border-radius: 5px;
+		padding: 0px 3px;
 	}
 `;
 

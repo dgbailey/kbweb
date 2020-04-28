@@ -1,4 +1,4 @@
-export const PREFLIGHT_AUTH_URL = 'http://localhost:8080/flow/login/preflight';
+export const boardUri = process.env.REACT_APP_DEV_BASE_URI + '/flow/login/preflight';
 export const FETCHING_START_METADATA = 'FETCHING_USER_METADATA';
 export const FETCHING_SUCCESS_METADATA = 'FETCHING_SUCCESS_METADATA';
 export const FETCHING_FAILURE_METADATA = 'FETCHING_USER_METADATA';
@@ -12,7 +12,7 @@ export const preFlightAuthStatus = async (dispatch, history) => {
 			credentials: 'include'
 		};
 
-		let response = await fetch(PREFLIGHT_AUTH_URL, settings);
+		let response = await fetch(boardUri, settings);
 		let jsonResolved = await response.json();
 		if (response.status === 200) {
 			//designed to only handle one board name

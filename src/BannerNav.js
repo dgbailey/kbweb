@@ -18,14 +18,13 @@ const StyledBannerNav = styled.nav`
 	position: fixed;
 	top: 0px;
 	width: 100%;
-	height: 100px;
+	height: 70px;
 	justify-content: space-between;
-	padding: 10px 10px;
-	border: 1px solid black;
+	padding: 10px 50px;
 	& > ul {
-		border: 1px solid red;
 		height: 100%;
 		display: flex;
+		align-items: center;
 		justify-content: space-between;
 		padding: 0px;
 		margin: 0px;

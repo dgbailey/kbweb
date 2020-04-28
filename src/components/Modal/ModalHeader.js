@@ -12,12 +12,14 @@ export const ModalHeader = (props) => {
 }
 
 const StyledModalHeader = styled.ul `
+    
     margin:0px;
     padding:5px;
     display:flex;
-    justify-content:space-between;
-    height:70px;
-    border:1px solid blue;
+    align-items:center;
+    justify-content:space-around;
+    height:50px;
+    background:#d3d3d35c;
     width:100%;
     
     
