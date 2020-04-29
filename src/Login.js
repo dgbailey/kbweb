@@ -12,10 +12,13 @@ export const Login = () => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		preFlightAuthStatus(dispatch, history);
-		//when first mounts check cookie status. Sends GET request to preflight url and return status
-	}, []);
+	useEffect(
+		() => {
+			preFlightAuthStatus(dispatch, history);
+			//when first mounts check cookie status. Sends GET request to preflight url and return status
+		},
+		[ dispatch, history ]
+	);
 
 	function handleChange(e) {
 		//TODO:Look into debouncing this

@@ -16,7 +16,7 @@ export const preFlightAuthStatus = async (dispatch, history) => {
 		let jsonResolved = await response.json();
 		if (response.status === 200) {
 			//designed to only handle one board name
-			let { board_id: boardId, name } = jsonResolved;
+
 			dispatch({ type: FETCHING_SUCCESS_METADATA, payload: jsonResolved });
 			history.push(`/home`);
 		} else {

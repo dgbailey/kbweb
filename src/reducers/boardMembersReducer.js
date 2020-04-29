@@ -1,9 +1,3 @@
-import {
-	ADD_BOARD_MEMBER_START,
-	ADD_BOARD_MEMBER_SUCCESS,
-	ADD_BOARD_MEMBER_FAILURE
-} from '../actions/addMemberToBoard';
-
 const boardMemberState = {
 	addMemberStart: false,
 	addMemberSuccess: false,
@@ -15,7 +9,7 @@ export const boardMembersReducer = (initialState = boardMemberState, action) => 
 			return {
 				...initialState,
 				addMemberStart: true,
-				addMemberStart: false,
+				addMemberSuccess: false,
 				addMemberFailure: false
 			};
 		case 'ADD_BOARD_MEMBER_SUCCESS':

@@ -46,6 +46,9 @@ const StyledInput = styled.input`
 	&:focus {
 		outline: none;
 	}
+	&::placeholder {
+		font-size: 13px;
+	}
 `;
 
 const StyledButton = styled.button`
@@ -54,7 +57,7 @@ const StyledButton = styled.button`
 	width: 70px;
 	height: 30px;
 	border-radius: 3px;
-	background: lightblue;
+	background: #2bcbff;
 	border: none;
 	padding: none;
 	&:hover {

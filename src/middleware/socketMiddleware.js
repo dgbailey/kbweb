@@ -27,6 +27,7 @@ export const socketMiddleware = (socketURI) => {
 				break;
 			case 'SOCKET_CONN_UNMOUNT':
 				socket.close();
+				break;
 			default:
 				next(action);
 		}

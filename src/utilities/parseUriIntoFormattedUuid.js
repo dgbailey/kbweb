@@ -1,6 +1,5 @@
 //initial thought find index of last "-" using hashtable
 import { formatUuid } from './formatUuid';
-import { format } from 'url';
 
 export const parseUriIntoFormattedUuid = (uriString) => {
 	console.log('uRIstring', uriString);

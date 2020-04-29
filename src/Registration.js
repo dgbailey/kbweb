@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Link, Redirect } from 'react-router-dom';
 import { registerCredentialsAction } from './actions/registerCredentials';
-import { useHistory } from 'react-router-dom';
-const uuid4 = require('uuid4');
 
 export const Registration = () => {
 	//on component mount check local storage, if token render redirect to board + board id

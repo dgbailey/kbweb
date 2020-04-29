@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Route, Switch, Link } from 'react-router-dom';
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import { Home } from './Home';
 import { Login } from './Login';
@@ -7,9 +7,6 @@ import { Registration } from './Registration';
 import { BannerNav } from './BannerNav';
 import { BannerButton } from './BannerButton';
 import { NewBoard } from './NewBoard';
-import { ModalHeader } from './components/Modal/ModalHeader';
-import { addMemberToBoard } from './actions/addMemberToBoard';
-import { useSelector, useDispatch } from 'react-redux';
 import { Modal } from './components/Modal/Modal';
 import { ModalRoot } from './components/Modal/ModalRoot';
 import { ModalConsumer } from './components/Modal/ModalRoot';
@@ -37,7 +34,14 @@ function App() {
 						</BannerNav>
 						<ModalConsumer>
 							{(value) => {
-								return <NewBoard onClick={() => value.toggleModal(Modal)} onMountNewUser={false} />;
+								return (
+									<NewBoard
+										onClick={() => {
+											value.data.isOpen && value.toggleModal(Modal);
+										}}
+										onMountNewUser={false}
+									/>
+								);
 							}}
 						</ModalConsumer>
 					</Route>

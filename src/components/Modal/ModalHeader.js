@@ -21,6 +21,7 @@ const StyledModalHeader = styled.ul `
     height:50px;
     background:#d3d3d35c;
     width:100%;
+    border-bottom:1px solid lightgray;
     
     
 `

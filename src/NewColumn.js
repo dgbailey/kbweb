@@ -9,7 +9,7 @@ const propTypes = {
 };
 
 export const NewColumn = (props) => {
-	const { children, colId, columnId } = props;
+	const { children } = props;
 	return (
 		<StyledNewColumn>
 			<div className="column-content">{children}</div>

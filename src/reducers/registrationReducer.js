@@ -10,7 +10,7 @@ export const registrationReducer = (state = initialState, action) => {
 			return {
 				...state,
 				registrationStart: true,
-				registrationStart: false,
+				registrationSuccess: false,
 				registrationError: ''
 			};
 

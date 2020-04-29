@@ -34,7 +34,7 @@ export const loginReducer = (state = initialState, action) => {
 			return {
 				...state,
 				loginStart: true,
-				loginStart: false,
+				loginSuccess: false,
 				loginError: null,
 				loginPayload: null
 			};

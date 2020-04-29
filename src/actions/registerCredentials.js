@@ -9,9 +9,10 @@ export const registerCredentialsAction = async (creds, dispatch) => {
 			body: JSON.stringify(creds),
 			credentials: 'include'
 		};
+		console.log(creds);
 		let response = await fetch(registrationURI, settings);
 		let responseResolved = await response.json();
-		let { jwt, userName, userId } = responseResolved;
+		let { userName, userId } = responseResolved;
 
 		if (response.status === 200) {
 			dispatch({ type: 'REGISTRATION_COMPLETE' });

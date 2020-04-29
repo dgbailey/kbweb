@@ -8,13 +8,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { rootReducer } from './reducers/index';
 import { BrowserRouter } from 'react-router-dom';
 import { socketMiddleware } from './middleware/socketMiddleware';
-import { lastWriterWins } from './middleware/lastWriterWins';
 
-//create root reducer
-//remove reducer from board
-//add use selector to board
-//use thunk middleware
-//create store
 const socketURI = process.env.REACT_APP_DEV_BASE_SOCKET;
 const store = createStore(
 	rootReducer,

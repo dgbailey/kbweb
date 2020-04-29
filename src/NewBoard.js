@@ -23,20 +23,11 @@ const propTypes = {
 
 export function NewBoard(props) {
 	const boardState = useSelector((state) => state.expBoard);
-	const {
-		activeBoard: boardId,
-		entities,
-		addBoardStart,
-		fetchBoardSuccess,
-		fetchColumnSuccess,
-		fetchItemSuccess
-	} = boardState;
+	const { activeBoard: boardId, entities, fetchBoardSuccess, fetchColumnSuccess, fetchItemSuccess } = boardState;
 	const { columns, itemColumn: itemColumnEntity } = entities;
-
-	const userMetaData = useSelector((state) => state.userMetaData);
-	const { id: userId } = userMetaData;
 	const history = useHistory();
 	const dispatch = useDispatch();
+	const rawBoardUri = history.location.pathname;
 
 	useEffect(
 		() => {
@@ -44,18 +35,21 @@ export function NewBoard(props) {
 			return () => dispatch({ type: 'SOCKET_CONN_UNMOUNT' });
 			//boardId initially renders null which is not convenient for establishing a websocket connection with active entity
 		},
-		[ boardId ]
+		[ dispatch, boardId ]
 	);
 
-	useEffect(() => {
-		let formattedUuid = parseUriIntoFormattedUuid(history.location.pathname);
+	useEffect(
+		() => {
+			let formattedUuid = parseUriIntoFormattedUuid(rawBoardUri);
 
-		parallelRequests(
-			fetchBoardByBoardId(formattedUuid, dispatch),
-			fetchColumnsByBoardId(formattedUuid, dispatch),
-			fetchItemsByBoardId(formattedUuid, dispatch)
-		);
-	}, []);
+			parallelRequests(
+				fetchBoardByBoardId(formattedUuid, dispatch),
+				fetchColumnsByBoardId(formattedUuid, dispatch),
+				fetchItemsByBoardId(formattedUuid, dispatch)
+			);
+		},
+		[ dispatch, rawBoardUri ]
+	);
 
 	const grabItemDataByColId = (colId) => {
 		let itemObjects = itemColumnEntity.byId;

@@ -56,7 +56,7 @@ export const ActionInput = props => {
 
     return (
         <>
-            <StyledInput onChange={handleChange}  value={inputState.itemContent} onClick={stopClickPropagationToMyParents} name={name} placeHolder={placeHolder} type={type} maxLength={maxLength}></StyledInput>
+            <StyledInput onChange={handleChange}  value={inputState[name]} onClick={stopClickPropagationToMyParents} name={name} placeHolder={placeHolder} type={type} maxLength={maxLength}></StyledInput>
             <StyledButton onClick={clickActionAggregator} type='button'>{submitText}</StyledButton>
             <StyledButton type='button' >{toggleText}</StyledButton>
         </>
