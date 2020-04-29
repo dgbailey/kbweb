@@ -1,4 +1,4 @@
-const registrationURI = 'https://robodexer.herokuapp.com/flow/signup';
+const registrationURI = process.env.REACT_APP_DEV_BASE_URI + '/flow/signup';
 export const registerCredentialsAction = async (creds, dispatch) => {
 	try {
 		//remember 400/500 are responses not network errors.  You still need to check if the response is good
