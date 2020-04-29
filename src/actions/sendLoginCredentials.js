@@ -1,5 +1,5 @@
 import { FETCHING_SUCCESS_METADATA } from '../actions/preflightAuthStatus';
-export const loginUri = 'https://robodexer.herokuapp.com/flow/login';
+export const loginUri = process.env.REACT_APP_DEV_BASE_URI + '/flow/login';
 export const FETCH_LOGIN_START = 'FETCH_LOGIN_START';
 export const FETCH_LOGIN_SUCCESS = 'FETCH_LOGIN_SUCCESS';
 export const FETCH_LOGIN_FAILURE = 'FETCH_LOGIN_FAILURE';
