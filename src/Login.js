@@ -34,6 +34,7 @@ export const Login = () => {
 		return (
 			<StyledLogin>
 				{loginStatus.loginError && <div>{loginStatus.loginError}</div>}
+				<label>username</label>
 				<input
 					onChange={handleChange}
 					name="username"
@@ -41,7 +42,7 @@ export const Login = () => {
 					type="text"
 					className="input username"
 				/>
-
+				<label>password</label>
 				<input
 					onChange={handleChange}
 					name="password"

@@ -4,7 +4,6 @@
 	"private": true,
 	"dependencies": {
 		"@testing-library/jest-dom": "^4.2.4",
-		"@testing-library/react": "^9.3.2",
 		"@testing-library/user-event": "^7.1.2",
 		"lodash": "^4.17.15",
 		"proptypes": "^1.1.0",
@@ -14,11 +13,12 @@
 		"react-router-dom": "^5.1.2",
 		"react-scripts": "3.3.0",
 		"redux": "^4.0.5",
+		"redux-mock-store": "^1.5.4",
 		"styled-components": "^4.4.1",
 		"uuid4": "^1.1.4"
 	},
 	"scripts": {
-		"start": "npm install -g serve && serve -s build",
+		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
@@ -27,7 +27,18 @@
 		"extends": "react-app"
 	},
 	"browserslist": {
-		"production": [ ">0.2%", "not dead", "not op_mini all" ],
-		"development": [ "last 1 chrome version", "last 1 firefox version", "last 1 safari version" ]
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"devDependencies": {
+		"@testing-library/react": "^9.5.0"
 	}
 }
