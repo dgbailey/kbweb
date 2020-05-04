@@ -27,3 +27,7 @@ test('checks we are actually changing inputs', () => {
 	expect(screen.queryByText(testUsername)).toBe(testUsername);
 	expect(screen.queryByText(testUsername)).toBe(testUsername);
 });
+<<<<<<< HEAD
+=======
+//test commit message
+>>>>>>> ab3da8fc8dcbc5088497b2604149f7de2c8871fa
