@@ -31,3 +31,4 @@ test('checks we are actually changing inputs', () => {
 =======
 //test commit message
 >>>>>>> ab3da8fc8dcbc5088497b2604149f7de2c8871fa
+//add more to this test
