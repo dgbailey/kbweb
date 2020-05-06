@@ -82,12 +82,16 @@ export function NewBoard(props) {
 
 	const hydrateBoard = (hydratedSubComponents) => {
 		return (
+		
 			<StyledBoard onClick={props.onClick}>
+				<div className='section-scroller'>
 				{hydratedSubComponents}
 				<ActionButton style={abStyles} description={'Add Column'}>
 					<ActionInput name={'colName'} relationId={{ boardId }} submitAction={addColumn} />
 				</ActionButton>
+				</div>
 			</StyledBoard>
+		
 		);
 	};
 	const conditionallyRenderBoard = (renderResult) => {
@@ -113,15 +117,21 @@ const abStyles = {
 };
 
 const StyledBoard = styled.section`
-	height: 800px;
-	max-width: 1200px;
-	margin: 100px auto;
+	
+	
 	display: flex;
-	flex-wrap: no-wrap;
-	overflow-x: scroll;
-	justify-content: flex-start;
+	
+	.section-scroller{
+		display:flex;
+		flex-wrap: no-wrap;
+		justify-content: flex-start;
+		max-width: 1200px;
+		height:900px;
+		overflow-x:scroll;
+		${'' /* overflow-y:hidden; */}
+	}
 
-	h1 {
+	& > h1 {
 		font-size: 20px;
 		font-weight: 800;
 	}
