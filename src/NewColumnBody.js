@@ -28,8 +28,8 @@ export const NewColumnBody = (props) => {
 
 const StyledNewColumnBody = styled.ul`
 	list-style: none;
-	max-height: 600px;
-	overflow-y: scroll;
+	max-height: 500px;
+	overflow: scroll;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

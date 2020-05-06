@@ -24,7 +24,7 @@ export const NewColumnItem = (props) => {
 
 const StyledColumnItem = styled.li`
 	background: white;
-	height: 50px;
+	min-height: 50px;
 	border-radius: 4px;
 	width: 100%;
 	margin: 5px 0px;

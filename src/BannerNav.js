@@ -15,7 +15,7 @@ export const BannerNav = (props) => {
 };
 
 const StyledBannerNav = styled.nav`
-	position: fixed;
+	
 	top: 0px;
 	width: 100%;
 	height: 70px;
