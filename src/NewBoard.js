@@ -118,7 +118,11 @@ const abStyles = {
 
 const StyledBoard = styled.section`
 	
+<<<<<<< HEAD
 	padding:10px 50px;
+=======
+	
+>>>>>>> 5f0c37f38d963e76013ccb097bb6ed1b52de6f9c
 	display: flex;
 	
 	.section-scroller{
@@ -126,9 +130,15 @@ const StyledBoard = styled.section`
 		flex-wrap: no-wrap;
 		justify-content: flex-start;
 		max-width: 1200px;
+<<<<<<< HEAD
 		height:630px;
 		overflow-x:scroll;
 		overflow-y:hidden;
+=======
+		height:900px;
+		overflow-x:scroll;
+		${'' /* overflow-y:hidden; */}
+>>>>>>> 5f0c37f38d963e76013ccb097bb6ed1b52de6f9c
 	}
 
 	& > h1 {
