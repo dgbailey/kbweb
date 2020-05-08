@@ -10,13 +10,9 @@ import { BrowserRouter } from 'react-router-dom';
 import { socketMiddleware } from './middleware/socketMiddleware';
 
 const socketURI = process.env.REACT_APP_DEV_BASE_SOCKET;
-const store = createStore(
-	rootReducer,
-	compose(
-		applyMiddleware(socketMiddleware(socketURI)),
-		window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-	)
-);
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+// https://github.com/zalmoxisus/redux-devtools-extension#12-advanced-store-setup
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(socketMiddleware(socketURI))));
 
 ReactDOM.render(
 	<Provider store={store}>

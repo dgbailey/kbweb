@@ -31,7 +31,7 @@ export function NewBoard(props) {
 
 	useEffect(
 		() => {
-			dispatch({ type: 'SOCKET_CONN_MOUNT', payload: { entityId: boardId } });
+			boardId && dispatch({ type: 'SOCKET_CONN_MOUNT', payload: { entityId: boardId } });
 			return () => dispatch({ type: 'SOCKET_CONN_UNMOUNT' });
 			//boardId initially renders null which is not convenient for establishing a websocket connection with active entity
 		},
