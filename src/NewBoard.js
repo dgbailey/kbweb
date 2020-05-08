@@ -41,7 +41,7 @@ export function NewBoard(props) {
 	useEffect(
 		() => {
 			let formattedUuid = parseUriIntoFormattedUuid(rawBoardUri);
-			let actions = [ fetchBoardByBoardId, fetchColumnsByBoardId, fetchBoardByBoardId ];
+			let actions = [ fetchBoardByBoardId, fetchColumnsByBoardId, fetchItemsByBoardId ];
 			let requests = actions.map((a) => a(formattedUuid, dispatch));
 
 			parallelRequests(requests);
