@@ -41,12 +41,10 @@ export function NewBoard(props) {
 	useEffect(
 		() => {
 			let formattedUuid = parseUriIntoFormattedUuid(rawBoardUri);
+			let actions = [ fetchBoardByBoardId, fetchColumnsByBoardId, fetchBoardByBoardId ];
+			let requests = actions.map((a) => a(formattedUuid, dispatch));
 
-			parallelRequests(
-				fetchBoardByBoardId(formattedUuid, dispatch),
-				fetchColumnsByBoardId(formattedUuid, dispatch),
-				fetchItemsByBoardId(formattedUuid, dispatch)
-			);
+			parallelRequests(requests);
 		},
 		[ dispatch, rawBoardUri ]
 	);
@@ -82,16 +80,14 @@ export function NewBoard(props) {
 
 	const hydrateBoard = (hydratedSubComponents) => {
 		return (
-		
 			<StyledBoard onClick={props.onClick}>
-				<div className='section-scroller'>
-				{hydratedSubComponents}
-				<ActionButton style={abStyles} description={'Add Column'}>
-					<ActionInput name={'colName'} relationId={{ boardId }} submitAction={addColumn} />
-				</ActionButton>
+				<div className="section-scroller">
+					{hydratedSubComponents}
+					<ActionButton style={abStyles} description={'Add Column'}>
+						<ActionInput name={'colName'} relationId={{ boardId }} submitAction={addColumn} />
+					</ActionButton>
 				</div>
 			</StyledBoard>
-		
 		);
 	};
 	const conditionallyRenderBoard = (renderResult) => {
@@ -117,24 +113,19 @@ const abStyles = {
 };
 
 const StyledBoard = styled.section`
-	
-
-	padding:10px 50px;
-
-	
+	padding: 10px 50px;
 
 	display: flex;
-	
-	.section-scroller{
-		display:flex;
+
+	.section-scroller {
+		display: flex;
 		flex-wrap: no-wrap;
 		justify-content: flex-start;
 		max-width: 1200px;
 
-		height:630px;
-		overflow-x:scroll;
-		overflow-y:hidden;
-
+		height: 630px;
+		overflow-x: scroll;
+		overflow-y: hidden;
 	}
 
 	& > h1 {
