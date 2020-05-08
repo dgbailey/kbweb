@@ -1,9 +1,10 @@
-export const socketMiddleware = (socketURI) => {
+export const socketMiddleware = () => {
 	let socket;
 
 	return (storeApi) => (next) => async (action) => {
 		switch (action.type) {
 			case 'SOCKET_CONN_MOUNT':
+				const socketURI = process.env.REACT_APP_DEV_BASE_SOCKET;
 				let entityId = action.payload.entityId;
 				socket = new WebSocket(socketURI);
 				socket.onmessage = (e) => {
