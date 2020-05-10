@@ -27,7 +27,9 @@ export const socketMiddleware = () => {
 				// TODO: socket.onclose = something to note this action in our store
 				break;
 			case 'SOCKET_CONN_UNMOUNT':
-				socket && socket.close();
+				if (socket && socket.readyStatus === 1) {
+					socket.close();
+				}
 				break;
 			default:
 				next(action);
