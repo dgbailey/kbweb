@@ -28,4 +28,9 @@ describe('Login component test', () => {
 	test('Confirm mount', () => {
 		expect(wrapper.containsMatchingElement(<Login />)).toBe(true);
 	});
+	test('Confirm correct signup link on Login', () => {
+		const link = wrapper.find('Link');
+
+		expect(link.props().to).toBe('/signup');
+	});
 });

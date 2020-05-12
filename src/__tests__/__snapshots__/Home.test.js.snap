@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home component Tests Home correctly with appropriate \${boardIds.length} Preview Children 1`] = `
+<section
+  className="sc-bwzfXH jIBrOh"
+>
+  <button
+    onClick={[Function]}
+  >
+    Create New Board
+  </button>
+  <a
+    href="/board/existing/generic- 87242b88d14a4dfba377b799a619880e"
+    onClick={[Function]}
+  >
+    <ul
+      className="sc-bdVaJa gAYVjo"
+    >
+      <li>
+        <h2
+          className="name"
+        >
+          generic
+        </h2>
+      </li>
+    </ul>
+  </a>
+  <a
+    href="/board/existing/generic-87242b88d14a4dfba377b799a639880e"
+    onClick={[Function]}
+  >
+    <ul
+      className="sc-bdVaJa gAYVjo"
+    >
+      <li>
+        <h2
+          className="name"
+        >
+          generic
+        </h2>
+      </li>
+    </ul>
+  </a>
+  <a
+    href="/board/existing/generic-87242b88d14a4dfba377b792a619880e "
+    onClick={[Function]}
+  >
+    <ul
+      className="sc-bdVaJa gAYVjo"
+    >
+      <li>
+        <h2
+          className="name"
+        >
+          generic
+        </h2>
+      </li>
+    </ul>
+  </a>
+</section>
+`;
