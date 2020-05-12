@@ -6,6 +6,7 @@ import { loginCredentialsAction } from './actions/sendLoginCredentials';
 import { useHistory } from 'react-router-dom';
 import { preFlightAuthStatus } from './actions/preflightAuthStatus';
 
+export const SIGNUP_URI = '/signup';
 export const Login = () => {
 	const loginStatus = useSelector((state) => state.loginStatus);
 	const [ credentials, setCredentials ] = useState({ username: '', password: '' });
@@ -14,7 +15,6 @@ export const Login = () => {
 	const history = useHistory();
 	useEffect(
 		() => {
-			console.log('preflight');
 			preFlightAuthStatus(dispatch, history);
 			//when first mounts check cookie status. Sends GET request to preflight url and return status
 		},
@@ -55,7 +55,7 @@ export const Login = () => {
 				<button onClick={sendCredentials} className="login-btn">
 					Login
 				</button>
-				<Link to="/signup">Sign Up</Link>
+				<Link to={SIGNUP_URI}>Sign Up</Link>
 			</StyledLogin>
 		);
 	}
@@ -67,6 +67,7 @@ export const Login = () => {
 		switch (loginStatus.loginSuccess) {
 			case true:
 				return renderRedirect();
+				break;
 			default:
 				return renderLogin();
 		}
