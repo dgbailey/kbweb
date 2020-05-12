@@ -9,11 +9,12 @@ import { preFlightAuthStatus } from './actions/preflightAuthStatus';
 export const Login = () => {
 	const loginStatus = useSelector((state) => state.loginStatus);
 	const [ credentials, setCredentials ] = useState({ username: '', password: '' });
-	const history = useHistory();
-	const dispatch = useDispatch();
 
+	const dispatch = useDispatch();
+	const history = useHistory();
 	useEffect(
 		() => {
+			console.log('preflight');
 			preFlightAuthStatus(dispatch, history);
 			//when first mounts check cookie status. Sends GET request to preflight url and return status
 		},
@@ -50,12 +51,11 @@ export const Login = () => {
 					className="input password"
 					type="password"
 				/>
-				<Link>
-					<button onClick={sendCredentials} className="login-btn">
-						Login
-					</button>
-					<Link to="/signup">Sign Up</Link>
-				</Link>
+
+				<button onClick={sendCredentials} className="login-btn">
+					Login
+				</button>
+				<Link to="/signup">Sign Up</Link>
 			</StyledLogin>
 		);
 	}
