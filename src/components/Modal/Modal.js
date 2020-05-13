@@ -24,9 +24,10 @@ export const Modal = () => {
 				<div>
 					<StyledInput
 						placeholder="Type username here"
-						autofocus="autofocus"
+						autoFocus="autofocus"
 						onChange={handleChange}
 						name="userName"
+						data-test="modal-input"
 					/>
 				</div>
 				<div>
