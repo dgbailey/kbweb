@@ -24,16 +24,20 @@ export const Modal = () => {
 				<div>
 					<StyledInput
 						placeholder="Type username here"
-						autofocus="autofocus"
+						autoFocus="autofocus"
 						onChange={handleChange}
 						name="userName"
+						data-test="modal-input"
 					/>
 				</div>
 				<div>
-					<StyledButton onClick={dispatchShareAction}>Share</StyledButton>
+					<StyledButton data-test="share-action-btn" onClick={dispatchShareAction}>
+						Share
+					</StyledButton>
 				</div>
 			</ModalHeader>
-			{isShareSuccess.addMemberSuccess && <div>Success! Board member added.</div>}
+
+			{isShareSuccess && <div data-test="share-success-ui">Success! Board member added.</div>}
 		</ModalBody>
 	);
 };
