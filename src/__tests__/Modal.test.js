@@ -3,7 +3,10 @@
 // import * as React from 'react';// Changes to objects outside the scope of the test seem to be persisted between tests. This can later on lead to unexpected results in other tests
 //https://medium.com/@rickhanlonii/understanding-jest-mocks-f0046c68e53c
 import * as React from 'react';
+<<<<<<< HEAD
 import * as ModalActions from '../actions/addMemberToBoard';
+=======
+>>>>>>> 092d65dd7979f9aa24503dc027236669a7309ca4
 import { NewBoard } from '../App';
 import { TestingContext } from '../utilities/testing/configContext';
 import { ModalContext, ModalProvider } from '../components/Modal/modalProvider';
@@ -13,6 +16,7 @@ import { mount } from 'enzyme';
 describe('Modal Component tests', () => {
 	//setup
 	let MockProvider = ModalContext.Provider;
+<<<<<<< HEAD
 	let wrapper;
 	let setUp = () => {
 		let mockStoreData = { expBoard: { activeBoard: 2 }, addMemberStatus: true };
@@ -27,13 +31,36 @@ describe('Modal Component tests', () => {
 
 	//this integration will be easier after Board unit tests complete
 	test.skip('Integration - Board renders with context necessary for testing modal', () => {});
+=======
+	let mockStoreData = { expBoard: { activeBoard: 2 }, addMemberStatus: false };
+
+	//this integration will be easier after Board unit tests complete
+	test.skip('Integration - Board renders with context necessary for testing modal', () => {
+		let ui = (
+			<ModalProvider>
+				<NewBoard />
+			</ModalProvider>
+		);
+		let wrapper = mount(TestingContext(ui, {}));
+	});
+>>>>>>> 092d65dd7979f9aa24503dc027236669a7309ca4
 
 	test('Unit - Handle change updates component state', () => {
 		let useStateSpy = jest.spyOn(React, 'useState');
 		let updateStateSpy = jest.fn(() => test);
 		useStateSpy.mockImplementation(() => [ '', updateStateSpy ]);
 
+<<<<<<< HEAD
 		let wrapper = setUp();
+=======
+		let wrapper = mount(
+			<TestingContext storeState={mockStoreData}>
+				<ModalProvider>
+					<Modal />
+				</ModalProvider>
+			</TestingContext>
+		);
+>>>>>>> 092d65dd7979f9aa24503dc027236669a7309ca4
 		const event = { target: { name: 'userName', value: 'test-user' } };
 		let input = wrapper.find('input[data-test="modal-input"]');
 		input.simulate('change', event);
@@ -41,6 +68,7 @@ describe('Modal Component tests', () => {
 		useStateSpy.mockRestore();
 	});
 
+<<<<<<< HEAD
 	test('Unit - Modal mounts successfully', () => {
 		let wrapper = setUp();
 		expect(wrapper.containsMatchingElement(<Modal />)).toBe(true);
@@ -64,4 +92,9 @@ describe('Modal Component tests', () => {
 		btn.simulate('click');
 		expect(addMemberSpy).toHaveBeenCalledTimes(1);
 	});
+=======
+	test('Unit - Modal displays correct share success state', () => {});
+
+	test('Unit - Modal calls dispatch for sharing action', () => {});
+>>>>>>> 092d65dd7979f9aa24503dc027236669a7309ca4
 });
