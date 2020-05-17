@@ -15,7 +15,7 @@ import { parallelRequests } from './utilities/http/parallelRequests';
 import { fetchBoardByBoardId } from './actions/fetchBoardByBoardId';
 import { fetchColumnsByBoardId } from './actions/fetchColumnsByBoardId';
 import { fetchItemsByBoardId } from './actions/fetchItemsByBoardId';
-
+import {LoadingComponent} from './LoadingComponent';
 const propTypes = {
 	name: PropTypes.string,
 	onMountNewUser: PropTypes.bool
@@ -80,7 +80,7 @@ export function NewBoard(props) {
 
 	const hydrateBoard = (hydratedSubComponents) => {
 		return (
-			<StyledBoard onClick={props.onClick}>
+			<StyledBoard data-test="board" onClick={props.onClick}>
 				<div className="section-scroller">
 					{hydratedSubComponents}
 					<ActionButton style={abStyles} description={'Add Column'}>
@@ -97,7 +97,7 @@ export function NewBoard(props) {
 				return renderResult;
 
 			default:
-				return <div>...Loading</div>;
+				return <LoadingComponent/>
 		}
 	};
 	return conditionallyRenderBoard(hydrateBoard(hydrateColumnsAndItemsFromStore(boardId)));

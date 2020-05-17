@@ -13,7 +13,8 @@ const defaultProps = {
 };
 export const BannerButton = (props) => {
 	return (
-		<StyledButton onClick={props.onClick} style={props.styles}>
+		
+		<StyledButton data-test={props.data} className={props.className} onClick={props.onClick} style={props.styles}>
 			{props.name}
 		</StyledButton>
 	);
