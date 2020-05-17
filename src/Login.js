@@ -67,7 +67,7 @@ export const Login = () => {
 		switch (loginStatus.loginSuccess) {
 			case true:
 				return renderRedirect();
-				break;
+			
 			default:
 				return renderLogin();
 		}

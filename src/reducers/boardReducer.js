@@ -14,7 +14,7 @@ import {
 } from '../actions/fetchItemsByBoardId';
 import { ADD_ITEM_START, ADD_ITEM_SUCCESS, ADD_ITEM_FAILURE } from '../actions/addItem';
 
-const experimentalBoardState = {
+export const experimentalBoardState = {
 	//https://stackoverflow.com/questions/34401098/remove-a-property-in-an-object-immutably
 	addColumnStart: false,
 	addColumnSuccess: false,
