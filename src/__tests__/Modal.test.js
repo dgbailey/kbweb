@@ -26,7 +26,11 @@ describe('Modal Component tests', () => {
 	};
 
 	//this integration will be easier after Board unit tests complete
-	test.skip('Integration - Board renders with context necessary for testing modal', () => {});
+	test.skip('Integration - Board renders with context necessary for testing modal', () => {
+		//mount app, simulate nav click, look for modal
+
+
+	});
 
 	test('Unit - Handle change updates component state', () => {
 		let useStateSpy = jest.spyOn(React, 'useState');

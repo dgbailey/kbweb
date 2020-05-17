@@ -28,7 +28,7 @@ function App() {
 							<BannerButton name={'Home'} />
 							<ModalConsumer>
 								{(value) => {
-									return <BannerButton onClick={() => value.toggleModal(Modal)} name={'Share'} />;
+									return <BannerButton data={'banner-btn-share'} onClick={() => value.toggleModal(Modal)} name={'Share'} />;
 								}}
 							</ModalConsumer>
 						</BannerNav>

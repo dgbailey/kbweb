@@ -80,7 +80,7 @@ export function NewBoard(props) {
 
 	const hydrateBoard = (hydratedSubComponents) => {
 		return (
-			<StyledBoard onClick={props.onClick}>
+			<StyledBoard data-test="board" onClick={props.onClick}>
 				<div className="section-scroller">
 					{hydratedSubComponents}
 					<ActionButton style={abStyles} description={'Add Column'}>
