@@ -28,7 +28,9 @@ export const Login = () => {
 		setCredentials({ ...credentials, ...capturedCredentials });
 	}
 
-	function sendCredentials() {
+	function sendCredentials(e) {
+		//form submission without preventing default results in broken login experience
+		e.preventDefault();
 		loginCredentialsAction(credentials, dispatch);
 	}
 	function renderLogin() {
