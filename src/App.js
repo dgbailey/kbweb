@@ -11,6 +11,7 @@ import { Modal } from './components/Modal/Modal';
 import { ModalRoot } from './components/Modal/ModalRoot';
 import { ModalConsumer } from './components/Modal/ModalRoot';
 import { ModalProvider } from './components/Modal/modalProvider';
+import {PresenceDisplay} from './PresenceDisplay';
 function App() {
 	return (
 		<ModalProvider>
@@ -26,6 +27,7 @@ function App() {
 						<ModalRoot />
 						<BannerNav>
 							<BannerButton name={'Home'} />
+							<PresenceDisplay/>
 							<ModalConsumer>
 								{(value) => {
 									return <BannerButton data={'banner-btn-share'} onClick={() => value.toggleModal(Modal)} name={'Share'} />;
