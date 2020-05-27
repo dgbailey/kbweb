@@ -314,6 +314,43 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
         fetchItemSuccess: false,
         fetchItemFailure: action.payload,
       };
+    case "RESET":
+      return {
+        ...experimentalBoardState,
+      };
+    case "SOCKET_CLOSE":
+      members.byId[action.payload.userId]["isActive"] = action.payload.status;
+
+      return {
+        ...state,
+        entities: {
+          ...entities,
+          members: {
+            ...members,
+            byId: {
+              ...members.byId,
+              [action.payload.userId]: member,
+            },
+          },
+        },
+      };
+
+    case "SOCKET_OPEN":
+      let member = members.byId[action.payload.userId];
+      member["isActive"] = action.payload.status;
+      return {
+        ...state,
+        entities: {
+          ...entities,
+          members: {
+            ...members,
+            byId: {
+              ...members.byId,
+              [action.payload.userId]: member,
+            },
+          },
+        },
+      };
 
     case FETCH_MEMBERS_START:
       return {

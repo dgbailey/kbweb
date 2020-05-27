@@ -37,14 +37,14 @@ const StyledPresenceIcon = styled.div`
 
     background:white;
     box-shadow: 1px 1px 1px grey;
-    margin:-3px;
+    margin-right:-4px;
     border: 1px solid gray;
     border-radius:50%;
     justify-content:center;
     font-weight:bold;
     height:30px;
     width:30px;
- 
+  
     display: inline-flex;
     align-items: center;
     

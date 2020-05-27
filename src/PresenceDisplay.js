@@ -20,12 +20,14 @@ const propTypes = {
     })
   ),
 };
-const mockChild = { userName: "Dustin", isActive: false };
-const defaultProps = {
-  presenceMetaData: Array.from(Array(7)).map((mc) => mockChild),
-};
+// const mockChild = { userName: "Dustin" };
+// const defaultProps = {
+//   presenceMetaData: Array.from(Array(7)).map((mc) => mockChild),
+// };
 
 export const PresenceDisplay = () => {
+  console.log("presence render");
+  //remember mutating objects in store will not cause rerender with useselector
   const { entities, fetchMembersSuccess } = useSelector(
     (state) => state.expBoard
   );
@@ -36,7 +38,10 @@ export const PresenceDisplay = () => {
     return (
       <StyledPresenceDisplay>
         {Object.keys(byId).map((m) => (
-          <PresenceIcon username={byId[m].username} isActive={true} />
+          <PresenceIcon
+            username={byId[m].username}
+            isActive={byId[m].isActive ? true : false}
+          />
         ))}
       </StyledPresenceDisplay>
     );
@@ -57,7 +62,7 @@ export const PresenceDisplay = () => {
 };
 
 PresenceDisplay.propTypes = propTypes;
-PresenceDisplay.defaultProps = defaultProps;
+// PresenceDisplay.defaultProps = defaultProps;
 
 const StyledPresenceDisplay = styled.div`
   display: flex;
