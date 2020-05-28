@@ -18,10 +18,12 @@ export const socketMiddleware = () => {
   return (storeApi) => (next) => async (action) => {
     let entityId = null;
     let userId = null;
+    let username = null;
     switch (action.type) {
       case SOCKET_CONN_MOUNT:
         userId = action.payload.userId;
         entityId = action.payload.entityId;
+        username = action.payload.username;
         const socketURI = process.env.REACT_APP_DEV_BASE_SOCKET;
 
         socket.instance = new WebSocket(socketURI);
@@ -53,7 +55,7 @@ export const socketMiddleware = () => {
           socket.instance.send(
             JSON.stringify({
               type: "SOCKET_OPEN",
-              payload: { entityId, status: true, userId },
+              payload: { entityId, status: true, userId, username },
             })
           );
 

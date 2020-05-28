@@ -25,7 +25,9 @@ const propTypes = {
 export function NewBoard(props) {
   const boardState = useSelector((state) => state.expBoard);
   const userMetaData = useSelector((state) => state.userMetaData);
+
   const { id: userId } = userMetaData;
+
   const {
     activeBoard: boardId,
     entities,
@@ -34,7 +36,10 @@ export function NewBoard(props) {
     fetchItemSuccess,
     fetchMembersSuccess,
   } = boardState;
-  const { columns, itemColumn: itemColumnEntity } = entities;
+  const { columns, itemColumn: itemColumnEntity, members } = entities;
+  const { byId } = members;
+  const userName = byId[userId] ? byId[userId].username : false;
+  console.log("UN", userName);
   const history = useHistory();
   const dispatch = useDispatch();
   const rawBoardUri = history.location.pathname;
@@ -45,16 +50,16 @@ export function NewBoard(props) {
       fetchMembersSuccess &&
       dispatch({
         type: "SOCKET_CONN_MOUNT",
-        payload: { entityId: boardId, userId: userId },
+        payload: { entityId: boardId, userId: userId, username: userName },
       });
     return () => {
       dispatch({
         type: "SOCKET_CONN_UNMOUNT",
-        payload: { entityId: boardId, userId: userId },
+        payload: { entityId: boardId, userId: userId, username: userName },
       });
       //boardId initially renders null which is not convenient for establishing a websocket connection with active entity
     };
-  }, [dispatch, boardId, userId, fetchMembersSuccess]);
+  }, [dispatch, boardId, userId, fetchMembersSuccess, userName]);
 
   useEffect(() => {
     let formattedUuid = parseUriIntoFormattedUuid(rawBoardUri);
