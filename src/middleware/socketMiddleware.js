@@ -1,24 +1,12 @@
 export const SOCKET_CONN_MOUNT = "SOCKET_CONN_MOUNT";
-/*
-[] needs a means of interpreting presence socketmessages
-[] needs a means of reducing presence socket messages
-[] needs a means of communicating to server to broadcast socket closing events
-[] server needs channel id and userId to send updated presence list to connected clients
-[] case,  client communicates a closed connection via unmount
-[] case, client receives members list from server, middleware adds active to objects before passing payload
-[] case, another client unmounts board, sending client id and channel id to server, close presence broadcast to channel subscribers
-[] case, another client mounts board, sending client id and channel id to server, open presence broadcast to channel subscribers
-[] where should we handle adding data? should server reflect client event? socket_open=true/false
-[] server has list of clients with ready status, can it cycle through and return all active?
 
-*/
 export const socketMiddleware = () => {
   let socket = { instance: null, exists: false };
 
   return (storeApi) => (next) => async (action) => {
-    let entityId = null;
-    let userId = null;
-    let username = null;
+    let entityId;
+    let userId;
+    let username;
     switch (action.type) {
       case SOCKET_CONN_MOUNT:
         userId = action.payload.userId;
@@ -32,7 +20,6 @@ export const socketMiddleware = () => {
           let data = JSON.parse(e.data);
 
           let { socketPayload: socketAction, payload } = data;
-          console.log("SA", socketAction, data);
           switch (socketAction) {
             case "SOCKET_CLOSE":
               storeApi.dispatch({ type: socketAction, payload: data });
@@ -55,7 +42,7 @@ export const socketMiddleware = () => {
           socket.instance.send(
             JSON.stringify({
               type: "SOCKET_OPEN",
-              payload: { entityId, status: true, userId, username },
+              payload: { entityId, userId, username },
             })
           );
 
@@ -64,13 +51,14 @@ export const socketMiddleware = () => {
       case "SOCKET_CONN_UNMOUNT":
         entityId = action.payload.entityId;
         userId = action.payload.userId;
+        username = action.payload.username;
 
         if (socket.exists && socket.instance.readyState === 1) {
           storeApi.dispatch({ type: "RESET" });
           socket.instance.send(
             JSON.stringify({
               type: "SOCKET_CLOSE",
-              payload: { entityId, userId, status: false },
+              payload: { entityId, userId, username },
             })
           );
           socket.instance.close();

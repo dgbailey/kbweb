@@ -319,24 +319,8 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
         ...experimentalBoardState,
       };
     case "SOCKET_CLOSE":
-    // members.byId[action.payload.userId]["isActive"] = action.payload.status;
+      // members.byId[action.payload.userId]["isActive"] = action.payload.status;
 
-    // return {
-    //   ...state,
-    //   entities: {
-    //     ...entities,
-    //     members: {
-    //       ...members,
-    //       byId: {
-    //         ...members.byId,
-    //         [action.payload.userId]: member,
-    //       },
-    //     },
-    //   },
-    // };
-
-    case "SOCKET_OPEN":
-      console.log(action);
       return {
         ...state,
         entities: {
@@ -345,7 +329,25 @@ export const expBoardReducer = (state = experimentalBoardState, action) => {
             ...members,
             byId: {
               ...members.byId,
-              ...action.payload.activeClientsToBroadCast.reduce((obj, v) => {
+              ...action.payload.clientMetaData.reduce((obj, v) => {
+                obj[v.userId] = v;
+                return obj;
+              }, {}),
+            },
+          },
+        },
+      };
+
+    case "SOCKET_OPEN":
+      return {
+        ...state,
+        entities: {
+          ...entities,
+          members: {
+            ...members,
+            byId: {
+              ...members.byId,
+              ...action.payload.clientMetaData.reduce((obj, v) => {
                 obj[v.userId] = v;
                 return obj;
               }, {}),
