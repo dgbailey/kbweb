@@ -39,7 +39,6 @@ export function NewBoard(props) {
   const { columns, itemColumn: itemColumnEntity, members } = entities;
   const { byId } = members;
   const userName = byId[userId] ? byId[userId].username : false;
-  console.log("UN", userName);
   const history = useHistory();
   const dispatch = useDispatch();
   const rawBoardUri = history.location.pathname;
@@ -72,7 +71,7 @@ export function NewBoard(props) {
     let requests = actions.map((a) => a(formattedUuid, dispatch));
 
     parallelRequests(requests);
-  }, [dispatch, rawBoardUri]);
+  }, []);
 
   const grabItemDataByColId = (colId) => {
     let itemObjects = itemColumnEntity.byId;

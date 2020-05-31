@@ -26,7 +26,6 @@ const propTypes = {
 // };
 
 export const PresenceDisplay = () => {
-  console.log("presence render");
   //remember mutating objects in store will not cause rerender with useselector
   const { entities, fetchMembersSuccess } = useSelector(
     (state) => state.expBoard
@@ -34,7 +33,6 @@ export const PresenceDisplay = () => {
   const { byId } = entities.members;
 
   const renderPresenceDisplay = (memberIds) => {
-    console.log("members", byId);
     return (
       <StyledPresenceDisplay>
         {Object.keys(byId).map((m) => (
