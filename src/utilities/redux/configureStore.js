@@ -1,7 +1,8 @@
-import { applyMiddleware, createStore } from 'redux';
-import { socketMiddleware } from '../../middleware/socketMiddleware';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import { rootReducer } from '../../reducers/index';
+import { applyMiddleware, createStore } from "redux";
+import { socketMiddleware } from "../../middleware/socketMiddleware";
+import { composeWithDevTools } from "redux-devtools-extension";
+import { rootReducer } from "../../reducers/index";
+import { preloadState } from "./localStorage";
 
 /** 
  * @function configureStore
@@ -9,10 +10,12 @@ import { rootReducer } from '../../reducers/index';
 
 **/
 export const configureStore = () => {
-	let middlewares = [ socketMiddleware() ];
-	let middlewareEnhancer = applyMiddleware(...middlewares);
-	const enhancers = [ middlewareEnhancer ];
-	const composedEnhancers = composeWithDevTools(...enhancers);
-	const store = createStore(rootReducer, composedEnhancers);
-	return store;
+  let preloadedState = preloadState();
+
+  let middlewares = [socketMiddleware()];
+  let middlewareEnhancer = applyMiddleware(...middlewares);
+  const enhancers = [middlewareEnhancer];
+  const composedEnhancers = composeWithDevTools(...enhancers);
+  const store = createStore(rootReducer, preloadedState, composedEnhancers);
+  return store;
 };

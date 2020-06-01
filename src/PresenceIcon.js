@@ -14,7 +14,7 @@ const propTypes = {
 
 export const PresenceIcon = (props) => {
   const { username, isActive } = props;
-  console.log("prpps", props);
+
   const firstCharacter = username.slice(0, 1);
   return (
     <StyledPresenceIcon className={isActive ? "" : "inactive"}>
