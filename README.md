@@ -1,7 +1,9 @@
 ## Robodex Front End
 
 This codebase is the front end for a collaborative note taking platform. Current features include live updates of user edits and user presence via web sockets.<br />
-The project uses ws, express-ws and redux middleware to manage socket connections.<br />
+
+The project currently uses ws, express-ws and redux middleware to manage the socket lifecycle and incoming socket updates.<br />
+
 ![Image of Board](https://drive.google.com/uc?export=view&id=1cMTSqLESR1zQG5cNRBMEtfaGEU4FtUaA)
 
 ## Available Scripts
